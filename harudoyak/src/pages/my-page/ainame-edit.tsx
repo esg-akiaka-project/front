@@ -1,7 +1,7 @@
 import React from "react";
 
-const NickNameEdit: React.FC = () => {
-  return <div>NickNameEdit</div>;
+const AiNameEdit: React.FC = () => {
+  return <div>AiNameEdit</div>;
 };
 
-export default NickNameEdit;
+export default AiNameEdit;
