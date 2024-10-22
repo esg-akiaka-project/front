@@ -17,7 +17,7 @@ export interface User {
 export interface StepperItemProps {
   stepNumber: number;
   stepName: string;
-  status: "complete" | "active" | "default";
+  status: "completed" | "active" | "default";
 }
 
 export interface StepperProps {

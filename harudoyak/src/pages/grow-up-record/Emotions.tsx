@@ -10,7 +10,7 @@ import {
   emotion6,
   emotion7,
   emotion8,
-} from "../../assets/grow-up-record";
+} from "../../../public/assets/grow-up-record";
 
 const Emotions: React.FC = () => {
   return (
@@ -29,7 +29,6 @@ const Emotions: React.FC = () => {
 
 export default Emotions;
 
-
 // styled-components
 const Root = styled.div`
   min-height: 80vh; /* Viewport Height, 화면 전체 높이 */
@@ -37,11 +36,13 @@ const Root = styled.div`
   max-width: 1100px;
 
   // layout
-  @media screen and (max-width: 768px) {  //모바일 환경
+  @media screen and (max-width: 768px) {
+    //모바일 환경
     margin-left: 15px;
     margin-right: 15px;
   }
-   @media screen and (min-width: 768px) {  //pc 환경
+  @media screen and (min-width: 768px) {
+    //pc 환경
     margin-left: 220px;
     margin-right: 220px;
   }
