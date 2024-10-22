@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { StepperProps, StepperItemProps } from "../types/CommonTypes";
-// type StepperItemProps = {
-//   stepNumber: number;
-//   stepName: string;
-//   status: "completed" | "active" | "default";
-// };
+// import { StepperProps, StepperItemProps } from "../../types/CommonTypes";
+type StepperItemProps = {
+  stepNumber: number;
+  stepName: string;
+  status: "completed" | "active" | "default";
+};
 
-// type StepperProps = {
-//   steps: StepperItemProps[];
-// };
+type StepperProps = {
+  steps: StepperItemProps[];
+};
 
 const StepperWrapper = styled.div`
   font-family: Arial;
@@ -19,7 +19,7 @@ const StepperWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-const StepperItem = styled.div<{ status: "completed" | "active" | "default" }>`
+const StepperItem = styled.div<{ status: StepperItemProps["status"] }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -70,8 +70,8 @@ const StepperItem = styled.div<{ status: "completed" | "active" | "default" }>`
       status === "completed"
         ? "#3C7960"
         : status === "active"
-        ? "#ccc"
-        : "#ccc"};
+          ? "#ccc"
+          : "#ccc"};
     margin-bottom: 6px;
   }
 
@@ -83,6 +83,7 @@ const StepperItem = styled.div<{ status: "completed" | "active" | "default" }>`
         content: '';
         border-bottom: 2px solid #4bb543;
         width: 100%;
+        
         top: 20px;
         left: 50%;
         z-index: 3;
@@ -90,8 +91,8 @@ const StepperItem = styled.div<{ status: "completed" | "active" | "default" }>`
     `}
 `;
 
-const StepperName = styled.div<{ status: "completed" | "active" | "default" }>`
-  font-weight: ${({ status }) => (status === "active" ? "bold" : "normal")};
+const StepperName = styled.div<{ status: StepperItemProps["status"] }>`
+  font-weight: ${({ status }) => (status === "completed" ? "bold" : "normal")};
 `;
 const Stepper: React.FC<StepperProps> = ({ steps }) => {
   return (
