@@ -1,15 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import { StepperProps, StepperItemProps } from "../../types/CommonTypes";
-type StepperItemProps = {
-  stepNumber: number;
-  stepName: string;
-  status: "completed" | "active" | "default";
-};
-
-type StepperProps = {
-  steps: StepperItemProps[];
-};
+import { StepperProps, StepperItemProps } from "../../types/CommonTypes";
 
 const StepperWrapper = styled.div`
   font-family: Arial;
@@ -19,7 +10,7 @@ const StepperWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-const StepperItem = styled.div<{ status: StepperItemProps["status"] }>`
+const StepperItem = styled.div<{ $status: StepperItemProps["status"] }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -66,17 +57,17 @@ const StepperItem = styled.div<{ status: StepperItemProps["status"] }>`
     font-weight: bold;
     font-size: 20px;
     border-radius: 50%;
-    background: ${({ status }) =>
-      status === "completed"
+    background: ${({ $status }) =>
+      $status === "completed"
         ? "#3C7960"
-        : status === "active"
-          ? "#ccc"
-          : "#ccc"};
+        : $status === "active"
+        ? "#ccc"
+        : "#ccc"};
     margin-bottom: 6px;
   }
 
-  ${({ status }) =>
-    status === "completed" &&
+  ${({ $status }) =>
+    $status === "completed" &&
     `
       &::after {
         position: absolute;
@@ -91,16 +82,17 @@ const StepperItem = styled.div<{ status: StepperItemProps["status"] }>`
     `}
 `;
 
-const StepperName = styled.div<{ status: StepperItemProps["status"] }>`
-  font-weight: ${({ status }) => (status === "completed" ? "bold" : "normal")};
+const StepperName = styled.div<{ $status: StepperItemProps["status"] }>`
+  font-weight: ${({ $status }) =>
+    $status === "completed" ? "bold" : "normal"};
 `;
 const Stepper: React.FC<StepperProps> = ({ steps }) => {
   return (
     <StepperWrapper>
       {steps.map((step) => (
-        <StepperItem key={step.stepNumber} status={step.status}>
+        <StepperItem key={step.stepNumber} $status={step.status}>
           <div className="step-counter">{step.stepNumber}</div>
-          <StepperName status={step.status}>{step.stepName}</StepperName>
+          <StepperName $status={step.status}>{step.stepName}</StepperName>
         </StepperItem>
       ))}
     </StepperWrapper>
