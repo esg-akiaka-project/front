@@ -2,11 +2,15 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
-  /* CSS 변수 정의 (필요에 따라 추가 가능) */
   :root {
-    --main-bg-color: #ffffff;
-    --main-font-color: #333333;
-    --link-color: #1e90ff;
+    --main-green: #3C7960;
+    --background: #F2F6F3;
+    --sub-green1: #60927D;
+    --sub-green2: #7DB49D;
+    --sub-green3: #A5CBBC;
+    --white-from-grayscale: #ffffff;
+    --gray-from-grayscale: #A6A6A6;
+    --darkgray-from-grayscale: #6d6d6d;
   }
 
   /* 기본적인 HTML 요소의 초기화 */
