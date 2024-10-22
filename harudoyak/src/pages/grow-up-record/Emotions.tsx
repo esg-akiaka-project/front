@@ -10,7 +10,7 @@ import {
   emotion5,
   emotion6,
   emotion7,
-} from "../../assets/grow-up-record";
+} from "../../../public/assets/grow-up-record"
 
 const Emotions: React.FC = () => {
   return (
