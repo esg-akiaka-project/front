@@ -4,9 +4,8 @@ import emotion2 from "./emotion2.svg";
 import emotion3 from "./emotion3.svg";
 import emotion4 from "./emotion4.svg";
 import emotion5 from "./emotion5.svg";
-import emotion6 from "./emotion5.svg";
-import emotion7 from "./emotion5.svg";
-import emotion8 from "./emotion5.svg";
+import emotion6 from "./emotion6.svg";
+import emotion7 from "./emotion7.svg";
 
 export {
   emotion1,
@@ -16,5 +15,4 @@ export {
   emotion5,
   emotion6,
   emotion7,
-  emotion8,
 };
