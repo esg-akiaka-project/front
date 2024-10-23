@@ -33,6 +33,9 @@ const TosAgreement: React.FC = () => {
   const gotoEmailCertPage = () => {
     router.push("/sign-up/email-certification-and-information-regist");
   };
+  const cancelSignUp = () => {
+    router.push("/log-in");
+  };
   const steps: StepperItemProps[] = [
     { stepNumber: 1, stepName: "약관동의", status: "completed" },
     { stepNumber: 2, stepName: "인증 및 등록", status: "default" },
@@ -41,7 +44,7 @@ const TosAgreement: React.FC = () => {
 
   return (
     <>
-      <CancelButton />
+      <CancelButton onClick={cancelSignUp} />
       <SignUpTitle title={"약관 동의"}></SignUpTitle>
 
       <Steppers steps={steps} />

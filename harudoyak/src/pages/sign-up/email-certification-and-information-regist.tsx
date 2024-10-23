@@ -7,55 +7,6 @@ import SignUpButton from "@/src/components/buttons/SignUpButton";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
 import styled from "styled-components";
 
-const EmailWrapper = styled.div`
-  // justify-content: center;
-  display: flex;
-  align-items: center;
-  margin: 0% 0 5% 5%;
-`;
-
-const StyledInput = styled.input`
-  border-radius: 10px;
-  border: white;
-  width: 90%;
-  height: 3rem;
-`;
-
-const NicknameInput = styled.input`
-  border-radius: 10px;
-  border: white;
-  width: 60%;
-  height: 3rem;
-`;
-const StyledInputTitle = styled.p`
-  margin: 10% 0 1% 5%;
-  font-weight: bold;
-`;
-const IdDuplicateCheckButton = styled.button`
-  border-radius: 10px;
-  background: #3c7960;
-  font-weight: bold;
-  color: white;
-  width: 35%;
-  border: none;
-`;
-const NicknameWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  // align-items: center;
-  margin: 0 10% 10% 5%;
-`;
-
-const PasswordConfirmCheckTag = styled.p<{
-  $confirmcheck: boolean;
-  $confirmPasswordLength: number;
-}>`
-  color: red;
-  // padding-top: 0
-  margin: 0 0 5% 5%;
-  visibility: ${({ $confirmcheck, $confirmPasswordLength }) =>
-    $confirmcheck && $confirmPasswordLength > 0 ? "none" : "hidden"};
-`;
 const EmailCertificationAndInformationRegist: React.FC = () => {
   const router = useRouter();
   const [emailVerified, setEmailVerified] = useState<boolean>(false);
@@ -100,6 +51,9 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
     console.log("test");
     // 아이디 중복체크 해야함
   };
+  const cancelSignUp = () => {
+    router.push("/log-in");
+  };
   const steps: StepperItemProps[] = [
     { stepNumber: 1, stepName: "약관동의", status: "completed" },
     { stepNumber: 2, stepName: "인증 및 등록", status: "completed" },
@@ -108,7 +62,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
 
   return (
     <>
-      <CancelButton />
+      <CancelButton onClick={cancelSignUp} />
       <SignUpTitle title={"인증 및 등록"}></SignUpTitle>
 
       <Steppers steps={steps} />
@@ -186,3 +140,55 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
 };
 
 export default EmailCertificationAndInformationRegist;
+
+const EmailWrapper = styled.div`
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  margin: 0% 0% 5% 0%;
+`;
+
+const StyledInput = styled.input`
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: white;
+  width: 90%;
+  height: 3rem;
+`;
+
+const NicknameInput = styled.input`
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: white;
+  width: 60%;
+  height: 3rem;
+`;
+const StyledInputTitle = styled.p`
+  margin: 10% 5% 1% 5%;
+  font-weight: bold;
+`;
+const IdDuplicateCheckButton = styled.button`
+  border-radius: 10px;
+  background: #3c7960;
+  font-weight: bold;
+  color: white;
+  width: 35%;
+  border: none;
+`;
+const NicknameWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  // align-items: center;
+  margin: 0 5% 10% 5%;
+`;
+
+const PasswordConfirmCheckTag = styled.p<{
+  $confirmcheck: boolean;
+  $confirmPasswordLength: number;
+}>`
+  color: red;
+  // padding-top: 0
+  margin: 0 0 5% 5%;
+  visibility: ${({ $confirmcheck, $confirmPasswordLength }) =>
+    $confirmcheck && $confirmPasswordLength > 0 ? "none" : "hidden"};
+`;
