@@ -4,10 +4,9 @@ import { StepperProps, StepperItemProps } from "../../types/CommonTypes";
 
 const StepperWrapper = styled.div`
   font-family: Arial;
-  margin-top: 50px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin: 40px 15px 20px 15px;
 `;
 
 const StepperItem = styled.div<{ $status: StepperItemProps["status"] }>`
@@ -24,16 +23,6 @@ const StepperItem = styled.div<{ $status: StepperItemProps["status"] }>`
     width: 100%;
     top: 20px;
     left: -50%;
-    z-index: 2;
-  }
-
-  &::after {
-    position: absolute;
-    content: "";
-    border-bottom: 2px solid #ccc;
-    width: 100%;
-    top: 20px;
-    left: 50%;
     z-index: 2;
   }
 
@@ -72,7 +61,7 @@ const StepperItem = styled.div<{ $status: StepperItemProps["status"] }>`
       &::after {
         position: absolute;
         content: '';
-        border-bottom: 2px solid #4bb543;
+        border-bottom: 2px solid #3C7960;
         width: 100%;
         
         top: 20px;
