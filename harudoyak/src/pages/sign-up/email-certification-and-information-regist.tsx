@@ -13,22 +13,48 @@ const EmailWrapper = styled.div`
   align-items: center;
   margin: 0% 0 5% 5%;
 `;
+
 const StyledInput = styled.input`
-  border-radius: 25px;
-  // border: white;
+  border-radius: 10px;
+  border: white;
   width: 90%;
-  height: ;
+  height: 3rem;
+`;
+
+const NicknameInput = styled.input`
+  border-radius: 10px;
+  border: white;
+  width: 60%;
+  height: 3rem;
 `;
 const StyledInputTitle = styled.p`
   margin: 10% 0 1% 5%;
   font-weight: bold;
 `;
-
+const IdDuplicateCheckButton = styled.button`
+  border-radius: 10px;
+  background: #3c7960;
+  font-weight: bold;
+  color: white;
+  width: 35%;
+  border: none;
+`;
 const NicknameWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   // align-items: center;
-  margin: 0 10% 0 5%;
+  margin: 0 10% 10% 5%;
+`;
+
+const PasswordConfirmCheckTag = styled.p<{
+  $confirmcheck: boolean;
+  $confirmPasswordLength: number;
+}>`
+  color: red;
+  // padding-top: 0
+  margin: 0 0 5% 5%;
+  visibility: ${({ $confirmcheck, $confirmPasswordLength }) =>
+    $confirmcheck && $confirmPasswordLength > 0 ? "none" : "hidden"};
 `;
 const EmailCertificationAndInformationRegist: React.FC = () => {
   const router = useRouter();
@@ -70,6 +96,10 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
     router.push("/sign-up/signup-complete");
   };
 
+  const CheckDuplicateId = () => {
+    console.log("test");
+    // 아이디 중복체크 해야함
+  };
   const steps: StepperItemProps[] = [
     { stepNumber: 1, stepName: "약관동의", status: "completed" },
     { stepNumber: 2, stepName: "인증 및 등록", status: "completed" },
@@ -89,38 +119,55 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
           value={email}
           onChange={handleEmailChange}
           placeholder="이메일 주소"
+          disabled={emailVerified}
         />
       </EmailWrapper>
       {!emailVerified ? (
-        <SignUpButton data={!!email} onClick={verifyEmail}>
+        <SignUpButton
+          data={!emailVerified}
+          onClick={verifyEmail}
+          show={!emailVerified}
+        >
           이메일 인증
         </SignUpButton>
       ) : (
         <div>
           <StyledInputTitle>닉네임</StyledInputTitle>
           <NicknameWrapper>
-            <StyledInput
+            <NicknameInput
               type="text"
               value={nickname}
               onChange={handleNicknameChange}
               placeholder="닉네임"
             />
-            <button>아이디 중복확인</button>
+            <IdDuplicateCheckButton onClick={CheckDuplicateId}>
+              아이디 중복확인
+            </IdDuplicateCheckButton>
           </NicknameWrapper>
-          <div>
+          <StyledInputTitle>비밀번호</StyledInputTitle>
+          <EmailWrapper>
             <StyledInput
               type="password"
               value={password}
               onChange={handlePasswordChange}
               placeholder="비밀번호"
             />
+          </EmailWrapper>
+          <StyledInputTitle>비밀번호 확인</StyledInputTitle>
+          <EmailWrapper>
             <StyledInput
               type="password"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
               placeholder="비밀번호 확인"
             />
-          </div>
+          </EmailWrapper>
+          <PasswordConfirmCheckTag
+            $confirmcheck={password !== confirmPassword}
+            $confirmPasswordLength={confirmPassword.length}
+          >
+            비밀번호가 다릅니다
+          </PasswordConfirmCheckTag>
           <SignUpButton
             data={
               nickname.length > 0 &&
@@ -128,6 +175,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
               password === confirmPassword
             }
             onClick={gotoSignupCompletePage}
+            show={true}
           >
             가입하기
           </SignUpButton>

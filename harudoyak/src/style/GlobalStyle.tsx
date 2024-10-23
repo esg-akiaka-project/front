@@ -19,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-size: 100%;
     font-family: 'Arial', sans-serif; /* 기본 폰트 설정 */
-    background-color: var(--main-bg-color);
+    background-color: var(--background);
     color: var(--main-font-color);
     line-height: 1.6;
     width: 100%;
@@ -81,4 +81,3 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default GlobalStyle;
-

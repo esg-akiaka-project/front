@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Steppers from "@/src/components/tosagreement/Steppers";
-import { StepperProps, StepperItemProps } from "../../types/CommonTypes";
+import { StepperItemProps } from "../../types/CommonTypes";
 import CancelButton from "@/src/components/tosagreement/CancelButton";
 import SignUpButton from "@/src/components/buttons/SignUpButton";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
@@ -69,7 +69,7 @@ const TosAgreement: React.FC = () => {
         <label>개인정보 수집 및 이용 동의 (필수)</label>
       </div>
 
-      <SignUpButton data={allcheck} onClick={gotoEmailCertPage}>
+      <SignUpButton data={allcheck} onClick={gotoEmailCertPage} show={true}>
         약관 동의
       </SignUpButton>
     </>
