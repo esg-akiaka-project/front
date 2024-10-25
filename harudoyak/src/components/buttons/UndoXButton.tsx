@@ -6,7 +6,6 @@
 // 최초 작성일/작성자: 2024.10.25./루이
 // 수정일/작성자: 
 
-
 import { useRouter } from 'next/router';
 import iconX from "../../../public/assets/grow-up-record/icon_X.svg";
 import Image from "next/image";
