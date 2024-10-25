@@ -33,7 +33,7 @@ const Emotions: React.FC = () => {
         $isSelected={clickedEmotion === 1}
         onClick={() => handleClick(1)}
       >
-        <Image style={{}}src={emotion1} alt="사랑" />
+        <Image src={emotion1} alt="사랑" />
       </StyledBtn>
       <StyledBtn
         $isSelected={clickedEmotion === 2}
@@ -82,26 +82,25 @@ export default Emotions;
 
 // styled-components
 const Root = styled.div`
-  min-height: 80vh; /* 화면 전체 높이 -> TODO: 논의 후 화면 최대/최소 높이 확정하기 */
   padding: 0;
   max-width: 1100px;
 `;
 
 const StyledBtn = styled.button<{ $isSelected: boolean }>`
-  width: 2.75rem;
-  height: 2.75rem;
-  margin-right: 2%;
+  display: inline-block;
+  padding: 6px 6px;
+  line-height: normal;
+  text-align: center;
+  cursor: pointer;
+  width: auto;
+  height: 0 auto;
+  margin-right: 0.7%;
   border: 0px;
   border-radius: 10px;
   background: ${({ $isSelected }) => ($isSelected ? "#ebebeb" : "#F2F6F3")};
 
-  display: inline-block;
-  padding: 2px 2px;
-  margin: 0;
-  line-height: normal;
-  text-align: center;
-  cursor: pointer;
-
+  box-shadow: ${({ $isSelected }) => ($isSelected ? '1px 1px 2px 0px rgba(0, 0, 0, 0.1)': 'none')};
+  
   &:hover {
     background: #ebebeb;
   }
@@ -113,4 +112,3 @@ const PopMessage = styled.div`
   margin-top: 10px;
   margin-left: 12px;
 `;
-
