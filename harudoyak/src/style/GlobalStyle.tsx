@@ -53,6 +53,10 @@ const GlobalStyle = createGlobalStyle`
     display: block;
   }
 
+  button {
+    all: unset;
+  }
+
   table {
     border-collapse: collapse;
     width: 100%;

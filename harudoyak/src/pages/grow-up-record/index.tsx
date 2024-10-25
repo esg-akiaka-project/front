@@ -1,16 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-import Emotions from '../../components/grow-up-record/Emotions'
+import Emotions from "../../components/grow-up-record/Emotions";
+import UndoXButton from '../../components/buttons/UndoXButton';
 
 const GrowUpRecordHome: React.FC = () => {
   return (
-  <Root>
-    <Heading3>오늘의 도약을 기록해 주세요.</Heading3>
-    <Heading2>오늘의 감정</Heading2>
-    <Emotions/>
-  </Root>
-  )
+    <Root>
+      <UndoXButton />
+      <Heading3>오늘의 도약을 기록해 주세요.</Heading3>
+      <Heading2>오늘의 감정</Heading2>
+      <Emotions />
+    </Root>
+  );
 };
 
 export default GrowUpRecordHome;

@@ -29,25 +29,46 @@ const Emotions: React.FC = () => {
 
   return (
     <Root>
-      <StyledBtn $isselected={clickedEmotion === 1} onClick={() => handleClick(1)}>
-        <Image src={emotion1} alt="사랑" />
+      <StyledBtn
+        $isSelected={clickedEmotion === 1}
+        onClick={() => handleClick(1)}
+      >
+        <Image style={{}}src={emotion1} alt="사랑" />
       </StyledBtn>
-      <StyledBtn $isselected={clickedEmotion === 2} onClick={() => handleClick(2)}>
+      <StyledBtn
+        $isSelected={clickedEmotion === 2}
+        onClick={() => handleClick(2)}
+      >
         <Image src={emotion2} alt="기쁨" />
       </StyledBtn>
-      <StyledBtn $isselected={clickedEmotion === 3} onClick={() => handleClick(3)}>
+      <StyledBtn
+        $isSelected={clickedEmotion === 3}
+        onClick={() => handleClick(3)}
+      >
         <Image src={emotion3} alt="슬픔" />
       </StyledBtn>
-      <StyledBtn $isselected={clickedEmotion === 4} onClick={() => handleClick(4)}>
+      <StyledBtn
+        $isSelected={clickedEmotion === 4}
+        onClick={() => handleClick(4)}
+      >
         <Image src={emotion4} alt="화남" />
       </StyledBtn>
-      <StyledBtn $isselected={clickedEmotion === 5} onClick={() => handleClick(5)}>
+      <StyledBtn
+        $isSelected={clickedEmotion === 5}
+        onClick={() => handleClick(5)}
+      >
         <Image src={emotion5} alt="놀람" />
       </StyledBtn>
-      <StyledBtn $isselected={clickedEmotion === 6} onClick={() => handleClick(6)}>
+      <StyledBtn
+        $isSelected={clickedEmotion === 6}
+        onClick={() => handleClick(6)}
+      >
         <Image src={emotion6} alt="재밌음" />
       </StyledBtn>
-      <StyledBtn $isselected={clickedEmotion === 7} onClick={() => handleClick(7)}>
+      <StyledBtn
+        $isSelected={clickedEmotion === 7}
+        onClick={() => handleClick(7)}
+      >
         <Image src={emotion7} alt="기타" />
       </StyledBtn>
       {isOpened && (
@@ -66,13 +87,20 @@ const Root = styled.div`
   max-width: 1100px;
 `;
 
-const StyledBtn = styled.button<{$isselected: boolean}>`
+const StyledBtn = styled.button<{ $isSelected: boolean }>`
   width: 2.75rem;
   height: 2.75rem;
   margin-right: 2%;
   border: 0px;
   border-radius: 10px;
-  background: ${({$isselected}) => ($isselected ? '#ebebeb': '#F2F6F3')};
+  background: ${({ $isSelected }) => ($isSelected ? "#ebebeb" : "#F2F6F3")};
+
+  display: inline-block;
+  padding: 2px 2px;
+  margin: 0;
+  line-height: normal;
+  text-align: center;
+  cursor: pointer;
 
   &:hover {
     background: #ebebeb;
