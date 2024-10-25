@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 100%;
     font-family: 'Arial', sans-serif; /* 기본 폰트 설정 */
     background-color: var(--background);
-    color: var(--main-font-color);
+    color: black;
     line-height: 1.6;
     width: 100%;
     height: 100%;
@@ -51,6 +51,10 @@ const GlobalStyle = createGlobalStyle`
     max-width: 100%;
     height: auto;
     display: block;
+  }
+
+  button {
+    all: unset;
   }
 
   table {
