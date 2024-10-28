@@ -1,4 +1,4 @@
-export default interface User {
+export interface User {
   isLogin: boolean;
 
   userinfo: {
@@ -12,4 +12,14 @@ export default interface User {
     botId: string;
     password: string;
   }) => void;
+}
+
+export interface StepperItemProps {
+  stepNumber: number;
+  stepName: string;
+  status: "completed" | "active" | "default";
+}
+
+export interface StepperProps {
+  steps: StepperItemProps[];
 }
