@@ -31,14 +31,23 @@ const AlarmHome: React.FC = () => {
     },
   ];
 
-  const [clickedAlarmCard, setClickedAlarmCard] = useState(
+  const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState(
     new Array(GeneralAlarmData.length).fill(false)
+  );
+  const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState(
+    new Array(CommunityAlarmData.length).fill(false)
   );
 
   const handleCardClick = (index: number) => {
-    const updatedClickedAlarmCard = [...clickedAlarmCard];
-    updatedClickedAlarmCard[index] = true;
-    setClickedAlarmCard(updatedClickedAlarmCard);
+    if (activeTab === "Record") {
+      const updatedClickedGeneralAlarmCard = [...clickedGeneralAlarmCard];
+      updatedClickedGeneralAlarmCard[index] = true; // 항상 true로 설정
+      setClickedGeneralAlarmCard(updatedClickedGeneralAlarmCard);
+    } else {
+      const updatedClickedCommunityAlarmCard = [...clickedCommunityAlarmCard];
+      updatedClickedCommunityAlarmCard[index] = true; // 항상 true로 설정
+      setClickedCommunityAlarmCard(updatedClickedCommunityAlarmCard);
+    }
   };
 
   const styles = {
@@ -102,7 +111,7 @@ const AlarmHome: React.FC = () => {
               <div
                 key={alarmCard.id}
                 onClick={() => handleCardClick(index)}
-                style={styles.AlarmCard(clickedAlarmCard[index])}
+                style={styles.AlarmCard(clickedGeneralAlarmCard[index])}
               >
                 <div style={styles.CardTitle}>{alarmCard.type}</div>
                 <div style={styles.CardContent}>{alarmCard.content}</div>
@@ -113,7 +122,7 @@ const AlarmHome: React.FC = () => {
               <div
                 key={alarmCard.id}
                 onClick={() => handleCardClick(index)}
-                style={styles.AlarmCard(clickedAlarmCard[index])}
+                style={styles.AlarmCard(clickedCommunityAlarmCard[index])}
               >
                 <div style={styles.CardTitle}>{alarmCard.type}</div>
                 <div style={styles.CardContent}>{alarmCard.content}</div>
