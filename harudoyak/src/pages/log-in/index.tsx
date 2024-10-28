@@ -1,4 +1,4 @@
-//<component화 되어 있지 않은 index. tsx>//
+//<root화 되어 있는 component화 되어 있지 않은 index. tsx>//
 
 import React from 'react';
 import styled from 'styled-components';
@@ -26,6 +26,7 @@ const Root = styled.div`
 
 // Logo 컴포넌트
 const LogoText = styled.h1`
+  text-align: center;
   font-size: 1.5rem;
   color: #333;
   margin-bottom: 2rem;
@@ -77,14 +78,15 @@ const Button = styled.button`
   padding: 1rem;
   font-size: 1rem;
   color: #fff;
-  background-color: #4CAF50;
+  background-color: #3C7960;
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   cursor: pointer;
   margin-bottom: 1rem;
+  text-align: center;
 
   &:hover {
-    background-color: #45A049;
+    background-color: #3C7960;
   }
 `;
 
@@ -115,7 +117,7 @@ const LinkOptions: React.FC = () => {
 
   return (
     <LinksWrapper>
-      <LinkText onClick={() => router.push('/email-certification-and-information-register')}>회원가입</LinkText>
+      <LinkText onClick={() => router.push('/sign-up/email-certification-and-information-regist')}>회원가입</LinkText>
       <LinkText>아이디 찾기</LinkText>
       <LinkText>비밀번호 찾기</LinkText>
     </LinksWrapper>
@@ -129,29 +131,29 @@ const SocialWrapper = styled.div`
 `;
 
 const SocialTitle = styled.p`
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 16px;
+  color: #21272A;
   margin-bottom: 1rem;
 `;
 
 const SocialButton = styled.button`
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 2px solid #19191b;
+  border-radius: 20px;
   margin: 0 0.5rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-
+  
   &:first-child {
-    background-color: #fff;
-    color: #333;
+    background-color: #F2F6F3;
+    color: #19191B;
   }
 
   &:last-child {
-    background-color: #ffeb3b;
-    color: #333;
+    background-color: #F2F6F3;
+    color: #19191B;
   }
 `;
 
