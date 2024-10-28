@@ -44,7 +44,7 @@ interface InputFieldProps {
 }
 
 const InputFieldWrapper = styled.div`
-  width: 100%;
+  width: 391px;
   margin-bottom: 1rem;
 `;
 
@@ -74,13 +74,14 @@ const InputField: React.FC<InputFieldProps> = ({ label, placeholder, type = 'tex
 
 // LoginButton 컴포넌트
 const Button = styled.button`
-  width: 100%;
+  width: 361px;
+  height: 24px;
   padding: 1rem;
   font-size: 1rem;
   color: #fff;
   background-color: #3C7960;
   border: none;
-  border-radius: 30px;
+  border-radius: 24px;
   cursor: pointer;
   margin-bottom: 1rem;
   text-align: center;
@@ -137,6 +138,8 @@ const SocialTitle = styled.p`
 `;
 
 const SocialButton = styled.button`
+  height: 12px;
+  width: 70px;
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   border: 2px solid #19191b;
@@ -145,6 +148,7 @@ const SocialButton = styled.button`
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   
   &:first-child {
     background-color: #F2F6F3;
