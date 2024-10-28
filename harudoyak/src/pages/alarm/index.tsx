@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 
+interface AlarmData {
+  id: string;
+  type: string;
+  content: string;
+  date: string;
+}
+
 const AlarmHome: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Record");
 
@@ -7,7 +14,7 @@ const AlarmHome: React.FC = () => {
     setActiveTab(tab);
   };
 
-  const GeneralAlarmData = [
+  const GeneralAlarmData: AlarmData[] = [
     {
       id: "성장기록",
       type: "성장기록 알람",
@@ -22,7 +29,7 @@ const AlarmHome: React.FC = () => {
     },
   ];
 
-  const CommunityAlarmData = [
+  const CommunityAlarmData: AlarmData[] = [
     {
       id: "신규댓글",
       type: "신규댓글 알람",
@@ -31,12 +38,8 @@ const AlarmHome: React.FC = () => {
     },
   ];
 
-  const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState(
-    new Array(GeneralAlarmData.length).fill(false)
-  );
-  const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState(
-    new Array(CommunityAlarmData.length).fill(false)
-  );
+  const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState<boolean[]>(new Array(GeneralAlarmData.length).fill(false));
+  const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState<boolean[]>(new Array(CommunityAlarmData.length).fill(false));
 
   const handleCardClick = (index: number) => {
     if (activeTab === "Record") {
@@ -52,60 +55,92 @@ const AlarmHome: React.FC = () => {
 
   const styles = {
     container: {
-      maxWidth: "400px",
-      margin: "20px auto",
+      maxWidth: "390px",
+      height: "844px",
+      margin: "0 auto",
       padding: "20px",
       backgroundColor: "#F2F6F3",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      fontFamily: 'Inter, sans-serif' 
     },
     ButtonContainer: {
       display: "flex",
       justifyContent: "space-between",
-      marginBottom: "20px",
+      marginBottom: "30px",
+      marginTop: "120px",
     },
     Button: (isActive: boolean) => ({
       flex: "1",
-      padding: "10px",
+      maxWidth: "174px",
+      height: "59px",
+      padding: "20px",
       backgroundColor: isActive ? "#3C7960" : "#A5CBBC",
       color: "#ffffff",
       border: "none",
-      borderRadius: "5px",
+      borderRadius: "20px",
+      marginRight: "10px",
+      fontWeight: "bold",
+      fontSize: "18px", 
     }),
     AlarmCard: (isClicked: boolean) => ({
+      maxWidth: "353px",
+      height: "143px",
       padding: "15px",
-      marginBottom: "10px",
-      borderRadius: "5px",
+      marginBottom: "30px",
+      borderRadius: "10px",
       cursor: "pointer",
       backgroundColor: isClicked ? "rgba(121, 116, 126, 0.08)" : "rgba(110, 173, 107, 0.3)",
+      position: "relative" as const,
     }),
     CardTitle: {
+      fontSize: "20px",
       fontWeight: "bold",
+      fontFamily: 'Inter, sans-serif', 
     },
     CardContent: {
+      fontSize: "15px",
       margin: "5px 0",
+      fontFamily: 'Inter, sans-serif', 
     },
     CardDate: {
       fontSize: "12px",
       color: "#666",
+      position: "absolute",
+      bottom: "10px",
+      right: "10px",
+      fontFamily: 'Inter, sans-serif', 
     },
-  };
-
+    Footer: {
+      padding: "15px",
+      textAlign: "center",
+      backgroundColor: "#ffffff",
+      borderRadius: "5px",
+      marginTop: "30px",
+      fontFamily: 'Inter, sans-serif', 
+    },
+    AlarmList: {
+      flex: "1",
+      overflowY: "auto",
+      fontFamily: 'Inter, sans-serif', 
+    },
+} as const; 
+  
+  
   return (
     <div style={styles.container}>
       <div style={styles.ButtonContainer}>
         <button
           style={styles.Button(activeTab === "Record")}
           onClick={() => handleTabClick("Record")}
-        >
-          도약기록
-        </button>
+        >도약기록</button>
         <button
           style={styles.Button(activeTab === "Community")}
           onClick={() => handleTabClick("Community")}
-        >
-          서로도약
-        </button>
+        >서로도약</button>
       </div>
-      <div>
+      <div style={styles.AlarmList}>
         {activeTab === "Record"
           ? GeneralAlarmData.map((alarmCard, index) => (
               <div
@@ -115,7 +150,7 @@ const AlarmHome: React.FC = () => {
               >
                 <div style={styles.CardTitle}>{alarmCard.type}</div>
                 <div style={styles.CardContent}>{alarmCard.content}</div>
-                <div style={styles.CardDate}>{alarmCard.date}</div>
+                <div style={styles.CardDate}>{alarmCard.date} ({new Date(alarmCard.date).toLocaleDateString("ko-KR", { weekday: 'long' })})</div>
               </div>
             ))
           : CommunityAlarmData.map((alarmCard, index) => (
@@ -126,9 +161,12 @@ const AlarmHome: React.FC = () => {
               >
                 <div style={styles.CardTitle}>{alarmCard.type}</div>
                 <div style={styles.CardContent}>{alarmCard.content}</div>
-                <div style={styles.CardDate}>{alarmCard.date}</div>
+                <div style={styles.CardDate}>{alarmCard.date} ({new Date(alarmCard.date).toLocaleDateString("ko-KR", { weekday: 'long' })})</div>
               </div>
             ))}
+      </div>
+      <div style={styles.Footer}>
+        Footer 내용
       </div>
     </div>
   );
