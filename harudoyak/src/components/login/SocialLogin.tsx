@@ -7,20 +7,30 @@ const SocialWrapper = styled.div`
 `;
 
 const SocialTitle = styled.p`
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1rem;
+color: var(--CoolGray-90, #21272A);
+text-align: center;
+/* Body/M */
+font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 22.4px */
 `;
 
 const SocialButton = styled.button`
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius:24px;
+  border : 2px solid #19191B;
   margin: 0 0.5rem;
   cursor: pointer;
+  justify-content : center;
   display: inline-flex;
   align-items: center;
+  align-self: stretch;
+
+  
 
   &:first-child {
     background-color: #fff;
@@ -28,7 +38,7 @@ const SocialButton = styled.button`
   }
 
   &:last-child {
-    background-color: #ffeb3b;
+    background-color: var(--background);
     color: #333;
   }
 `;
