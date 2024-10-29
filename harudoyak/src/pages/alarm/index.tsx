@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Root from "../../style/Root";
 
 const AlarmHome: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Record");
@@ -32,7 +33,7 @@ const AlarmHome: React.FC = () => {
   ];
 
   const [clickedAlarmCard, setClickedAlarmCard] = useState(
-    new Array(GeneralAlarmData.length).fill(false)
+    new Array(GeneralAlarmData.length).fill(false),
   );
 
   const handleCardClick = (index: number) => {
@@ -66,7 +67,9 @@ const AlarmHome: React.FC = () => {
       marginBottom: "10px",
       borderRadius: "5px",
       cursor: "pointer",
-      backgroundColor: isClicked ? "rgba(121, 116, 126, 0.08)" : "rgba(110, 173, 107, 0.3)",
+      backgroundColor: isClicked
+        ? "rgba(121, 116, 126, 0.08)"
+        : "rgba(110, 173, 107, 0.3)",
     }),
     CardTitle: {
       fontWeight: "bold",
@@ -81,47 +84,49 @@ const AlarmHome: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.ButtonContainer}>
-        <button
-          style={styles.Button(activeTab === "Record")}
-          onClick={() => handleTabClick("Record")}
-        >
-          도약기록
-        </button>
-        <button
-          style={styles.Button(activeTab === "Community")}
-          onClick={() => handleTabClick("Community")}
-        >
-          서로도약
-        </button>
+    <Root>
+      <div style={styles.container}>
+        <div style={styles.ButtonContainer}>
+          <button
+            style={styles.Button(activeTab === "Record")}
+            onClick={() => handleTabClick("Record")}
+          >
+            도약기록
+          </button>
+          <button
+            style={styles.Button(activeTab === "Community")}
+            onClick={() => handleTabClick("Community")}
+          >
+            서로도약
+          </button>
+        </div>
+        <div>
+          {activeTab === "Record"
+            ? GeneralAlarmData.map((alarmCard, index) => (
+                <div
+                  key={alarmCard.id}
+                  onClick={() => handleCardClick(index)}
+                  style={styles.AlarmCard(clickedAlarmCard[index])}
+                >
+                  <div style={styles.CardTitle}>{alarmCard.type}</div>
+                  <div style={styles.CardContent}>{alarmCard.content}</div>
+                  <div style={styles.CardDate}>{alarmCard.date}</div>
+                </div>
+              ))
+            : CommunityAlarmData.map((alarmCard, index) => (
+                <div
+                  key={alarmCard.id}
+                  onClick={() => handleCardClick(index)}
+                  style={styles.AlarmCard(clickedAlarmCard[index])}
+                >
+                  <div style={styles.CardTitle}>{alarmCard.type}</div>
+                  <div style={styles.CardContent}>{alarmCard.content}</div>
+                  <div style={styles.CardDate}>{alarmCard.date}</div>
+                </div>
+              ))}
+        </div>
       </div>
-      <div>
-        {activeTab === "Record"
-          ? GeneralAlarmData.map((alarmCard, index) => (
-              <div
-                key={alarmCard.id}
-                onClick={() => handleCardClick(index)}
-                style={styles.AlarmCard(clickedAlarmCard[index])}
-              >
-                <div style={styles.CardTitle}>{alarmCard.type}</div>
-                <div style={styles.CardContent}>{alarmCard.content}</div>
-                <div style={styles.CardDate}>{alarmCard.date}</div>
-              </div>
-            ))
-          : CommunityAlarmData.map((alarmCard, index) => (
-              <div
-                key={alarmCard.id}
-                onClick={() => handleCardClick(index)}
-                style={styles.AlarmCard(clickedAlarmCard[index])}
-              >
-                <div style={styles.CardTitle}>{alarmCard.type}</div>
-                <div style={styles.CardContent}>{alarmCard.content}</div>
-                <div style={styles.CardDate}>{alarmCard.date}</div>
-              </div>
-            ))}
-      </div>
-    </div>
+    </Root>
   );
 };
 

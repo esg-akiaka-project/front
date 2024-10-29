@@ -1,7 +1,13 @@
 import React from "react";
+import Root from '../../style/Root';
+
 
 const AccountEdit: React.FC = () => {
-  return <div>AccountEdit</div>;
+  return (
+    <Root>
+      <div>AccountEdit</div>
+    </Root>
+  )
 };
 
 export default AccountEdit;

@@ -6,6 +6,7 @@ import CancelButton from "@/src/components/tosagreement/CancelButton";
 import SignUpButton from "@/src/components/buttons/SignUpButton";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
 import styled from "styled-components";
+import Root from "../../style/Root";
 
 const EmailCertificationAndInformationRegist: React.FC = () => {
   const router = useRouter();
@@ -61,7 +62,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   ];
 
   return (
-    <>
+    <Root>
       <CancelButton onClick={cancelSignUp} />
       <SignUpTitle title={"인증 및 등록"}></SignUpTitle>
 
@@ -135,7 +136,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
           </SignUpButton>
         </div>
       )}
-    </>
+    </Root>
   );
 };
 

@@ -5,7 +5,7 @@ import InputField from '../../components/login/InputField';
 import LoginButton from '../../components/login/LoginButton';
 import LinkOptions from '../../components/login/LinkOptions';
 import SocialLogin from '../../components/login/SocialLogin';
-import Root from '../../components/common/Root';
+import Root from '../../style/Root';
 
 const LoginPage: React.FC = () => {
   return (
