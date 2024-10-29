@@ -7,48 +7,52 @@ const SocialWrapper = styled.div`
 `;
 
 const SocialTitle = styled.p`
-color: var(--CoolGray-90, #21272A);
-text-align: center;
-/* Body/M */
-font-family: Roboto;
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: 140%; /* 22.4px */
+  color: var(--CoolGray-90, #21272A);
+  text-align: center;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
 `;
 
 const SocialButton = styled.button`
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius:24px;
-  border : 2px solid #19191B;
+  border-radius: 24px;
+  border: 2px solid #19191B;
   margin: 0 0.5rem;
   cursor: pointer;
-  justify-content : center;
   display: inline-flex;
   align-items: center;
-  align-self: stretch;
-
-  
 
   &:first-child {
     background-color: #fff;
     color: #333;
   }
-
-  &:last-child {
-    background-color: var(--background);
-    color: #333;
-  }
 `;
 
 const SocialLogin: React.FC = () => {
+  const googleClientId = '177550247677-ssg0lbd68vj83nerpjaekrcvmjffqjnb.apps.googleusercontent.com';
+  const kakaoRestApiKey = 'YOUR_KAKAO_REST_API_KEY';
+  const redirectUri = 'YOUR_REDIRECT_URI';
+
+  const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
+  const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+
+  const handleGoogleLogin = () => {
+    window.location.href = googleLoginUrl;
+  };
+
+  const handleKakaoLogin = () => {
+    window.location.href = kakaoLoginUrl;
+  };
+
   return (
     <SocialWrapper>
       <SocialTitle>간편 로그인</SocialTitle>
-      <SocialButton>Google</SocialButton>
-      <SocialButton>KaKao</SocialButton>
+      <SocialButton onClick={handleGoogleLogin}>Google</SocialButton>
+      <SocialButton onClick={handleKakaoLogin}>Kakao</SocialButton>
     </SocialWrapper>
   );
 };

@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 6.88rem;
   padding: 0 25px;
-
+  margin-bottom: 25px;
 `;
 
 const Text = styled.p`
