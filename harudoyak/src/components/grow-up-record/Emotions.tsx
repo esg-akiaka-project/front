@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
-import { useRouter } from "next/router";
+//import { useRouter } from "next/router";
 import Link from "next/link";
 
 import {
@@ -29,7 +29,7 @@ const Emotions: React.FC = () => {
 
   const [isOpened, setIsOpened] = useState<boolean>(false); // pop message open 여부
 
-  const router = useRouter();
+  //const router = useRouter();
 
   return (
     <Root>

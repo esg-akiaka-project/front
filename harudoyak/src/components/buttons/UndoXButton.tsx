@@ -7,7 +7,7 @@
 // 수정일/작성자: 
 
 import { useRouter } from 'next/router';
-import iconX from "../../../public/assets/grow-up-record/icon_X.svg";
+import iconX from "../../../public/assets/common/icon_X.svg";
 import Image from "next/image";
 
 const UndoXButton: React.FC = () => {
