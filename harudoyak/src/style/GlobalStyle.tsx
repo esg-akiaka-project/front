@@ -82,6 +82,9 @@ const GlobalStyle = createGlobalStyle`
   q::before, q::after {
     content: '';
   }
+
+
+  
 `;
 
 export default GlobalStyle;
