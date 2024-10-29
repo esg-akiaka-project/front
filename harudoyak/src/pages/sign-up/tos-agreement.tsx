@@ -1,19 +1,32 @@
-import React from "react";
-import Steppers from "@/src/components/Steppers";
-import { StepperProps, StepperItemProps } from "../types/CommonTypes";
 
-const TosAgreement: React.FC = () => {
-  const steps = [
-    { stepNumber: 1, stepName: "약관동의", status: "completed" },
-    { stepNumber: 2, stepName: "인증 및 등록", status: "default" },
-    { stepNumber: 3, stepName: "가입완료", status: "default" },
-  ];
+import React from 'react';
+import styled from 'styled-components';
+import Logo from '../../components/Logo';
+import InputField from '../../components/login/InputField';
+import LoginButton from '../../components/login/LoginButton';
+import LinkOptions from '../../components/login/LinkOptions';
+import SocialLogin from '../../components/login/SocialLogin';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+const LoginPage: React.FC = () => {
   return (
-    <>
-      <p>약관 동의</p>
-      <Steppers steps={steps} />
-    </>
+    <Container>
+      <Logo />
+      <InputField label="아이디" placeholder="아이디" />
+      <InputField label="비밀번호" placeholder="비밀번호" type="password" />
+      <LoginButton />
+      <LinkOptions />
+      <SocialLogin />
+    </Container>
   );
 };
 
-export default TosAgreement;
+export default LoginPage;
