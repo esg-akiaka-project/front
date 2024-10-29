@@ -7,9 +7,8 @@ const Button = styled.button`
 border: none;
 display: flex;
 
-width: 320px;
-height: 24px;
-padding: var(--Space-400, 16px) var(--Space-300, 12px);
+width: 100%;
+height: 48px;
 justify-content: center;
 align-items: center;
 align-self: stretch;
