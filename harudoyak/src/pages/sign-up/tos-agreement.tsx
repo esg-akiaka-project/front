@@ -1,82 +1,32 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import Steppers from "@/src/components/tosagreement/Steppers";
-import { StepperItemProps } from "../../types/CommonTypes";
-import CancelButton from "@/src/components/tosagreement/CancelButton";
-import SignUpButton from "@/src/components/buttons/SignUpButton";
-import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
 
-const TosAgreement: React.FC = () => {
-  const router = useRouter();
-  const [allcheck, setallcheck] = useState<boolean>(false);
-  const [termsCheck, setTermsCheck] = useState<boolean>(false);
-  const [privacyCheck, setPrivacyCheck] = useState<boolean>(false);
+import React from 'react';
+import styled from 'styled-components';
+import Logo from '../../components/Logo';
+import InputField from '../../components/login/InputField';
+import LoginButton from '../../components/login/LoginButton';
+import LinkOptions from '../../components/login/LinkOptions';
+import SocialLogin from '../../components/login/SocialLogin';
 
-  const handleAllCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    setallcheck(checked);
-    setTermsCheck(checked);
-    setPrivacyCheck(checked);
-  };
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+`;
 
-  const handleTermsCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    setTermsCheck(checked);
-    setallcheck(checked && privacyCheck);
-  };
-
-  const handlePrivacyCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    setPrivacyCheck(checked);
-    setallcheck(checked && termsCheck);
-  };
-  const gotoEmailCertPage = () => {
-    router.push("/sign-up/email-certification-and-information-regist");
-  };
-  const cancelSignUp = () => {
-    router.push("/log-in");
-  };
-  const steps: StepperItemProps[] = [
-    { stepNumber: 1, stepName: "약관동의", status: "completed" },
-    { stepNumber: 2, stepName: "인증 및 등록", status: "default" },
-    { stepNumber: 3, stepName: "가입완료", status: "default" },
-  ];
-
+const LoginPage: React.FC = () => {
   return (
-    <>
-      <CancelButton onClick={cancelSignUp} />
-      <SignUpTitle title={"약관 동의"}></SignUpTitle>
-
-      <Steppers steps={steps} />
-
-      <div>
-        <input type="checkbox" checked={allcheck} onChange={handleAllCheck} />
-        <label>이용약관, 개인정보 수집 및 이용에 모두 동의합니다.</label>
-      </div>
-
-      <div>
-        <input
-          type="checkbox"
-          checked={termsCheck}
-          onChange={handleTermsCheck}
-        />
-        <label>이용약관 동의 (필수)</label>
-      </div>
-
-      <div>
-        <input
-          type="checkbox"
-          checked={privacyCheck}
-          onChange={handlePrivacyCheck}
-        />
-        <label>개인정보 수집 및 이용 동의 (필수)</label>
-      </div>
-
-      <SignUpButton data={allcheck} onClick={gotoEmailCertPage} show={true}>
-        약관 동의
-      </SignUpButton>
-    </>
+    <Container>
+      <Logo />
+      <InputField label="아이디" placeholder="아이디" />
+      <InputField label="비밀번호" placeholder="비밀번호" type="password" />
+      <LoginButton />
+      <LinkOptions />
+      <SocialLogin />
+    </Container>
   );
 };
 
-export default TosAgreement;
+export default LoginPage;
