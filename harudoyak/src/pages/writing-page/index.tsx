@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
+//import { useForm } from "react-hook-form";
 //import Link from "next/link";
 
 import TextCenterHeader from "../../components/common/Header/CenterTextHeader";
@@ -17,7 +18,10 @@ const WritingPage: React.FC = () => {
     <>
       <TextCenterHeader />
       <Wrapper>
-        <Input placeholder="오늘의 도약기록을 작성해 주세요."></Input>
+
+        <Input type="text" placeholder="오늘의 도약기록을 작성해 주세요."></Input>
+
+        
         <Info>
           <ReactMarkdown>{markdown}</ReactMarkdown>
         </Info>
@@ -49,14 +53,14 @@ const Info = styled.div`
   font-size: 12px;
   margin-top: 70px;
 
-  line-height: 1.4; 
+  line-height: 1.4;
 
   p {
     margin: 0; /* 문단 사이의 기본 마진 제거 */
   }
   ul {
-    padding-left: 15px; 
-    margin-top: 1px; 
+    padding-left: 15px;
+    margin-top: 1px;
     margin-bottom: 1px;
     list-style-type: disc;
   }

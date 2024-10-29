@@ -18,6 +18,8 @@ const GrowUpRecordHome: React.FC = () => {
       <Emotions />
       <Heading2 style={{marginBottom: '8px'}}>오늘의 도약 기록</Heading2>
       <Link href='/writing-page'><TextEntryButton/></Link>
+      {/*TODO : Writing Page로 들어가기 전에 감정 선택 안 되어 있으면 경고 팝업 띄우기*/}
+      {/*TODO: Emotions.tsx에서 마지막으로 선택한 감정을 받아서 server로 전송하는 로직 구현*/}
     </Root>
   );
 };
