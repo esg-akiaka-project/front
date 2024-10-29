@@ -1,28 +1,26 @@
-import React from "react";
-import useLoginStore from "../../store/useLoginStore";
+import React from 'react';
+import styled from 'styled-components';
+import Logo from '../../components/Logo';
+import InputField from '../../components/login/InputField';
+import LoginButton from '../../components/login/LoginButton';
+import LinkOptions from '../../components/login/LinkOptions';
+import SocialLogin from '../../components/login/SocialLogin';
+import Root from '../../components/common/Root';
 
-const LoginHome: React.FC = () => {
-  const isLogin = useLoginStore((state) => state.isLogin);
-  const logIn = useLoginStore((state) => state.logIn);
-  const logOut = useLoginStore((state) => state.logOut);
-  const cnt = useLoginStore((state) => state.cnt);
-  function test(num: number) {
-    if (isLogin) {
-      logOut();
-      console.log("Logged out");
-    } else {
-      logIn(num);
-      console.log("Logged in");
-    }
-  }
+const LoginPage: React.FC = () => {
   return (
-    <div>
-      <p>{cnt}</p>
-      LoginHome
-      <div>Login Status: {isLogin ? "Logged In" : "Logged Out"}</div>
-      <button onClick={() => test(2)}>{isLogin ? "Logout" : "Login"}</button>
-    </div>
+    <Root>
+      <Logo />
+      <InputField label="아이디" placeholder="아이디" />
+      <InputField label="비밀번호" placeholder="비밀번호" type="password" />
+      <LoginButton />
+      <LinkOptions />
+      <SocialLogin />
+    </Root>
   );
 };
 
-export default LoginHome;
+export default LoginPage;
+
+
+
