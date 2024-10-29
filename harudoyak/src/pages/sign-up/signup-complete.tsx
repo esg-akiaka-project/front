@@ -4,6 +4,7 @@ import Steppers from "@/src/components/tosagreement/Steppers";
 import { StepperProps, StepperItemProps } from "../../types/CommonTypes";
 import styled, { keyframes } from "styled-components";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
+import Root from "../../style/Root";
 
 const glowAnimation = keyframes`
   0% { box-shadow: 0 0 5px #3C7960; }
@@ -75,7 +76,7 @@ const SignUpComplete: React.FC = () => {
   };
 
   return (
-    <>
+    <Root>
       <Emptydiv></Emptydiv>
       <SignUpTitle title={"가입 완료"}></SignUpTitle>
       <Steppers steps={steps} />
@@ -84,7 +85,7 @@ const SignUpComplete: React.FC = () => {
         <Checkmark>✔</Checkmark>
         <p>Click!</p>
       </CheckmarkWrapper>
-    </>
+    </Root>
   );
 };
 

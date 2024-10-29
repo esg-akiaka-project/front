@@ -1,7 +1,12 @@
 import React from "react";
+import Root from "../../style/Root";
 
 const MyPageHome: React.FC = () => {
-  return <div>MyPageHome</div>;
+  return (
+    <Root>
+      <div>MyPageHome</div>
+    </Root>
+  );
 };
 
 export default MyPageHome;

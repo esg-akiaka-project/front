@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 //import { useForm } from "react-hook-form";
 //import Link from "next/link";
-
+import Root from "../../style/Root";
 import TextCenterHeader from "../../components/common/Header/CenterTextHeader";
 
 const WritingPage: React.FC = () => {
@@ -15,7 +15,7 @@ const WritingPage: React.FC = () => {
 `;
 
   return (
-    <>
+    <Root>
       <TextCenterHeader />
       <Wrapper>
 
@@ -26,7 +26,7 @@ const WritingPage: React.FC = () => {
           <ReactMarkdown>{markdown}</ReactMarkdown>
         </Info>
       </Wrapper>
-    </>
+    </Root>
   );
 };
 
