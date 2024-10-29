@@ -10,11 +10,10 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
-
 interface TooltipProps {
   children: React.ReactNode;
   message: string;
-  direction?: string; 
+  direction?: string;
 }
 
 const Tooltip = ({ children, message }: TooltipProps) => {
@@ -43,22 +42,21 @@ const Wrapper = styled.div`
 
 const Content = styled.div`
   visibility: hidden;
-  background-color: #fdfdff;
-  color: #000;
+  background-color: rgba(60, 121, 96, 0.8);
+  color: #ffffff;
   text-align: left;
-  padding: 10px;
-  padding-left: 12px;
+  padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid #d3d5ff;
+  border: 1px solid #3c7960;
   position: absolute;
   z-index: 1;
-  bottom: 100%; 
-  left: 0%;
-  transform: translateX(-95%);
+  bottom: 100%;
+  left: 0;
+  transform: translateX(-30%);
   opacity: 0;
-  transition: opacity 0.3s;
-  min-width: 300px;
-  margin-bottom: 8px;
+  min-width: 200px;
+  margin-bottom: 2px;
+  font-size: 0.75rem;
 
   ${Wrapper}:hover & {
     visibility: visible;

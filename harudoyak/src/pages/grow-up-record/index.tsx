@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
 
-import Root from '../../style/Root';
+import Root from "../../style/Root";
 import UndoXButton from "../../components/buttons/UndoXButton";
 import Emotions from "../../components/grow-up-record/Emotions";
 import TextEntryButton from "../../components/grow-up-record/TextEntryButton";
@@ -13,8 +13,14 @@ import EditButton from "../../components/grow-up-record/EditButton";
 import Tags from "../../components/common/Tags";
 import Tooltip from "../../components/common/Tooltip";
 import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
+import iconReload from "../../../public/assets/common/icon_reload.svg";
 
 const GrowUpRecordHome: React.FC = () => {
+  const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
+  const handleTooltip = (): void => {
+    isTooltipOpened ? setIsTooltipOpened(false) : setIsTooltipOpened(true);
+  };
+
   const textmock = `
 ### 성취
 1. Github 가이드북을 직접 만들고 배포했다. 학교별 아카이브에도 올렸는데 다른 학교 회장단 분들도 편하게 사용했으면 좋겠다! 
@@ -56,15 +62,20 @@ const GrowUpRecordHome: React.FC = () => {
 
       <ImageUpload />
       <FlexWrapper>
-        <Heading2>오늘의 도약 태그</Heading2>
+        <Heading2 style={{ marginTop: "5px", marginBottom: "5px" }}>
+          오늘의 도약 태그
+        </Heading2>
         <Tooltip
-          message="<h3>에듀테크 도구 활용</h3>TeacherFit은 교사가 수업을 설계할 때, 에듀테크 도구를 사용할 수 있도록 도와줍니다. 에듀테크 도구를 활용하면 다양한 기술 기반 콘텐츠를 수업에 적용하여 학생들의 흥미와 학습 이해도를 높일 수 있습니다."
+          message="하루도약의 AI가 작성된 성장 기록을 보고 도약태그 3~5개를 출력합니다. 출력된 결과가 마음에 안 드신다면 (reload) 버튼을 눌러 태그 분석 결과를 다시 받아보세요. 태그 분석은 2회까지 다시 요청할 수 있어요."
           direction="top"
         >
-          <Image src={iconTooltip} alt="Tip" />
+          <Image src={iconTooltip} alt="Tip" onClick={handleTooltip} />
         </Tooltip>
       </FlexWrapper>
-      <Tags tagslist={mocktags}></Tags>
+      <FlexWrapper>
+        <Tags tagslist={mocktags}></Tags>
+        <Image src={iconReload} alt="Reload" style={{transform: 'translateY(-25px)'}}/>
+      </FlexWrapper>
     </Root>
   );
 };
@@ -87,4 +98,5 @@ const Heading2 = styled.h2`
 const FlexWrapper = styled.div`
   display: flex;
   gap: 17px;
+  align-items: center;
 `;
