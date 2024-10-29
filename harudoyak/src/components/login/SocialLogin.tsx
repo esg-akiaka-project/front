@@ -33,7 +33,7 @@ const SocialButton = styled.button`
   }
 `;
 
-const SocialLogin = () => {
+const SocialLogin: React.FC = () => {
   return (
     <SocialWrapper>
       <SocialTitle>간편 로그인</SocialTitle>

@@ -24,7 +24,7 @@ const LinkOptions: React.FC = () => {
 
   return (
     <LinksWrapper>
-      <LinkText onClick={() => router.push('/sign-up/email-certification-and-information-register')}>회원가입</LinkText>
+      <LinkText onClick={() => router.push('/email-certification-and-information-register')}>회원가입</LinkText>
       <LinkText>아이디 찾기</LinkText>
       <LinkText>비밀번호 찾기</LinkText>
     </LinksWrapper>
