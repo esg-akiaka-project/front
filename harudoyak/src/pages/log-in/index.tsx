@@ -5,27 +5,22 @@ import InputField from '../../components/login/InputField';
 import LoginButton from '../../components/login/LoginButton';
 import LinkOptions from '../../components/login/LinkOptions';
 import SocialLogin from '../../components/login/SocialLogin';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  max-width: 400px;
-  margin: 0 auto;
-`;
+import Root from '../../components/common/Root';
 
 const LoginPage: React.FC = () => {
   return (
-    <Container>
+    <Root>
       <Logo />
       <InputField label="아이디" placeholder="아이디" />
       <InputField label="비밀번호" placeholder="비밀번호" type="password" />
       <LoginButton />
       <LinkOptions />
       <SocialLogin />
-    </Container>
+    </Root>
   );
 };
 
 export default LoginPage;
+
+
+
