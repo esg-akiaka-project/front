@@ -20,7 +20,7 @@ const CenterTextHeader: React.FC = () => {
       <HeaderWrapper>
         <UndoXButton />
         <Heading3>도약기록 쓰기</Heading3>
-        <Link href='/grow-check'><CenterTextHeaderBtn /></Link>
+        <Link href='/grow-up-record'><CenterTextHeaderBtn /></Link>
         {/* TIP: href 속성에 라우팅하고 싶은 페이지 링크 작성*/}
       </HeaderWrapper>
     </>

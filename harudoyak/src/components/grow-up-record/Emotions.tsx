@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 import {
   emotion1,
@@ -26,6 +28,8 @@ const Emotions: React.FC = () => {
   };
 
   const [isOpened, setIsOpened] = useState<boolean>(false); // pop message open 여부
+
+  const router = useRouter();
 
   return (
     <Root>
@@ -71,8 +75,17 @@ const Emotions: React.FC = () => {
       >
         <Image src={emotion7} alt="기타" />
       </StyledBtn>
-      {isOpened && (
+      {isOpened ? (
+        // 감정 선택이 안 되어 있거나, 취소하려고 하면 -> PopMessage 출력
         <PopMessage>도약기록에는 오늘의 감정이 꼭 포함되어야 해요!</PopMessage>
+      ) : (
+        // 감정 선택이 완료되면 -> TextEntryButton 라우팅, 
+        <Link href={{
+          pathname: '/',
+          query: {
+            emotion: "happy"
+          }
+        }}></Link>
       )}
     </Root>
   );
@@ -99,8 +112,9 @@ const StyledBtn = styled.button<{ $isSelected: boolean }>`
   border-radius: 10px;
   background: ${({ $isSelected }) => ($isSelected ? "#ebebeb" : "#F2F6F3")};
 
-  box-shadow: ${({ $isSelected }) => ($isSelected ? '1px 1px 2px 0px rgba(0, 0, 0, 0.1)': 'none')};
-  
+  box-shadow: ${({ $isSelected }) =>
+    $isSelected ? "1px 1px 2px 0px rgba(0, 0, 0, 0.1)" : "none"};
+
   &:hover {
     background: #ebebeb;
   }
