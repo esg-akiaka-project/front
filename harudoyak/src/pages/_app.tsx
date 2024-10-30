@@ -8,7 +8,7 @@ import GlobalStyle from "../style/GlobalStyle";
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <GlobalStyle /> 
+      <GlobalStyle />
       <Component {...pageProps} />
     </>
   );
