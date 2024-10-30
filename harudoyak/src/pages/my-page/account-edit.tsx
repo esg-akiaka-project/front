@@ -5,7 +5,7 @@ import Avatar from "@/src/components/Avatar";
 import styled from "styled-components";
 import Image from "next/image";
 import Camera from "@/public/assets/grow-up-record/icon_camera_grey.svg";
-import InputField from "@/src/components/mypage/inputField";
+import InputField from "@/src/components/mypage/InputField";
 
 const AccountEdit: React.FC = () => {
   const [nickname, setNickname] = useState<string>("");
