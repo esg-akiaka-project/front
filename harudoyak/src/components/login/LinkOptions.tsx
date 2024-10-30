@@ -1,6 +1,6 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import React from "react";
+import { useRouter } from "next/router";
+import styled from "styled-components";
 
 const LinksWrapper = styled.div`
   display: flex;
@@ -24,7 +24,9 @@ const LinkOptions: React.FC = () => {
 
   return (
     <LinksWrapper>
-      <LinkText onClick={() => router.push('/sign-up/email-certification-and-information-regist')}>회원가입</LinkText>
+      <LinkText onClick={() => router.push("/sign-up/tos-agreement")}>
+        회원가입
+      </LinkText>
       <LinkText>아이디 찾기</LinkText>
       <LinkText>비밀번호 찾기</LinkText>
     </LinksWrapper>
