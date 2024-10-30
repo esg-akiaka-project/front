@@ -11,7 +11,7 @@ const MainPhotoContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f0f0f0;
+    background-color: var(--gray-from-grayscale);
 `;
 
 const Photo = styled.img`

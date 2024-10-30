@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Header } from '../../components/community/Header';
+import { CancelNextBar} from '../../components/community/CancelNextBar';
 import { PhotoGrid } from '../../components/community/PhotoGrid';
 import { MainPhoto } from '../../components/community/MainPhoto';
 import Root from "../../style/Root";
@@ -12,6 +13,8 @@ const selectpicture: React.FC = () => {
     return (
         <Root>
             <Header />
+            <Heading1></Heading1>
+            <CancelNextBar />
             <MainPhoto selectedPhoto={selectedPhoto} />
             <PhotoGrid setSelectedPhoto={setSelectedPhoto} />
         </Root>
@@ -19,3 +22,12 @@ const selectpicture: React.FC = () => {
 };
 
 export default selectpicture;
+
+
+
+
+const Heading1 = styled.h1`
+  font-size: 1.44rem;
+  color: var(--main-green);
+  margin-bottom: 4px;
+`;
