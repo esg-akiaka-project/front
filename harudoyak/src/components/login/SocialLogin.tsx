@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Image from "next/image";
+import Image from 'next/image';
 
 const SocialWrapper = styled.div`
   text-align: center;
@@ -33,6 +33,12 @@ const SocialButton = styled.button`
   }
 `;
 
+const IconWrapper = styled.div`
+  width: 25px;
+  height: 24px;
+  margin-right: 8px;
+`;
+
 const SocialLogin: React.FC = () => {
   const googleClientId = '177550247677-ssg0lbd68vj83nerpjaekrcvmjffqjnb.apps.googleusercontent.com';
   const kakaoRestApiKey = 'YOUR_KAKAO_REST_API_KEY';
@@ -52,8 +58,18 @@ const SocialLogin: React.FC = () => {
   return (
     <SocialWrapper>
       <SocialTitle>간편 로그인</SocialTitle>
-      <SocialButton onClick={handleGoogleLogin}>Google</SocialButton>
-      <SocialButton onClick={handleKakaoLogin}>Kakao</SocialButton>
+      <SocialButton onClick={handleGoogleLogin}>
+        <IconWrapper>
+          <Image src="/assets/log-in/google.svg" alt="Google Icon" width={25} height={24} />
+        </IconWrapper>
+        Google
+      </SocialButton>
+      <SocialButton onClick={handleKakaoLogin}>
+        <IconWrapper>
+          <Image src="/assets/log-in/kakao.svg" alt="Kakao Icon" width={25} height={24} />
+        </IconWrapper>
+        Kakao
+      </SocialButton>
     </SocialWrapper>
   );
 };
