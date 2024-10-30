@@ -4,21 +4,21 @@ import { useRouter } from 'next/router';
 
 const BarContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     width: 100%;
     padding: 0 16px;
 `;
 
 const Button = styled.button`
-    font-size: 16px;
+    font-size: 15px;
 `;
 
 export const CancelBar: React.FC = () => {
     const router = useRouter();
 
     const handleBack = () => {
-        router.push('/components/pages/community/select-picture');
+        router.push('/community/select-picture');
     };
 
     return (
