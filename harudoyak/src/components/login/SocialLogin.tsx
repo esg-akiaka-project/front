@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Image from "next/image";
 
 const SocialWrapper = styled.div`
   text-align: center;
@@ -35,7 +36,7 @@ const SocialButton = styled.button`
 const SocialLogin: React.FC = () => {
   const googleClientId = '177550247677-ssg0lbd68vj83nerpjaekrcvmjffqjnb.apps.googleusercontent.com';
   const kakaoRestApiKey = 'YOUR_KAKAO_REST_API_KEY';
-  const redirectUri = 'YOUR_REDIRECT_URI';
+  const redirectUri = 'localhost:3000/log-in';
 
   const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
   const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApiKey}&redirect_uri=${redirectUri}&response_type=code`;

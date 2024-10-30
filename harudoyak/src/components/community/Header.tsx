@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 
 const HeaderContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
-    height: 88px;
+    height: 10px;
 `;
 
 const Button = styled.button`
@@ -37,14 +36,10 @@ const Separator = styled.hr`
 `;
 
 export const Header: React.FC = () => {
-    const router = useRouter();
 
     return (
         <HeaderContainer>
-            <Button onClick={() => router.push('/community')}>취소</Button>
             <Title>새 게시물</Title>
-            <Button onClick={() => router.push('/community/select-comment')}>다음</Button>
-            
         </HeaderContainer>
     );
 };

@@ -17,8 +17,13 @@ const SelectBox = styled.div`
     top: 0;
     right: 0;
     padding: 8px;
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
+    background-color: var(--sub-green3);
+    border-radius : 20px;
+    font-style: normal;
+    text-transform: uppercase;
+    font-family: Inter;
+    font-size: 11px;
+    color: var(--white-from-grayscale);
     z-index: 1;
 `;
 
