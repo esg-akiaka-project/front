@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import axiosInstance from "../apis/AxiosInstance";
+import axiosInstance from "../apis/axiosInstance";
 import { useUserStore } from "./useUserStore";
 
 interface DecodedToken {
