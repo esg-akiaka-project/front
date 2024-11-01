@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
 const EditButton: React.FC = () => {
   return (
     <>
-      <Button>수정</Button>
+      <Link href="/writing-page">
+        <Button>수정</Button>
+      </Link>
     </>
   );
 };
@@ -19,6 +22,6 @@ const Button = styled.button`
   padding-left: 8px;
   font-size: 0.75rem;
   height: 12%;
-  margin-top: 40px;
   text-align: center;
+  transform: translateY(11px);
 `;

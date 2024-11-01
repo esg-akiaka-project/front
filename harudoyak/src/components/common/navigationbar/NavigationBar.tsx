@@ -21,7 +21,7 @@ const NavigationBar: React.FC = () => {
         <Image src={Home} alt="Home" width={24} height={24} />
         <ButtonText>홈</ButtonText>
       </NavButton>
-      <NavButton onClick={() => navigate("/grow-up-record")}>
+      <NavButton onClick={() => navigate("/grow-check")}>
         <Image src={Record} alt="Record" width={24} height={24} />
         <ButtonText>도약기록</ButtonText>
       </NavButton>
@@ -48,13 +48,14 @@ const NavContainer = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 70px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: #ffffff;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  border-radius: 14px 14px 0px 0px;
 `;
 
 const NavButton = styled.button`
@@ -69,7 +70,7 @@ const NavButton = styled.button`
 
 const ButtonText = styled.span`
   margin-top: 0.3rem;
-  font-size: 0.75rem;
-  color: grey;
+  font-size: 0.7rem;
+  color: var(--gray-from-grayscale);
   font-weight: normal;
 `;
