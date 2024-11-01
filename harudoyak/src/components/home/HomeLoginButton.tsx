@@ -24,7 +24,7 @@ line-height: 100%; /* 16px */
 letter-spacing: 0.5px;
 
   cursor: pointer;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 
   &:hover {
     background-color: var(--sub-green1);
@@ -35,7 +35,7 @@ const LoginButton: React.FC = () => {
   const router = useRouter();
 
   return (
-    <Button onClick={() => router.push('/') }>로그인</Button>
+    <Button onClick={() => router.push('/log-in') }>로그인</Button>
   );
 };
 

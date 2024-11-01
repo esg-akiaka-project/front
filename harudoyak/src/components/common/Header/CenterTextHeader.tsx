@@ -5,12 +5,13 @@
 
 // Dev Log
 // 최초 작성일/작성자: 2024.10.25./루이
-// 수정일/작성자: 
+// 수정일/작성자:
 
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 
+import iconX from "@/public/assets/common/icon_X.svg";
 import UndoXButton from "../../buttons/UndoXButton";
 import CenterTextHeaderBtn from "./CenterTextHeaderBtn";
 
@@ -18,9 +19,11 @@ const CenterTextHeader: React.FC = () => {
   return (
     <>
       <HeaderWrapper>
-        <UndoXButton />
+        <UndoXButton icon={iconX} />
         <Heading3>도약기록 쓰기</Heading3>
-        <Link href='/grow-up-record'><CenterTextHeaderBtn /></Link>
+        <Link href="/grow-up-record">
+          <CenterTextHeaderBtn />
+        </Link>
         {/* TIP: href 속성에 라우팅하고 싶은 페이지 링크 작성*/}
       </HeaderWrapper>
     </>

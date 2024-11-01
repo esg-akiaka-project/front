@@ -175,6 +175,8 @@ const IdDuplicateCheckButton = styled.button`
   color: white;
   width: 35%;
   border: none;
+  font-size: 0.8rem;
+  text-align: center;
 `;
 const NicknameWrapper = styled.div`
   display: flex;
