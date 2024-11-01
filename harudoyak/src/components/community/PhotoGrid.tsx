@@ -37,7 +37,8 @@ const SelectBox = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(3, 1fr); // 한 줄에 3개의 그리드
+    grid-auto-rows: minmax(100px, auto); // 각 그리드의 높이 설정
     gap: 10px;
     padding-top: 30px;
 `;
@@ -66,11 +67,12 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        if (files && files.length > 0) {
-            const photo = URL.createObjectURL(files[0]);
-            setPhotos([photo]);
-            setSelectedPhoto(photo);
-            setSelectedPhotoState(photo);
+        if (files) {
+            const newPhotos = Array.from(files).map(file => URL.createObjectURL(file));
+            setPhotos(prevPhotos => {
+                const uniquePhotos = newPhotos.filter(photo => !prevPhotos.includes(photo));
+                return [...prevPhotos, ...uniquePhotos];
+            });
         }
     };
 
@@ -82,6 +84,14 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
     return (
         <PhotoGridContainer>
             <SelectBox>사진 한 개 선택</SelectBox>
+            <Label htmlFor="file-input">사진 업로드</Label>
+            <FileInput
+                id="file-input"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileChange}
+            />
             <Grid>
                 {photos.map((photo, index) => (
                     <Thumbnail
@@ -93,13 +103,6 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
                     />
                 ))}
             </Grid>
-            <Label htmlFor="file-input">사진 업로드</Label>
-            <FileInput
-                id="file-input"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-            />
         </PhotoGridContainer>
     );
 };
