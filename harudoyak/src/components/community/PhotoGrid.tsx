@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
-interface PhotoGridProps {
-    setSelectedPhoto: (photo: string) => void;
-}
 
 const PhotoGridContainer = styled.div`
     position: relative;
     width: 100%;
     max-height: 300px;
     overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sub-green3) transparent;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--sub-green3);
+        border-radius: 10px;
+    }
 `;
 
 const SelectBox = styled.div`
@@ -18,7 +25,7 @@ const SelectBox = styled.div`
     right: 0;
     padding: 8px;
     background-color: var(--sub-green3);
-    border-radius : 20px;
+    border-radius: 20px;
     font-style: normal;
     text-transform: uppercase;
     font-family: Inter;
@@ -29,7 +36,7 @@ const SelectBox = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
     gap: 4px;
     padding-top: 30px;
 `;
@@ -39,42 +46,54 @@ const Thumbnail = styled.img`
     height: 75px;
     object-fit: cover;
     cursor: pointer;
+    border: ${({ isSelected }) => (isSelected ? '2px solid var(--main-green)' : 'none')};
+    opacity: ${({ isSelected }) => (isSelected ? 0.7 : 1)};
 `;
 
-export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
-    const photos = [
-        // 예시 데이터 - 실제로는 유저의 사진첩 데이터를 가져와야 합니다.
-        '/path/to/photo1.jpg',
-        '/path/to/photo2.jpg',
-        '/path/to/photo3.jpg',
-        '/path/to/photo4.jpg',
-        '/path/to/photo5.jpg',
-        '/path/to/photo6.jpg',
-        '/path/to/photo7.jpg',
-        '/path/to/photo8.jpg',
-        '/path/to/photo9.jpg',
-        '/path/to/photo10.jpg',
-        '/path/to/photo11.jpg',
-        '/path/to/photo12.jpg',
-        '/path/to/photo13.jpg',
-        '/path/to/photo14.jpg',
-        '/path/to/photo15.jpg',
-        '/path/to/photo16.jpg',
-        '/path/to/photo17.jpg',
-        '/path/to/photo18.jpg',
-        '/path/to/photo19.jpg',
-        '/path/to/photo20.jpg',
-    ];
+const FileInput = styled.input`
+    display: none;
+`;
+
+const Label = styled.label`
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: var(--main-green);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 16px;
+`;
+
+export const PhotoGrid: React.FC = () => {
+    const [photos, setPhotos] = useState<string[]>([]);
+    const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files) {
+            const newPhotos = Array.from(files).map(file => URL.createObjectURL(file));
+            setPhotos(newPhotos);
+        }
+    };
 
     return (
         <PhotoGridContainer>
             <SelectBox>사진 한 개 선택</SelectBox>
+            <Label htmlFor="file-input">사진 업로드</Label>
+            <FileInput
+                id="file-input"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileChange}
+            />
             <Grid>
                 {photos.map((photo, index) => (
                     <Thumbnail
                         key={index}
                         src={photo}
                         alt={`Photo ${index + 1}`}
+                        isSelected={selectedPhoto === photo}
                         onClick={() => setSelectedPhoto(photo)}
                     />
                 ))}
