@@ -20,14 +20,14 @@ const Emotions: React.FC = () => {
   const handleClick = (emotionNum: number): void => {
     setClickedEmotion(emotionNum);
 
-    if (clickedEmotion === emotionNum || clickedEmotion === 0) {
+    if (clickedEmotion === emotionNum) {
       setIsOpened(true);
     } else {
       setIsOpened(false);
     }
   };
 
-  const [isOpened, setIsOpened] = useState<boolean>(false); // pop message open 여부
+  const [isOpened, setIsOpened] = useState<boolean>(true); // pop message open 여부
 
   //const router = useRouter();
 
