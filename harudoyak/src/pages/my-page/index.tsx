@@ -4,6 +4,7 @@ import UndoAndPageName from "@/src/components/mypage/UndoAndPageName";
 import UserInfoSection from "@/src/components/mypage/UserInfoSection";
 import styled from "styled-components";
 import UserOptionSection from "@/src/components/mypage/UserOptionSection";
+import NavigationBar from "@/src/components/common/navigationbar/NavigationBar";
 
 const MyPageHome: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const MyPageHome: React.FC = () => {
         <UserInfoSection />
       </Container>
       <UserOptionSection />
+      <NavigationBar />
     </Root>
   );
 };

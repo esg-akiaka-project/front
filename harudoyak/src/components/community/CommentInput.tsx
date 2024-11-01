@@ -23,7 +23,7 @@ const TextArea = styled.textarea`
 
 export const CommentInput: React.FC<CommentInputProps> = ({ comment, setComment }) => {
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.target.value.length <= 70) {
+        if (e.target.value.length <= 100) {
             setComment(e.target.value);
         }
     };
@@ -33,8 +33,8 @@ export const CommentInput: React.FC<CommentInputProps> = ({ comment, setComment 
             <TextArea
                 value={comment}
                 onChange={handleChange}
-                placeholder="문구를 작성하세요...(최대 70자 이내)"
-                maxLength={70}
+                placeholder="문구를 작성하세요...(최대 100자 이내)"
+                maxLength={100}
             />
         </InputContainer>
     );
