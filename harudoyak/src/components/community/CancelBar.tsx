@@ -4,14 +4,20 @@ import { useRouter } from 'next/router';
 
 const BarContainer = styled.div`
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 16px;
+    height: 20px;
 `;
 
 const Button = styled.button`
-    font-size: 15px;
+    color: #000;
+    font-family: Inter;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px; /* 161.538% */
+    letter-spacing: -0.33px;
 `;
 
 export const CancelBar: React.FC = () => {
