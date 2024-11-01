@@ -8,13 +8,14 @@ interface CommentInputProps {
 
 const InputContainer = styled.div`
     width: 100%;
-    height: 100px;
+    height: 130px;
 `;
 
 const TextArea = styled.textarea`
     width: 100%;
-    height: 100px;
+    height: 130px;
     padding: 8px;
+    font-family: Inter;
     font-size: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -23,7 +24,7 @@ const TextArea = styled.textarea`
 
 export const CommentInput: React.FC<CommentInputProps> = ({ comment, setComment }) => {
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.target.value.length <= 100) {
+        if (e.target.value.length <= 200) {
             setComment(e.target.value);
         }
     };
@@ -33,8 +34,8 @@ export const CommentInput: React.FC<CommentInputProps> = ({ comment, setComment 
             <TextArea
                 value={comment}
                 onChange={handleChange}
-                placeholder="문구를 작성하세요...(최대 100자 이내)"
-                maxLength={100}
+                placeholder="문구를 작성하세요...(최대 200자 이내)"
+                maxLength={200}
             />
         </InputContainer>
     );

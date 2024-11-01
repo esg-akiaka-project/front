@@ -7,7 +7,7 @@ interface MainPhotoProps {
 
 const MainPhotoContainer = styled.div`
     width: 100%;
-    height: 300px;
+    height: 339px;
     display: flex;
     align-items: center;
     justify-content: center;
