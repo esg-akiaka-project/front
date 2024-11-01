@@ -1,20 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0; /* Ensure no margin is affecting the centering */
+`;
 
 const Button = styled.button`
     width: 90%;
-    height: 30px;
+    max-width: 300px; /* 버튼의 최대 너비 설정 */
+    height: 40px;
     font-size: 16px;
     color: white;
     background-color: var(--sub-green3);
     border: none;
     border-radius: 24px;
     cursor: pointer;
+    display: inline-flex; /* 아이콘과 텍스트를 나란히 배치 */
+    align-items: center; /* 아이콘과 텍스트를 수직으로 중앙 정렬 */
     justify-content: center;
     text-align: center;
-    margin: 0 auto; /* 버튼을 중앙에 배치 */
-    display: block; /* 중앙 정렬을 위해 display 속성 추가 */
+`;
+
+const IconWrapper = styled.div`
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
 `;
 
 export const ShareButton: React.FC = () => {
@@ -25,5 +40,14 @@ export const ShareButton: React.FC = () => {
         router.push('/community');
     };
 
-    return <Button onClick={handleShare}>공유하세요!</Button>;
+    return (
+        <ButtonContainer>
+            <Button onClick={handleShare}>
+                <IconWrapper>
+                    <Image src="/assets/community/sharebutton.svg" alt="Share Icon" width={20} height={20} />
+                </IconWrapper>
+                공유하세요!
+            </Button>
+        </ButtonContainer>
+    );
 };

@@ -8,7 +8,7 @@ interface PhotoGridProps {
 const PhotoGridContainer = styled.div`
     position: relative;
     width: 100%;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: scroll;
 `;
 
@@ -49,6 +49,21 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
         '/path/to/photo3.jpg',
         '/path/to/photo4.jpg',
         '/path/to/photo5.jpg',
+        '/path/to/photo6.jpg',
+        '/path/to/photo7.jpg',
+        '/path/to/photo8.jpg',
+        '/path/to/photo9.jpg',
+        '/path/to/photo10.jpg',
+        '/path/to/photo11.jpg',
+        '/path/to/photo12.jpg',
+        '/path/to/photo13.jpg',
+        '/path/to/photo14.jpg',
+        '/path/to/photo15.jpg',
+        '/path/to/photo16.jpg',
+        '/path/to/photo17.jpg',
+        '/path/to/photo18.jpg',
+        '/path/to/photo19.jpg',
+        '/path/to/photo20.jpg',
     ];
 
     return (

@@ -18,7 +18,9 @@ const SelectCommentPage: React.FC = () => {
             <Heading1></Heading1>
             <CancelBar />
             <MainPhoto selectedPhoto={selectedPhoto} /> {/* selectedPhoto 속성 추가 */}
+            <Heading3></Heading3>
             <CommentInput comment={comment} setComment={setComment} />
+            <Heading2></Heading2>
             <ExampleTextBox />
             <ShareButton />
         </Root>
@@ -35,15 +37,15 @@ const Heading1 = styled.h1`
 const Heading2 = styled.h2`
   font-size: 1.56rem;
   color: var(--sub-green2);
-  margin-bottom: 12px;
-  margin-top: 41px;
+  margin-bottom: 2px;
+  margin-top: 2px;
 `;
 
 const Heading3 = styled.h3`
   font-size: 1.56rem;
   color: var(--sub-green2);
-  margin-bottom: 12px;
-  margin-top: 28px;
+  margin-bottom: 2px;
+  margin-top: 2px;
 `;
 
 const Heading4 = styled.h4`

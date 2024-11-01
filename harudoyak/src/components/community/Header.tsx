@@ -6,7 +6,7 @@ const HeaderContainer = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 10px;
+    height: 0px;
 `;
 
 const Button = styled.button`
@@ -28,12 +28,6 @@ const Title = styled.h1`
    letter-spacing: -0.33px;
 `;
 
-const Separator = styled.hr`
-    width: 100%;
-    height: 1px;
-    background-color: #d3d3d3;
-    margin-top: 8px;
-`;
 
 export const Header: React.FC = () => {
 
