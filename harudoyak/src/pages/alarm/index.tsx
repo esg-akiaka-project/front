@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope } from "react-icons/fa";
+import Root from "../../style/Root";
 
 interface AlarmData {
   id: string;
@@ -20,12 +21,14 @@ const AlarmHome: React.FC = () => {
   const GeneralAlarmData: AlarmData[] = [
     {
       id: "성장기록",
-      content: "이번 달은 긍정적인 기운이 많았던 것 같아! 성취감을 느낀 날들이 지난 달보다 10일 정도 많았어!",
+      content:
+        "이번 달은 긍정적인 기운이 많았던 것 같아! 성취감을 느낀 날들이 지난 달보다 10일 정도 많았어!",
       date: "2024-10-17",
     },
     {
       id: "AI편지",
-      content: "친애하는 친구에게, 당신의 성장 가능성을 믿습니다. 항상 새로운 도전과 배움을 통해 더 나은 자신을 만들어가길 응원합니다.힘든 순간에도 포기하지 말고, 당신의 꿈을 향해 한 걸음씩 나아가세요.",
+      content:
+        "친애하는 친구에게, 당신의 성장 가능성을 믿습니다. 항상 새로운 도전과 배움을 통해 더 나은 자신을 만들어가길 응원합니다.힘든 순간에도 포기하지 말고, 당신의 꿈을 향해 한 걸음씩 나아가세요.",
       date: "2024-10-23",
     },
   ];
@@ -40,8 +43,12 @@ const AlarmHome: React.FC = () => {
     },
   ];
 
-  const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState<boolean[]>(new Array(GeneralAlarmData.length).fill(false));
-  const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState<boolean[]>(new Array(CommunityAlarmData.length).fill(false));
+  const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState<
+    boolean[]
+  >(new Array(GeneralAlarmData.length).fill(false));
+  const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState<
+    boolean[]
+  >(new Array(CommunityAlarmData.length).fill(false));
 
   const handleCardClick = (index: number) => {
     if (activeTab === "Record") {
@@ -81,12 +88,18 @@ const AlarmHome: React.FC = () => {
     }
 
     return (
-      <div style={styles.Title}>
-        <IconComponent isClicked={isClicked} /> {/* isClicked 값 전달 */}
-        <div style={styles.Messenger}>{buttonLabel1}</div> {/* 첫 번째 버튼 */}
-        {buttonLabel2 && <div style={styles.Messenger}>{buttonLabel2}</div>} {/* 두 번째 버튼 (신규댓글 경우에만) */}
-        <span>{titleText}</span> {/* 제목 텍스트 */}
-      </div>
+      <Root>
+        <div style={styles.Title}>
+          <IconComponent isClicked={isClicked} /> {/* isClicked 값 전달 */}
+          <div style={styles.Messenger}>{buttonLabel1}</div>{" "}
+          {/* 첫 번째 버튼 */}
+          {buttonLabel2 && (
+            <div style={styles.Messenger}>{buttonLabel2}</div>
+          )}{" "}
+          {/* 두 번째 버튼 (신규댓글 경우에만) */}
+          <span>{titleText}</span> {/* 제목 텍스트 */}
+        </div>
+      </Root>
     );
   };
 
@@ -100,7 +113,7 @@ const AlarmHome: React.FC = () => {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: "Inter, sans-serif",
       letterSpacing: "-1px",
     } as React.CSSProperties,
     ButtonContainer: {
@@ -108,7 +121,7 @@ const AlarmHome: React.FC = () => {
       justifyContent: "space-between",
       marginBottom: "30px",
       marginTop: "120px",
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: "Inter, sans-serif",
     } as React.CSSProperties,
     TabButton: (isActive: boolean): React.CSSProperties => ({
       flex: "1",
@@ -126,7 +139,7 @@ const AlarmHome: React.FC = () => {
       marginRight: "10px",
       fontWeight: 900,
       fontSize: "18px",
-      fontFamily: 'Inter, sans-serif', 
+      fontFamily: "Inter, sans-serif",
     }),
     AlarmCard: (isClicked: boolean): React.CSSProperties => ({
       width: "353px",
@@ -135,14 +148,16 @@ const AlarmHome: React.FC = () => {
       marginBottom: "30px",
       borderRadius: "10px",
       cursor: "pointer",
-      backgroundColor: isClicked ? "rgba(121, 116, 126, 0.08)" : "rgba(110, 173, 107, 0.3)",
+      backgroundColor: isClicked
+        ? "rgba(121, 116, 126, 0.08)"
+        : "rgba(110, 173, 107, 0.3)",
       display: "flex",
       flexDirection: "column",
       justifyContent: "flex-start",
       overflow: "hidden",
       position: "relative",
       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: "Inter, sans-serif",
     }),
     Title: {
       display: "flex",
@@ -151,7 +166,7 @@ const AlarmHome: React.FC = () => {
       fontSize: "18px",
       fontWeight: 900,
       textShadow: "0.5px 0 0 #333",
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: "Inter, sans-serif",
     } as React.CSSProperties,
     Icon: (isClicked: boolean): React.CSSProperties => ({
       width: "20px",
@@ -170,7 +185,7 @@ const AlarmHome: React.FC = () => {
       fontSize: "12px",
       fontWeight: "Regular",
       textShadow: "none",
-      justifyContent: "center", 
+      justifyContent: "center",
       alignItems: "center",
       maxWidth: "85px",
       display: "inline-block",
@@ -178,8 +193,8 @@ const AlarmHome: React.FC = () => {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-      fontFamily: 'Inter, sans-serif',
-      textAlign: "center",  
+      fontFamily: "Inter, sans-serif",
+      textAlign: "center",
     } as React.CSSProperties,
     Content: {
       fontSize: "15px",
@@ -193,7 +208,7 @@ const AlarmHome: React.FC = () => {
       whiteSpace: "normal",
       overflowWrap: "break-word",
       wordBreak: "break-word",
-      alignItems: "center", 
+      alignItems: "center",
     } as React.CSSProperties,
     Date: {
       fontSize: "12px",
@@ -202,7 +217,7 @@ const AlarmHome: React.FC = () => {
       fontWeight: "Regular",
       bottom: "10px",
       right: "10px",
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: "Inter, sans-serif",
     } as React.CSSProperties,
     Footer: {
       padding: "15px",
@@ -210,7 +225,7 @@ const AlarmHome: React.FC = () => {
       backgroundColor: "#ffffff",
       borderRadius: "5px",
       marginTop: "30px",
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: "Inter, sans-serif",
     } as React.CSSProperties,
     AlarmList: {
       flex: "1",
@@ -222,18 +237,17 @@ const AlarmHome: React.FC = () => {
   const MAX_CONTENT_LENGTH = 60; // 최대 글자 수
 
   const truncatedContent = (content: string) => {
-    return content.length > MAX_CONTENT_LENGTH 
-      ? content.substring(0, MAX_CONTENT_LENGTH) + "..." 
+    return content.length > MAX_CONTENT_LENGTH
+      ? content.substring(0, MAX_CONTENT_LENGTH) + "..."
       : content;
   };
 
   const IconComponent = ({ isClicked }: { isClicked: boolean }) => (
     <div style={styles.Icon(isClicked)}>
-      <FaEnvelope size={20} color="#3C7960" style={{ position: "absolute" }} /> 
-      <FaEnvelope size={20} color="#3C7960" style={{ position: "absolute"}} /> 
+      <FaEnvelope size={20} color="#3C7960" style={{ position: "absolute" }} />
+      <FaEnvelope size={20} color="#3C7960" style={{ position: "absolute" }} />
     </div>
   );
-  
 
   return (
     <div style={styles.container}>
@@ -260,10 +274,12 @@ const AlarmHome: React.FC = () => {
                 style={styles.AlarmCard(clickedGeneralAlarmCard[index])}
               >
                 {renderTitle(alarmCard, clickedGeneralAlarmCard[index])}
-                <div style={styles.Content}>{truncatedContent(alarmCard.content)}</div>
+                <div style={styles.Content}>
+                  {truncatedContent(alarmCard.content)}
+                </div>
                 <div style={styles.Date}>
-                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", { year: 'numeric', month: '2-digit', day: '2-digit' })} 
-                  ${new Date(alarmCard.date).toLocaleDateString("en-US", { weekday: 'short' }).toUpperCase()}`}
+                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" })} 
+                  ${new Date(alarmCard.date).toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()}`}
                 </div>
               </div>
             ))
@@ -274,10 +290,12 @@ const AlarmHome: React.FC = () => {
                 style={styles.AlarmCard(clickedCommunityAlarmCard[index])}
               >
                 {renderTitle(alarmCard, clickedCommunityAlarmCard[index])}
-                <div style={styles.Content}>{truncatedContent(alarmCard.content)}</div>
+                <div style={styles.Content}>
+                  {truncatedContent(alarmCard.content)}
+                </div>
                 <div style={styles.Date}>
-                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", { year: 'numeric', month: '2-digit', day: '2-digit' })} 
-                  ${new Date(alarmCard.date).toLocaleDateString("en-US", { weekday: 'short' }).toUpperCase()}`}
+                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" })} 
+                  ${new Date(alarmCard.date).toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()}`}
                 </div>
               </div>
             ))}

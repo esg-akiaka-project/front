@@ -14,8 +14,15 @@ import Tags from "../../components/common/Tags";
 import Tooltip from "../../components/common/Tooltip";
 import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
 import iconReload from "../../../public/assets/common/icon_reload.svg";
+import iconX from '../../../public/assets/common/icon_X.svg';
+
+import SubmitButton from '../../components/grow-up-record/SubmitButton';
 
 const GrowUpRecordHome: React.FC = () => {
+  const [emotion, setEmotion] = useState<number>(0);
+  const [text, setText] = useState<string>("");
+  const [taglist, setTaglist] = useState<string[]>([]);
+  
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
   const handleTooltip = (): void => {
     isTooltipOpened ? setIsTooltipOpened(false) : setIsTooltipOpened(true);
@@ -43,7 +50,7 @@ const GrowUpRecordHome: React.FC = () => {
       <div
         style={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}
       >
-        <UndoXButton />
+        <UndoXButton icon={iconX}/>
       </div>
       <Heading3>오늘의 도약을 기록해 주세요.</Heading3>
       <Heading2>오늘의 감정</Heading2>
@@ -76,6 +83,7 @@ const GrowUpRecordHome: React.FC = () => {
         <Tags tagslist={mocktags}></Tags>
         <Image src={iconReload} alt="Reload" style={{transform: 'translateY(-25px)'}}/>
       </FlexWrapper>
+      {/*<SubmitButton>도약기록 남기기</SubmitButton>*/}
     </Root>
   );
 };

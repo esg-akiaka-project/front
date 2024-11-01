@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
-//import { useForm } from "react-hook-form";
-//import Link from "next/link";
-import Root from "../../style/Root";
 import TextCenterHeader from "../../components/common/Header/CenterTextHeader";
 
+//import { useForm } from "react-hook-form";
+//import Link from "next/link";
+
 const WritingPage: React.FC = () => {
+  
   const markdown = `도약기록에 다음과 같은 것들을 적어보세요. \n
 - **성취**: '오늘의 나는 무엇을 잘했는지'  
 - **개선**: '오늘의 나는 어떤 문제를 겪었는지, 앞으로 어떻게 해결할 것인지'  
@@ -15,18 +16,19 @@ const WritingPage: React.FC = () => {
 `;
 
   return (
-    <Root>
+    <>
       <TextCenterHeader />
       <Wrapper>
+        <Input
+          type="text"
+          placeholder="오늘의 도약기록을 작성해 주세요."
+        ></Input>
 
-        <Input type="text" placeholder="오늘의 도약기록을 작성해 주세요."></Input>
-
-        
         <Info>
           <ReactMarkdown>{markdown}</ReactMarkdown>
         </Info>
       </Wrapper>
-    </Root>
+    </>
   );
 };
 

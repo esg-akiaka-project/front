@@ -2,7 +2,8 @@ import React from "react";
 import MonthlyCalendar from "../components/home/MonthlyCalendar";
 import styled from "styled-components";
 import Root from "./../style/Root";
-import LoginButton from '../components/home/HomeLoginButton';
+import LoginButton from "../components/home/HomeLoginButton";
+import WritingEntryButton from "@/src/components/buttons/WritingEntryButton";
 
 const Home: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ const Home: React.FC = () => {
       <Heading2>하루도약 시작하기</Heading2>
       <StyledLogin />
       <MonthlyCalendar></MonthlyCalendar>
+      <WritingEntryButton />
     </Root>
   );
 };
