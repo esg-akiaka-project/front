@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Thumbnail from './Thumbnail'; // Thumbnail 컴포넌트를 import 합니다.
 
 const PhotoGridContainer = styled.div`
     position: relative;
@@ -36,18 +37,9 @@ const SelectBox = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-    gap: 4px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
     padding-top: 30px;
-`;
-
-const Thumbnail = styled.img`
-    width: 100%;
-    height: 75px;
-    object-fit: cover;
-    cursor: pointer;
-    border: ${({ isSelected }) => (isSelected ? '2px solid var(--main-green)' : 'none')};
-    opacity: ${({ isSelected }) => (isSelected ? 0.7 : 1)};
 `;
 
 const FileInput = styled.input`
@@ -64,29 +56,32 @@ const Label = styled.label`
     margin-bottom: 16px;
 `;
 
-export const PhotoGrid: React.FC = () => {
+interface PhotoGridProps {
+    setSelectedPhoto: (photo: string | null) => void;
+}
+
+export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
     const [photos, setPhotos] = useState<string[]>([]);
-    const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+    const [selectedPhoto, setSelectedPhotoState] = useState<string | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        if (files) {
-            const newPhotos = Array.from(files).map(file => URL.createObjectURL(file));
-            setPhotos(newPhotos);
+        if (files && files.length > 0) {
+            const photo = URL.createObjectURL(files[0]);
+            setPhotos([photo]);
+            setSelectedPhoto(photo);
+            setSelectedPhotoState(photo);
         }
+    };
+
+    const handlePhotoClick = (photo: string) => {
+        setSelectedPhoto(photo);
+        setSelectedPhotoState(photo);
     };
 
     return (
         <PhotoGridContainer>
             <SelectBox>사진 한 개 선택</SelectBox>
-            <Label htmlFor="file-input">사진 업로드</Label>
-            <FileInput
-                id="file-input"
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleFileChange}
-            />
             <Grid>
                 {photos.map((photo, index) => (
                     <Thumbnail
@@ -94,10 +89,17 @@ export const PhotoGrid: React.FC = () => {
                         src={photo}
                         alt={`Photo ${index + 1}`}
                         isSelected={selectedPhoto === photo}
-                        onClick={() => setSelectedPhoto(photo)}
+                        onClick={() => handlePhotoClick(photo)}
                     />
                 ))}
             </Grid>
+            <Label htmlFor="file-input">사진 업로드</Label>
+            <FileInput
+                id="file-input"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+            />
         </PhotoGridContainer>
     );
 };
