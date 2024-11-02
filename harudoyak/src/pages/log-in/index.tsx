@@ -56,6 +56,3 @@ const Heading4 = styled.h4`
   margin-bottom: 12px;
   margin-top: 14px;
 `;
-
-
-
