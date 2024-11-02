@@ -10,7 +10,7 @@ const Preview: React.FC<PreviewProps> = ({ imageUrl, onDelete }) => {
   return (
     <PreviewContainer>
       <PreviewImage src={imageUrl} alt="미리보기 이미지" />
-      <DeleteButton onClick={onDelete}>삭제</DeleteButton>
+      <DeleteButton onClick={onDelete}>X</DeleteButton>
     </PreviewContainer>
   );
 };
@@ -22,6 +22,9 @@ const PreviewContainer = styled.div`
   width: 200px;
   height: 200px;
   margin-top: 10px;
+  margin-bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const PreviewImage = styled.img`
@@ -33,13 +36,16 @@ const PreviewImage = styled.img`
 
 const DeleteButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.5);
+  top: 0px;
+  transform: translateY(-50%);
+  right: 0px;
+  background: #A6A6A6;
   color: #ffffff;
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   font-size: 0.8rem;
+  text-align: center;
 `;

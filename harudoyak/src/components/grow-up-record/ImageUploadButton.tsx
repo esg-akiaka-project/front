@@ -1,30 +1,26 @@
 // ImageUploadButton.tsx
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import Preview from "./Preview";
 
 interface ImageUploadButtonProps {
   src: string;
   children: React.ReactNode;
+  setPreviewUrl: (url: string) => void; // setPreviewUrl prop 추가
 }
 
 const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({
   src,
   children,
+  setPreviewUrl, // prop 받기
 }) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event?.target.files?.[0];
     if (file) {
       console.log("Selected image:", file);
-      setPreviewUrl(URL.createObjectURL(file));
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url); // 이미지 URL 업데이트
     }
-  };
-
-  const handleDelete = () => {
-    setPreviewUrl(null); // 미리보기 이미지 삭제
   };
 
   return (
@@ -34,7 +30,6 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({
         <ButtonContents>{children}</ButtonContents>
         <HiddenInput type="file" accept="image/*" onChange={handleFileSelect} />
       </Label>
-      {previewUrl && <Preview imageUrl={previewUrl} onDelete={handleDelete} />}
     </div>
   );
 };
