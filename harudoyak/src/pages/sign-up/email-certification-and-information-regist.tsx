@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Steppers from "@/src/components/tosagreement/Steppers";
 import { StepperItemProps } from "../../types/CommonTypes";
@@ -15,6 +15,24 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  useEffect(() => {
+    // storage 이벤트 핸들러 등록 (다른 창에서 Local Storage가 변경될 때 감지)
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "emailVerified" && event.newValue === "true") {
+        setEmailVerified(true);
+        const verifiedEmail = localStorage.getItem("verifiedEmail");
+        if (verifiedEmail) {
+          setEmail(verifiedEmail);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
