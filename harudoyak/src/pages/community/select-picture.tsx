@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+// SelectPicture.tsx
+import React from 'react';
 import styled from 'styled-components';
 import { Header } from '../../components/community/Header';
 import { CancelNextBar } from '../../components/community/CancelNextBar';
 import { PhotoGrid } from '../../components/community/PhotoGrid';
 import { MainPhoto } from '../../components/community/MainPhoto';
 import Root from "../../style/Root";
+import useCommunityStore from '../../store/useCommunityStore';
 
 const SelectPicture: React.FC = () => {
-    const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+    const { selectedPhoto, setSelectedPhoto } = useCommunityStore();
 
     return (
         <Root>
