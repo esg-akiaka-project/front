@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
-//import { useRouter } from "next/router";
-import Link from "next/link";
 
 import {
   emotion1,
@@ -14,13 +12,18 @@ import {
   emotion7,
 } from "../../../public/assets/grow-up-record";
 
-const Emotions: React.FC = () => {
-  const [clickedEmotion, setClickedEmotion] = useState<number>(0);
+interface EmotionsProps {
+  emotion: number;
+  updateEmotion: (emotion: number) => void;
+}
 
+const Emotions: React.FC<EmotionsProps> = ({ emotion, updateEmotion }) => {
   const handleClick = (emotionNum: number): void => {
-    setClickedEmotion(emotionNum);
+    updateEmotion(emotionNum);
+    console.log(emotionNum);
 
-    if (clickedEmotion === emotionNum) {
+    //isOpened 제어 코드
+    if (emotion === emotionNum) {
       setIsOpened(true);
     } else {
       setIsOpened(false);
@@ -33,59 +36,29 @@ const Emotions: React.FC = () => {
 
   return (
     <Root>
-      <StyledBtn
-        $isSelected={clickedEmotion === 1}
-        onClick={() => handleClick(1)}
-      >
+      <StyledBtn $isSelected={emotion === 1} onClick={() => handleClick(1)}>
         <Image src={emotion1} alt="사랑" />
       </StyledBtn>
-      <StyledBtn
-        $isSelected={clickedEmotion === 2}
-        onClick={() => handleClick(2)}
-      >
+      <StyledBtn $isSelected={emotion === 2} onClick={() => handleClick(2)}>
         <Image src={emotion2} alt="기쁨" />
       </StyledBtn>
-      <StyledBtn
-        $isSelected={clickedEmotion === 3}
-        onClick={() => handleClick(3)}
-      >
+      <StyledBtn $isSelected={emotion === 3} onClick={() => handleClick(3)}>
         <Image src={emotion3} alt="슬픔" />
       </StyledBtn>
-      <StyledBtn
-        $isSelected={clickedEmotion === 4}
-        onClick={() => handleClick(4)}
-      >
+      <StyledBtn $isSelected={emotion === 4} onClick={() => handleClick(4)}>
         <Image src={emotion4} alt="화남" />
       </StyledBtn>
-      <StyledBtn
-        $isSelected={clickedEmotion === 5}
-        onClick={() => handleClick(5)}
-      >
+      <StyledBtn $isSelected={emotion === 5} onClick={() => handleClick(5)}>
         <Image src={emotion5} alt="놀람" />
       </StyledBtn>
-      <StyledBtn
-        $isSelected={clickedEmotion === 6}
-        onClick={() => handleClick(6)}
-      >
+      <StyledBtn $isSelected={emotion === 6} onClick={() => handleClick(6)}>
         <Image src={emotion6} alt="재밌음" />
       </StyledBtn>
-      <StyledBtn
-        $isSelected={clickedEmotion === 7}
-        onClick={() => handleClick(7)}
-      >
+      <StyledBtn $isSelected={emotion === 7} onClick={() => handleClick(7)}>
         <Image src={emotion7} alt="기타" />
       </StyledBtn>
-      {isOpened ? (
-        // 감정 선택이 안 되어 있거나, 취소하려고 하면 -> PopMessage 출력
+      {isOpened && (
         <PopMessage>도약기록에는 오늘의 감정이 꼭 포함되어야 해요!</PopMessage>
-      ) : (
-        // 감정 선택이 완료되면 -> TextEntryButton 라우팅, 
-        <Link href={{
-          pathname: '/',
-          query: {
-            emotion: "happy"
-          }
-        }}></Link>
       )}
     </Root>
   );

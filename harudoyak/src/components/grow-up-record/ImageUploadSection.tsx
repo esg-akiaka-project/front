@@ -1,23 +1,25 @@
+// ImageUploadSection
 import React from "react";
 import styled from "styled-components";
-import UploadOptionBtn from "./UploadOptionBtn";
+import CameraUploadButton from "./CameraUploadButton";
+import ImageUploadButton from "./ImageUploadButton";
 
 import cameraIcon from "../../../public/assets/grow-up-record/icon_camera.svg";
 import imageIcon from "../../../public/assets/grow-up-record/icon_image.svg";
 
-const ImageUpload: React.FC = () => {
+const ImageUploadSection: React.FC = () => {
   return (
     <Wrapper>
       <Text>이미지 업로드(선택)</Text>
       <FlexWrapper>
-        <UploadOptionBtn src={cameraIcon}>카메라 열기</UploadOptionBtn>
-        <UploadOptionBtn src={imageIcon}>이미지 파일 추가</UploadOptionBtn>
+        <CameraUploadButton src={cameraIcon}>카메라 열기</CameraUploadButton>
+        <ImageUploadButton src={imageIcon}>이미지 파일 추가</ImageUploadButton>
       </FlexWrapper>
     </Wrapper>
   );
 };
 
-export default ImageUpload;
+export default ImageUploadSection;
 
 const Wrapper = styled.div`
   background: var(--background);
@@ -31,8 +33,8 @@ const Wrapper = styled.div`
 `;
 
 const Text = styled.p`
-  text-align: center; 
-  font-size: 0.75rem; 
+  text-align: center;
+  font-size: 0.75rem;
   color: var(--gray-from-grayscale);
   margin-top: 20px;
   margin-bottom: 13px;
@@ -43,6 +45,3 @@ const FlexWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
-
-
