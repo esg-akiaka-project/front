@@ -1,36 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+// index.tsx (CommunityHome)
+import React from 'react';
 import styled from 'styled-components';
 import NavigationBar from '@/src/components/common/navigationbar/NavigationBar';
 import MainHeader from '../../components/community/MainHeader';
 import { MainPhoto } from '../../components/community/MainPhoto';
-import { CommentInput } from '../../components/community/CommentInput';
 import WriteButton from '../../components/community/WriteButton';
 import Root from '../../style/Root';
+import useCommunityStore from '../../store/useCommunityStore';
 
 const CommunityHome: React.FC = () => {
-  const [comment, setComment] = useState("");
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
-  const [posts, setPosts] = useState<any[]>([]); // 기존 게시글 목록
-  const router = useRouter();
+    const { posts } = useCommunityStore();
 
-  useEffect(() => {
-    const { newPost } = router.query;
-    if (newPost) {
-      const parsedPost = Array.isArray(newPost) ? newPost[0] : newPost;
-      setPosts([...posts, JSON.parse(parsedPost)]); // 새로운 게시글 추가
-    }
-  }, [router.query]);
-
-  return (
-    <Root>
-      <MainHeader />
-      <MainPhoto selectedPhoto={selectedPhoto} />
-      <CommentInput comment={comment} setComment={setComment} />
-      <WriteButton />
-      <NavigationBar />
-    </Root>
-  );
+    return (
+        <Root>
+            <MainHeader />
+            <PostList>
+                {posts.map((post, index) => (
+                    <Post key={index}>
+                        <MainPhoto selectedPhoto={post.photo} />
+                        <Comment>{post.comment}</Comment>
+                    </Post>
+                ))}
+            </PostList>
+            <WriteButton />
+            <NavigationBar />
+        </Root>
+    );
 };
 
 export default CommunityHome;
+
+const PostList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  overflow-y: auto;
+`;
+
+const Post = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+`;
+
+const Comment = styled.p`
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #333;
+`;

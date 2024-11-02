@@ -1,6 +1,8 @@
+// PhotoGrid.tsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Thumbnail from './Thumbnail'; // Thumbnail 컴포넌트를 import 합니다.
+import Thumbnail from './Thumbnail';
+import useCommunityStore from '../../store/useCommunityStore';
 
 const PhotoGridContainer = styled.div`
     position: relative;
@@ -37,8 +39,8 @@ const SelectBox = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr); // 한 줄에 3개의 그리드
-    grid-auto-rows: minmax(100px, auto); // 각 그리드의 높이 설정
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(100px, auto);
     gap: 10px;
     padding-top: 30px;
 `;
@@ -62,23 +64,19 @@ interface PhotoGridProps {
 }
 
 export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
-    const [photos, setPhotos] = useState<string[]>([]);
-    const [selectedPhoto, setSelectedPhotoState] = useState<string | null>(null);
+    const { photos, addPhotos, setSelectedPhoto: setCommunitySelectedPhoto } = useCommunityStore();
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files) {
             const newPhotos = Array.from(files).map(file => URL.createObjectURL(file));
-            setPhotos(prevPhotos => {
-                const uniquePhotos = newPhotos.filter(photo => !prevPhotos.includes(photo));
-                return [...prevPhotos, ...uniquePhotos];
-            });
+            addPhotos(newPhotos);
         }
     };
 
     const handlePhotoClick = (photo: string) => {
         setSelectedPhoto(photo);
-        setSelectedPhotoState(photo);
+        setCommunitySelectedPhoto(photo);
     };
 
     return (
@@ -98,7 +96,7 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
                         key={index}
                         src={photo}
                         alt={`Photo ${index + 1}`}
-                        isSelected={selectedPhoto === photo}
+                        isSelected={photos.includes(photo)}
                         onClick={() => handlePhotoClick(photo)}
                     />
                 ))}

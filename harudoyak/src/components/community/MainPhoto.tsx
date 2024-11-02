@@ -1,3 +1,4 @@
+// MainPhoto.tsx
 import React from 'react';
 import styled from 'styled-components';
 
@@ -26,7 +27,7 @@ export const MainPhoto: React.FC<MainPhotoProps> = ({ selectedPhoto }) => {
             {selectedPhoto ? (
                 <Photo src={selectedPhoto} alt="Selected" />
             ) : (
-                <p>가장 최근에 찍은 사진이 여기에 표시됩니다.</p>
+                <p>아래의 첨부된 사진에서 선택하면 표시됩니다.</p>
             )}
         </MainPhotoContainer>
     );

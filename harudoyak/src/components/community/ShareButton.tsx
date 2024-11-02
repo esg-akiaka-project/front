@@ -1,3 +1,4 @@
+// ShareButton.tsx
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -7,12 +8,12 @@ const ButtonContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0; /* Ensure no margin is affecting the centering */
+    margin: 0;
 `;
 
 const Button = styled.button`
     width: 90%;
-    max-width: 300px; /* 버튼의 최대 너비 설정 */
+    max-width: 300px;
     height: 40px;
     font-size: 16px;
     color: white;
@@ -20,8 +21,8 @@ const Button = styled.button`
     border: none;
     border-radius: 24px;
     cursor: pointer;
-    display: inline-flex; /* 아이콘과 텍스트를 나란히 배치 */
-    align-items: center; /* 아이콘과 텍스트를 수직으로 중앙 정렬 */
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
     text-align: center;
 `;
@@ -32,12 +33,16 @@ const IconWrapper = styled.div`
     margin-right: 8px;
 `;
 
-export const ShareButton: React.FC = () => {
+interface ShareButtonProps {
+    onClick?: () => void;
+}
+
+const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
     const router = useRouter();
 
     const handleShare = () => {
-        // community 메인 페이지로 라우트
-        router.push('/community');
+        if (onClick) onClick();
+        router.push('/community'); // communityhome으로 라우팅
     };
 
     return (
@@ -51,3 +56,5 @@ export const ShareButton: React.FC = () => {
         </ButtonContainer>
     );
 };
+
+export default ShareButton;
