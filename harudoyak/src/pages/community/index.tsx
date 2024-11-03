@@ -27,6 +27,14 @@ const CommunityHome: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {
+        if (isCommentOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [isCommentOpen]);
+
     return (
         <Root>
             <MainHeader />
