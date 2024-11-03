@@ -1,11 +1,17 @@
-// src/components/community/Doyak.tsx
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import useCommunityStore from '../../store/useCommunityStore';
 
 const Doyak: React.FC = () => {
+    const { doyakCount, incrementDoyakCount, decrementDoyakCount } = useCommunityStore();
+
     const handleClick = () => {
-        // 클릭 시 실행할 함수 (필요 시 추가)
+        if (doyakCount === 0) {
+            incrementDoyakCount();
+        } else {
+            decrementDoyakCount();
+        }
     };
 
     return (

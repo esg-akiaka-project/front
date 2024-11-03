@@ -1,4 +1,3 @@
-// src/pages/community/index.tsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import NavigationBar from '@/src/components/common/navigationbar/NavigationBar';
@@ -12,7 +11,9 @@ import CommentSection from '../../components/community/CommentSection';
 import NickName from '../../components/community/NickName';
 import DoyakObject from '../../components/community/DoyakObject';
 import CommentButton from '../../components/community/CommentButton';
-import Doyak from '../../components/community/Doyak'; // Doyak import 추가
+import Doyak from '../../components/community/Doyak';
+import NumberDoyak from '../../components/community/NumberDoyak';
+import NumberComment from '../../components/community/NumberComment';
 
 const CommunityHome: React.FC = () => {
     const { posts, isCommentOpen, toggleCommentSection } = useCommunityStore();
@@ -39,9 +40,11 @@ const CommunityHome: React.FC = () => {
                             <MainPhoto selectedPhoto={post.photo} />
                             <ButtonContainer>
                                 <Doyak /> {/* Doyak 추가 */}
+                                <NumberDoyak /> {/* NumberDoyak 추가 */}
                                 <CommentButton /> {/* CommentButton 위치 변경 */}
+                                <NumberComment /> {/* NumberComment 추가 */}
                             </ButtonContainer>
-                            <Comment>{post.comment}</Comment>
+                            <CommentText>{post.comment}</CommentText> {/* CommentText로 변경 */}
                         </Post>
                         {index < posts.length - 1 && <Separator />} {/* 구분선 추가 */}
                     </React.Fragment>
@@ -78,7 +81,7 @@ const ButtonContainer = styled.div`
   gap: 10px; /* 버튼 간의 간격 조정 */
 `;
 
-const Comment = styled.p`
+const CommentText = styled.p`  /* CommentText 스타일 추가 */
   margin-top: 8px;
   font-size: 1rem;
   color: #333;
