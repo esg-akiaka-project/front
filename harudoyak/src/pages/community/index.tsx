@@ -11,16 +11,12 @@ import SideHeader from '@/src/components/community/SideHeader';
 import CommentSection from '../../components/community/CommentSection';
 import NickName from '../../components/community/NickName';
 import DoyakObject from '../../components/community/DoyakObject';
+import CommentButton from '../../components/community/CommentButton';
+import Doyak from '../../components/community/Doyak'; // Doyak import 추가
 
 const CommunityHome: React.FC = () => {
-    const { posts } = useCommunityStore();
-    const [isCommentOpen, setIsCommentOpen] = useState(false);
+    const { posts, isCommentOpen, toggleCommentSection } = useCommunityStore();
     const [showSideHeader, setShowSideHeader] = useState(false);
-
-    const toggleCommentSection = () => {
-        setIsCommentOpen(!isCommentOpen);
-        document.body.style.overflow = isCommentOpen ? 'auto' : 'hidden'; // 스크롤 방지
-    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -41,14 +37,17 @@ const CommunityHome: React.FC = () => {
                             <NickName />
                             <DoyakObject />
                             <MainPhoto selectedPhoto={post.photo} />
+                            <ButtonContainer>
+                                <Doyak /> {/* Doyak 추가 */}
+                                <CommentButton /> {/* CommentButton 위치 변경 */}
+                            </ButtonContainer>
                             <Comment>{post.comment}</Comment>
-
                         </Post>
                         {index < posts.length - 1 && <Separator />} {/* 구분선 추가 */}
                     </React.Fragment>
                 ))}
             </PostList>
-            {isCommentOpen && <CommentSection onClose={toggleCommentSection} />}
+            {isCommentOpen && <CommentSection onClose={toggleCommentSection} />} {/* CommentSection 조건부 렌더링 */}
             <WriteButton />
             <NavigationBar />
         </Root>
@@ -73,21 +72,16 @@ const Post = styled.div`
   border-radius: 8px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 버튼 간의 간격 조정 */
+`;
+
 const Comment = styled.p`
   margin-top: 8px;
   font-size: 1rem;
   color: #333;
-`;
-
-const CommentButtonStyled = styled.button`
-  margin-top: 10px;
-  padding: 8px;
-  font-size: 0.9rem;
-  color: #007aff;
-  border: none;
-  background: none;
-  cursor: pointer;
-  text-align: left;
 `;
 
 const Separator = styled.hr`
