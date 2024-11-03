@@ -6,6 +6,7 @@ import moment from "moment";
 import Image from "next/image";
 import checkBox from "../../../public/assets/home/checkBox.svg";
 import { useRouter } from 'next/router';
+import Modal from "./Modal";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -14,12 +15,15 @@ const MonthlyCalendar: React.FC = () => {
   const today: Date = new Date(); // 현재 날짜 및 시간
   const [date, setDate] = useState<Value>(today);
   // 기록 작성된 일자 (테스트용으로 날짜 임시 지정)
-  const recordOn = ["2023-09-15", "2024-09-15", "2024-10-15", "2024-10-20", "2024-10-29", "2024-10-31"];
+  const recordOn = ["2022-12-25", "2023-09-15", "2024-09-15", "2024-10-15", "2024-10-20", "2024-10-29", "2024-10-31"];
   const recordDayList = [];
 
   // api에서 response 받아와서 recordDayList 로 만들어줄 예정
   // creationDate 값들만 추출하여 배열로 만들어줌
   // response.data.map(item => item.creationDate) 
+
+  const [open, setOpen] = useState<boolean>(false); // Modal state
+
 
   const router = useRouter();
 
@@ -42,8 +46,11 @@ const MonthlyCalendar: React.FC = () => {
         router.push('/grow-up-record')
       // 작성된 기록 없음 && 클릭한 날짜가 오늘이 아님 - 모달 팝업
       case (!recordDayList.includes(formattedValue) && value !== formattedToday):
+        setOpen(true);
         return (
-          <div>모달 예시</div>
+          <Modal open={open} onClose={(() => setOpen(false))}>
+            <div>선택한 날짜에 작성된 기록이 없습니다</div>
+          </Modal>
         );
     }
   }
