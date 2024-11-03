@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import MonthlyCalendar from "../components/home/MonthlyCalendar";
-import styled from "styled-components";
+import styled, { CSSProperties } from "styled-components";
 import Root from "./../style/Root";
 import LoginButton from "../components/home/HomeLoginButton";
 import WritingEntryButton from "@/src/components/buttons/WritingEntryButton";
 import Modal from "@/src/components/home/Modal";
-import Image from "next/image";
-import Logo from "@/public/assets/common/Logo.svg"
+import Logo from "@/public/assets/common/OptimizedLogo.svg"
 import { useUserStore } from "../store/useUserStore";
 
 const Home: React.FC = () => {
@@ -17,7 +16,7 @@ const Home: React.FC = () => {
 
   return (
     <Root>
-      <StyledLogo src={Logo} alt="Logo" />
+      <img src={Logo.src} width={120} height={80} alt="Logo" style={imageStyle} />
       
       {userId === null // 로그인 전, 후 조건부 렌더링
       ? <>
@@ -42,12 +41,12 @@ const Home: React.FC = () => {
   );
 };
 
-const StyledLogo = styled(Image)`
-  position: absolute;
-  transform: translateX(-50%);
-  left: 4.9rem;
-  top: 4%;
-`;
+const imageStyle: CSSProperties = {
+  position: "absolute",
+  transform: "translateX(-50%)",
+  left: "4.9rem",
+  top: "4%"
+};
 
 const Wrapper = styled.div`
   width: 100%;
