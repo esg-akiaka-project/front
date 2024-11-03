@@ -7,12 +7,18 @@ import SignUpButton from "@/src/components/buttons/SignUpButton";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
 import styled from "styled-components";
 import Root from "../../style/Root";
+import {
+  certifyEmail,
+  CheckDuplicateNickname,
+  CompeleteSignup,
+} from "@/src/apis/authApi";
 
 const EmailCertificationAndInformationRegist: React.FC = () => {
   const router = useRouter();
   const [emailVerified, setEmailVerified] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
+  const [nicknameVerified, setnicknameVerified] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
@@ -52,23 +58,50 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const verifyEmail = () => {
+  // todo: 이메일 인증 로직 다시 확인
+  // 실제 로직은 백엔드에 이메일 인증 요청 -> 메일 내의 인증 링크 클릭 -> localstorage 이메일 및 인증여부 등록 이벤트 발생
+  // 해당 이벤트를 통해 이메일 인증 확인 후에 로직 실행
+  const verifyEmail = async () => {
     // 이메일 인증 로직 (백엔드쪽에 api 요청)
     // 인증 통과 시 setEmailVerified(true) 호출
     console.log("이메일 인증 요청: ", email);
-
+    try {
+      const response = await certifyEmail(email);
+      console.log("인증 요청 성공 :", response);
+    } catch (error) {
+      console.log("이메일 인증 요청 실패", error);
+    }
     // 실제로는 백엔드에서 성공 응답을 받은 후에 호출해야됨
     // 일단은 무조건 true가 오게함
     setEmailVerified(true);
   };
 
-  const gotoSignupCompletePage = () => {
-    router.push("/sign-up/signup-complete");
+  const gotoSignupCompletePage = async () => {
+    try {
+      const response = await CompeleteSignup({
+        email: email,
+        isVerified: true,
+        password: password,
+        nickname: nickname,
+      });
+      console.log("회원가입 완료", response);
+      router.push("/sign-up/signup-complete");
+    } catch (error) {
+      console.log("회원가입 완료 중 오류", error);
+    }
   };
 
-  const CheckDuplicateId = () => {
+  // todo: 닉네임 중복확인 로직 다시 확인!!
+  const CheckDuplicateId = async () => {
     console.log("test");
-    // 아이디 중복체크 해야함
+    try {
+      const response = await CheckDuplicateNickname(nickname);
+
+      console.log("닉네임 중복 확인 성공", response);
+      setnicknameVerified(true);
+    } catch (error) {
+      console.log("닉네임 중복 확인 실패:", error);
+    }
   };
   const cancelSignUp = () => {
     router.push("/log-in");
@@ -114,7 +147,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
               placeholder="닉네임"
             />
             <IdDuplicateCheckButton onClick={CheckDuplicateId}>
-              아이디 중복확인
+              닉네임 중복확인
             </IdDuplicateCheckButton>
           </NicknameWrapper>
           <StyledInputTitle>비밀번호</StyledInputTitle>
@@ -145,7 +178,8 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
             data={
               nickname.length > 0 &&
               password.length > 0 &&
-              password === confirmPassword
+              password === confirmPassword &&
+              nicknameVerified
             }
             onClick={gotoSignupCompletePage}
             show={true}

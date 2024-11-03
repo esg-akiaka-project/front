@@ -4,7 +4,7 @@ import UndoAndPageName from "@/src/components/mypage/UndoAndPageName";
 import UserInfoSection from "@/src/components/mypage/UserInfoSection";
 import styled from "styled-components";
 import UserOptionSection from "@/src/components/mypage/UserOptionSection";
-import NavigationBar from "@/src/components/common/navigationbar/NavigationBar";
+import MyRecord from "@/src/components/mypage/MyRecord";
 
 const MyPageHome: React.FC = () => {
   return (
@@ -12,9 +12,10 @@ const MyPageHome: React.FC = () => {
       <Container>
         <UndoAndPageName pageName={"마이페이지"} />
         <UserInfoSection />
+        <UserOptionSection />
+        <MyRecord />
       </Container>
-      <UserOptionSection />
-      <NavigationBar />
+      {/* <UserOptionSection /> */}
     </Root>
   );
 };
@@ -25,5 +26,4 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem; /* UndoAndPageName과 UserInfoSection 간 간격 */
-  // padding-top: 1rem; /* 상단 여백 */
 `;

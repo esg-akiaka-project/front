@@ -1,3 +1,5 @@
+// todo: 닉네임 api 연동
+
 import React from "react";
 
 const MyName: React.FC = () => {

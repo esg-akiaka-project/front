@@ -3,12 +3,12 @@ import axiosInstance from "../apis/axiosInstance";
 import { useUserStore } from "./useUserStore";
 
 interface DecodedToken {
-  exp: number;
+  expiredTime: number;
 }
 
 const isTokenExpired = (token: string) => {
-  const { exp } = jwtDecode<DecodedToken>(token);
-  return Date.now() >= exp * 1000;
+  const { expiredTime } = jwtDecode<DecodedToken>(token);
+  return Date.now() >= expiredTime * 1000;
 };
 //
 export async function checkAndRefreshToken() {
