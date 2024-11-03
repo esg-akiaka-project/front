@@ -1,23 +1,25 @@
-// src/components/community/CommentSection.tsx
 import React from 'react';
 import styled from 'styled-components';
 import WriteCommentBox from './WriteCommentBox';
 import WrittenCommentBox from './WrittenCommentBox';
 import CancelCommentBar from './CancelCommentBar';
+import useCommunityStore from '../../store/useCommunityStore';
 
 interface CommentSectionProps {
   onClose: () => void; // 닫기 함수 prop
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({ onClose }) => {
+  const { comments } = useCommunityStore();
+
   return (
     <CommentSectionContainer>
       <h2>댓글</h2>
       <CancelCommentBar onClose={onClose} /> {/* onClose 전달 */}
       <CommentList>
-        <WrittenCommentBox content="첫 번째 댓글" />
-        <WrittenCommentBox content="두 번째 댓글" />
-        {/* 추가 댓글 */}
+        {comments.map((comment, index) => (
+          <WrittenCommentBox key={index} content={comment} />
+        ))}
       </CommentList>
       <WriteCommentBox />
     </CommentSectionContainer>

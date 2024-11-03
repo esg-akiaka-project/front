@@ -14,7 +14,7 @@ const CommentInputContainer = styled.div`
 `;
 
 const CommentInput = styled.input`
-  width: 100%;
+  flex: 1; /* 입력창이 가능한 공간을 차지하도록 설정 */
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -28,15 +28,17 @@ const IconWrapper = styled.div`
 
 const SubmitIcon = styled.div`
   cursor: pointer;
+  z-index: 1; /* 아이콘이 앞으로 나오도록 설정 */
 `;
 
 const WriteCommentBox: React.FC = () => {
   const [comment, setComment] = useState('');
-  const { incrementCommentCount } = useCommunityStore();
+  const { incrementCommentCount, addComment } = useCommunityStore();
 
   const handleSubmit = () => {
     if (comment.trim() !== '') {
       incrementCommentCount();
+      addComment(comment); // 댓글 추가
       setComment(''); // 입력 필드 초기화
     }
   };

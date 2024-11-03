@@ -12,6 +12,7 @@ interface CommunityState {
     isCommentOpen: boolean;
     doyakCount: number;
     commentCount: number;
+    comments: string[];
     setSelectedPhoto: (photo: string | null) => void;
     setComment: (comment: string) => void;
     setMemberId: (id: string) => void;
@@ -25,6 +26,7 @@ interface CommunityState {
     addPhotos: (newPhotos: string[]) => void;
     clearPhotos: () => void;
     clearTemporaryData: () => void;
+    addComment: (comment: string) => void;
 }
 
 const useCommunityStore = create<CommunityState>()(
@@ -40,6 +42,7 @@ const useCommunityStore = create<CommunityState>()(
             isCommentOpen: false,
             doyakCount: 0,
             commentCount: 0,
+            comments: [],
             setSelectedPhoto: (photo) => set({ selectedPhoto: photo }),
             setComment: (comment) => set({ comment }),
             setMemberId: (id) => set({ memberId: id }),
@@ -64,11 +67,15 @@ const useCommunityStore = create<CommunityState>()(
             })),
             clearPhotos: () => set({ photos: [] }),
             clearTemporaryData: () => set({ selectedPhoto: null, comment: "", nickname: "닉네임", doyakObject: "도약목표" }),
+            addComment: (comment) => set((state) => ({
+                comments: [...state.comments, comment],
+            })),
         }),
         {
             name: 'communityData',
             partialize: (state) => ({
                 posts: state.posts,
+                comments: state.comments,
             }),
         }
     )
