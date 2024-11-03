@@ -1,12 +1,12 @@
-// SelectCommentPage.tsx
-import React, { useState } from 'react';
+// src/pages/community/select-comment.tsx
+import React from 'react';
+import styled from 'styled-components';
 import { Header } from '../../components/community/Header';
 import { CancelBar } from '../../components/community/CancelBar';
 import { MainPhoto } from '../../components/community/MainPhoto';
 import { CommentInput } from '../../components/community/CommentInput';
 import { ExampleTextBox } from '../../components/community/ExampleTextBox';
 import ShareButton from '../../components/community/ShareButton';
-import styled from 'styled-components';
 import Root from '../../style/Root';
 import useCommunityStore from '../../store/useCommunityStore';
 
@@ -26,7 +26,7 @@ const SelectCommentPage: React.FC = () => {
             <MainPhoto selectedPhoto={selectedPhoto} />
             <CommentInput comment={comment} setComment={setComment} />
             <ExampleTextBox />
-            <ShareButton onClick={handleShare} />
+            <ShareButton onClick={handleShare} /> {/* onClick 속성 추가 */}
         </Root>
     );
 };
