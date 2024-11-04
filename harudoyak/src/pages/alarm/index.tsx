@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { FaEnvelope } from "react-icons/fa";
+import Image from 'next/image';
+import messageIcon from "../../Images/messageIcon.png";
 import Root from "../../style/Root";
 
 interface AlarmData {
@@ -120,7 +121,7 @@ const AlarmHome: React.FC = () => {
       display: "flex",
       justifyContent: "space-between",
       marginBottom: "30px",
-      marginTop: "120px",
+      marginTop: "50px",
       fontFamily: "Inter, sans-serif",
     } as React.CSSProperties,
     TabButton: (isActive: boolean): React.CSSProperties => ({
@@ -144,7 +145,7 @@ const AlarmHome: React.FC = () => {
     AlarmCard: (isClicked: boolean): React.CSSProperties => ({
       width: "353px",
       height: "143px",
-      padding: "15px",
+      padding: "0px",
       marginBottom: "30px",
       borderRadius: "10px",
       cursor: "pointer",
@@ -219,14 +220,6 @@ const AlarmHome: React.FC = () => {
       right: "10px",
       fontFamily: "Inter, sans-serif",
     } as React.CSSProperties,
-    Footer: {
-      padding: "15px",
-      textAlign: "center",
-      backgroundColor: "#ffffff",
-      borderRadius: "5px",
-      marginTop: "30px",
-      fontFamily: "Inter, sans-serif",
-    } as React.CSSProperties,
     AlarmList: {
       flex: "1",
       overflowY: "auto",
@@ -244,8 +237,12 @@ const AlarmHome: React.FC = () => {
 
   const IconComponent = ({ isClicked }: { isClicked: boolean }) => (
     <div style={styles.Icon(isClicked)}>
-      <FaEnvelope size={20} color="#3C7960" style={{ position: "absolute" }} />
-      <FaEnvelope size={20} color="#3C7960" style={{ position: "absolute" }} />
+          <Image 
+            src={messageIcon} 
+            alt="message Icon" 
+            width={80} 
+            height={80}
+          />
     </div>
   );
 
@@ -300,7 +297,6 @@ const AlarmHome: React.FC = () => {
               </div>
             ))}
       </div>
-      <div style={styles.Footer}>Footer 공통 내용</div>
     </div>
   );
 };
