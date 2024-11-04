@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import Root from "../../style/Root";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
+import Image from 'next/image';
+import HeadIconImage from "../../Images/HarudoyakLogo.png";
+import TreeIcon from "../../Images/TreeIcon.png";
+import CommentIcon from "../../Images/commentIcon.png";
 
 // 전체 폰트 설정 (Inter)
 const GlobalStyle = createGlobalStyle`
@@ -11,15 +15,22 @@ font-family: 'Arial', sans-serif;
 const Header = styled.div`
   display: flex;
   justify-content: space-between; /* 로고와 버튼 양쪽 정렬 */
-  align-items: center;
+  align-items: center; /* 수직 정렬 */
   padding: 20px;
   border-bottom: 1px solid #ddd;
-  position: relative;
+  position: fixed; /* 헤더 고정 */
+  top: 0; /* 상단에 고정 */
+  left: 0; /* 왼쪽에 고정 */
+  right: 0; /* 오른쪽에 고정 */
+  background-color: white; /* 배경색을 설정하여 투명도 방지 */
+  z-index: 1000; /* 다른 요소 위에 보이도록 */
 `;
 
-const Logo = styled.div`
+const StyledHeadIcon = styled.div`
   text-align: center; /* 로고 중앙 정렬 */
   flex-grow: 1; /* 남는 공간을 차지하도록 설정 */
+  display: flex; /* Flexbox 사용 */
+  justify-content: center; /* 중앙 정렬 */
 `;
 
 const WriteButton = styled.button<{ clicked: boolean }>`
@@ -32,7 +43,8 @@ const WriteButton = styled.button<{ clicked: boolean }>`
   border: none;
   cursor: pointer;
   border-radius: 4px; /* 버튼 모서리 둥글게 */
-  position: absolute;
+  position: relative; /* 상대 위치 설정 */
+  margin-left: auto; /* 버튼을 오른쪽 끝으로 이동 */
   right: 16px; /* 오른쪽 위치 */
   opacity: ${({ clicked }) => (clicked ? 0.7 : 1)}; /* 클릭 시 투명도 조절 */
   transition: background-color 0.2s, opacity 0.2s; /* 색상 및 투명도 변화 애니메이션 */
@@ -72,6 +84,7 @@ const PostContainer = styled.div`
   flex: 1;
   padding: 0; /* 내부 여백 제거 */
   margin: 16px; /* 외부 여백 설정 */
+  margin-top: 5px;
   background-color: #FFFFFF; /* 배경색 설정 */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 `;
@@ -132,23 +145,19 @@ const PostReaction = styled.div`
 `;
 
 const PostReactDoyakButton = styled.button<{ active: boolean }>`
-  background-color: ${({ active }) => (active ? "#4caf50" : "#ccc")}; /* 활성화 상태에 따른 색상 */
+  background-color: transparent; /* 배경색 제거 */
   border: none;
   border-radius: 4px; /* 둥글게 처리 */
   padding: 8px; /* 내부 여백 */
   cursor: pointer; /* 포인터 커서 */
-  color: white; /* 글씨 색상 */
+  color: black; /* 글씨 색상 검은색 */
   display: flex;
   align-items: center; /* 수직 정렬 */
   margin-right: 4px; /* 버튼 간 간격 조절 */
 `;
 
-const DoyakIcon = styled.span`
-  margin-right: 5px; /* 아이콘과 숫자 간격 */
-`;
-
 const PostReactCommentButton = styled.button`
-  background-color: #007bff; /* 기본 색상 */
+  background-color: transparent; /* 배경색 제거 */
   border: none;
   border-radius: 4px; /* 둥글게 처리 */
   padding: 8px; /* 내부 여백 */
@@ -197,10 +206,14 @@ const CommunityHome: React.FC = () => {
     <Root>
       <GlobalStyle /> {/* 전역 스타일 적용 */}
       <Header>
-        <Logo>
-          {/* 여기에 로고를 추가하세요 */}
-          <span>로고</span> {/* 임시 로고 텍스트 */}
-        </Logo>
+        <StyledHeadIcon>
+          <Image 
+            src={HeadIconImage} 
+            alt="HeadIcon" 
+            width={60} 
+            height={60} 
+          />
+        </StyledHeadIcon>
         <WriteButton clicked={writeButtonClicked} onClick={handleWriteButtonClick}>
           <PlusShapeContainer>
             <HorizontalBar /> {/* 수평선 */}
@@ -219,11 +232,21 @@ const CommunityHome: React.FC = () => {
         <PostImage src="image_url_here" alt="포스트 이미지" /> {/* 이미지 URL 추가 */}
         <PostReaction>
           <PostReactDoyakButton active={isDoyakActive} onClick={toggleDoyak}>
-            <DoyakIcon>🌳</DoyakIcon> {/* 나무 아이콘 */}
+            <Image 
+              src={TreeIcon} 
+              alt="Tree Icon" 
+              width={24} 
+              height={24} 
+            />
             {doyakCount} {/* 카운트 표시 */}
           </PostReactDoyakButton>
           <PostReactCommentButton>
-            댓글
+            <Image 
+              src={CommentIcon} 
+              alt="Comment Icon" 
+              width={24} 
+              height={24} 
+            />
           </PostReactCommentButton>
         </PostReaction>
         <PostWriterContainer>
@@ -239,4 +262,3 @@ const CommunityHome: React.FC = () => {
 };
 
 export default CommunityHome;
-
