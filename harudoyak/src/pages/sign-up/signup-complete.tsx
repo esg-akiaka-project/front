@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import Steppers from "@/src/components/tosagreement/Steppers";
-import { StepperProps, StepperItemProps } from "../../types/CommonTypes";
+import { StepperItemProps } from "../../types/CommonTypes";
 import styled, { keyframes } from "styled-components";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
 import Root from "../../style/Root";

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const Button = styled.button`
@@ -6,8 +7,8 @@ const Button = styled.button`
 border: none;
 display: flex;
 
-height: 24px;
-padding: var(--Space-400, 16px) var(--Space-300, 12px);
+width: 100%;
+height: 48px;
 justify-content: center;
 align-items: center;
 align-self: stretch;
@@ -31,7 +32,11 @@ letter-spacing: 0.5px;
 `;
 
 const LoginButton: React.FC = () => {
-  return <Button>로그인</Button>;
+  const router = useRouter();
+
+  return (
+    <Button onClick={() => router.push('/') }>로그인</Button>
+  );
 };
 
 export default LoginButton;
