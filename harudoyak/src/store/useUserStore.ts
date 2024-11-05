@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface UserState {
+  isSociallogin: boolean;
   accessToken: string | null;
   aiName: string | null;
   userId: string | null;
@@ -14,6 +15,7 @@ interface UserState {
   setAccessToken: (token: string | null) => void;
   setAiName: (name: string) => void;
   setGoalId: (goalId: string) => void;
+  setisSociallogin: () => void;
   clearToken: () => void;
 }
 // 전역변수를 사용할때는 useUserStore를 import 후에
@@ -23,6 +25,7 @@ interface UserState {
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
+      isSociallogin: false,
       accessToken: null,
       userId: null,
       aiName: null,
@@ -34,6 +37,7 @@ export const useUserStore = create<UserState>()(
       setAiName: (name) => set({ aiName: name }),
       setGoalId: (goalId) => set({ goalId }),
       setProfileImage: (url) => set({ profileImage: url }),
+      setisSociallogin: () => set({ isSociallogin: true }),
       clearToken: () => {
         set({ accessToken: null });
         localStorage.removeItem("refreshToken");

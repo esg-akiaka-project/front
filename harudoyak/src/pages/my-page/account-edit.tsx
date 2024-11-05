@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import Camera from "@/public/assets/grow-up-record/icon_camera_grey.svg";
 import InputField from "@/src/components/mypage/InputField";
+import { changePassword } from "@/src/apis/authApi";
 
 const AccountEdit: React.FC = () => {
   const [nickname, setNickname] = useState<string>("");
@@ -25,7 +26,17 @@ const AccountEdit: React.FC = () => {
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
   };
-
+  const savePassword = async () => {
+    if (newPassword === confirmPassword) {
+      console.log("비밀번호 변경 저장:", newPassword);
+      // try {
+      //   const response = await changePassword()
+      // }
+      // 예시: await updatePasswordAPI(newPassword);
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  };
   return (
     <Root>
       <UndoAndPageName pageName={"계정관리"} />
@@ -71,6 +82,9 @@ const AccountEdit: React.FC = () => {
           />
         </div>
       </InfoSection>
+      <SavePasswordButton onClick={savePassword}>
+        비밀번호 변경
+      </SavePasswordButton>
     </Root>
   );
 };
@@ -102,7 +116,7 @@ const Label = styled.p`
   width: 90%;
 `;
 const InfoSection = styled.div`
-  margin-top: 20%;
+  margin-top: 10%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -128,4 +142,19 @@ const DuplicateCheckButton = styled.button`
   border: none;
 
   border-radius: 10px;
+`;
+const SavePasswordButton = styled.button`
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  background-color: #3c7960;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  margin-top: 1rem;
+  margin: 1rem auto;
 `;
