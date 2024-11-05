@@ -6,7 +6,7 @@ interface UserState {
   isSociallogin: boolean;
   accessToken: string | null;
   aiName: string | null;
-  userId: string | null;
+  userId: number | null;
   exp: number; // 경험치
   goalId: string | null;
   nickname: string | null;
