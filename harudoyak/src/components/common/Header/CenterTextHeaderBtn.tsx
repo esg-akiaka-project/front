@@ -9,18 +9,37 @@
 
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { usePostDataContext } from "@/src/context/PostDataContext";
+import { useRouter } from 'next/router';
 
 interface CenterTextHeaderBtnProps {
   text: string;
 }
 
 const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({ text }) => {
-  const handleSubmit = () => {
-    
+  const { updateTags } = usePostDataContext();
+  const router = useRouter(); 
 
-    
-    console.log("Client to Server: ", text);
+  const handleSubmit = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/openai/keywords", { text });
+
+      if (response.status === 200) {
+        const tags = response.data.keywords;
+        updateTags(tags);
+        console.log(tags);
+        router.push('/grow-up-record');
+      } else {
+        console.error("태그 키워드를 가져오는 데 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("error: ", error);
+    }
   };
+  console.log("Client to Server: ", text);
 
   return (
     <>
