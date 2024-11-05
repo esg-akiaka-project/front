@@ -6,7 +6,9 @@ export const RecordDayList = async () => {
     try{
         const { userId } = useUserStore.getState();
         const response = await axiosInstance.get(`logs/list/${userId}`, {
-            memberId: userId // 이 부분 수정 필요
+            params: {
+                memberId: userId
+            }   
         });
         return response.data;
     } catch (error) {
