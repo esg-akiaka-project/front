@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import GlobalStyle from "../style/GlobalStyle";
 import Layout from "../components/Layout";
+import {PostDataProvider} from '../context/PostDataContext';
 
 // 새로고침마다 토큰 상태 확인 및 갱신 하기위해 useEffect에 해당 함수 설정해야함
 import { checkAndRefreshToken } from "../store/tokenService";
@@ -16,7 +17,9 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <Layout>
-        <Component {...pageProps} />
+        <PostDataProvider>
+          <Component {...pageProps} />
+        </PostDataProvider>
       </Layout>
     </>
   );
