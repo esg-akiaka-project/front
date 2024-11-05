@@ -88,6 +88,8 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
       router.push("/sign-up/signup-complete");
     } catch (error) {
       console.log("회원가입 완료 중 오류", error);
+      // todo: 임의적으로 이동하게 했음
+      router.push("/sign-up/signup-complete");
     }
   };
 
@@ -96,11 +98,12 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
     console.log("test");
     try {
       const response = await CheckDuplicateNickname(nickname);
-
+      // todo: 닉네임 중복 api 연동 이후, 결과값(t/f)에 따라 중복된 아이디(alert) , 사용가능한 아이디입니다(alert) 처리
       console.log("닉네임 중복 확인 성공", response);
       setnicknameVerified(true);
     } catch (error) {
       console.log("닉네임 중복 확인 실패:", error);
+      setnicknameVerified(true); // todo: 임의적으로 둔것, 꼭 지워야 함
     }
   };
   const cancelSignUp = () => {

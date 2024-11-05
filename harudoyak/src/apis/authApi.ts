@@ -19,7 +19,9 @@ export const certifyEmail = async (email: string) => {
 
 export const CheckDuplicateNickname = async (nickname: string) => {
   try {
-    const response = await axiosInstance.get(`auth/check/${nickname}`);
+    const response = await axiosInstance.get(
+      `members/check?nickname=${nickname}`
+    );
     return response.data;
   } catch (error) {
     throw error;
