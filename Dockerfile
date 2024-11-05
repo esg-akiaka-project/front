@@ -6,7 +6,7 @@ COPY harudoyak/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY harudoyak/src ./src
 
 RUN npm run build
 
