@@ -1,4 +1,4 @@
-// 로그인 , 회원가입 관련 api 모음
+// 로그인 , 회원가입 관련 api 모음.
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
 
