@@ -1,5 +1,5 @@
 // 개인프로필 사진
-// 로그인할때 zustand 전역상태변수로 추가해야할듯
+// todo: 로그인할때 zustand 전역상태변수로 추가해야할듯
 
 import Image from "next/image";
 import Anonymous from "@/public/assets/common/Anonymous.svg";

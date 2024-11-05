@@ -1,3 +1,4 @@
+// todo: ai 이름 연동
 import React from "react";
 
 const MyAiName: React.FC = () => {

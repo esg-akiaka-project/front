@@ -41,7 +41,7 @@ const UserOptionSection: React.FC = () => {
             alt="Footprint"
             width={50}
             height={50}
-            onClick={() => gotoSpecificPage("password-check")} // 이 부분 주소는 바꿔야함
+            onClick={() => gotoSpecificPage("password-check")} // todo: 이 부분 주소는 바꿔야함
           />
           <p>내 서로도약</p>
         </Pagediv>
@@ -56,7 +56,6 @@ const OptionSectionWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 20%;
 `;
 
 const OptionSection = styled.div`

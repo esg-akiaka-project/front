@@ -4,13 +4,16 @@ import { persist } from "zustand/middleware";
 
 interface UserState {
   accessToken: string | null;
-  aiName: string;
+  aiName: string | null;
   userId: string | null;
   exp: number; // 경험치
+  goalId: string | null;
   nickname: string | null;
   profileImage: string | null; // 프로필 이미지 URL
   setProfileImage: (url: string) => void;
   setAccessToken: (token: string | null) => void;
+  setAiName: (name: string) => void;
+  setGoalId: (goalId: string) => void;
   clearToken: () => void;
 }
 // 전역변수를 사용할때는 useUserStore를 import 후에
@@ -22,11 +25,14 @@ export const useUserStore = create<UserState>()(
     (set) => ({
       accessToken: null,
       userId: null,
-      aiName: "도약이",
+      aiName: null,
       exp: 0,
+      goalId: null,
       nickname: null,
       profileImage: null,
       setAccessToken: (token) => set({ accessToken: token }),
+      setAiName: (name) => set({ aiName: name }),
+      setGoalId: (goalId) => set({ goalId }),
       setProfileImage: (url) => set({ profileImage: url }),
       clearToken: () => {
         set({ accessToken: null });
