@@ -1,5 +1,6 @@
 // 로그인 , 회원가입 관련 api 모음
 import axiosInstance from "./axiosInstance";
+import { useUserStore } from "../store/useUserStore";
 
 export const certifyEmail = async (email: string) => {
   try {
@@ -47,4 +48,14 @@ export const Login = async (LoginProps: LoginProps) => {
   } catch (error) {
     throw error;
   }
+};
+
+export const setAiGoal = async (aiName: string, goal: string) => {
+  const { userId } = useUserStore.getState();
+  const response = await axiosInstance.post("/api/ai", {
+    memId: userId,
+    aiNickName: aiName,
+    goalId: goal,
+  });
+  return response.data;
 };
