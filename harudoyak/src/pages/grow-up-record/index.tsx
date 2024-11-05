@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
+import { usePostDataContext } from "@/src/context/PostDataContext";
 
 import Root from "../../style/Root";
 import UndoXButton from "../../components/buttons/UndoXButton";
@@ -17,19 +18,11 @@ import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
 import iconReload from "../../../public/assets/common/icon_reload.svg";
 import iconX from "../../../public/assets/common/icon_X.svg";
 import SubmitButton from "../../components/grow-up-record/SubmitButton";
-
+//import DoneModal from '../../components/grow-up-record/DoneModal';
 
 const GrowUpRecordHome: React.FC = () => {
-  const {
-    text,
-    image,
-    emotion,
-    tags,
-    updateText,
-    updateImage,
-    updateEmotion,
-    updateTags,
-  } = usePostData();
+  const { text, image, emotion, tags, updateEmotion, updateTags } =
+    usePostDataContext();
 
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
   const handleTooltip = (): void => {
@@ -37,6 +30,9 @@ const GrowUpRecordHome: React.FC = () => {
   };
 
   const mocktags = ["WAS", "Github", "가이드북", "비즈니스 매너"];
+
+  const [showModal, setShowModal] = useState(false);
+  const clickModal = () => setShowModal(!showModal);
 
   return (
     <Root>
@@ -52,7 +48,7 @@ const GrowUpRecordHome: React.FC = () => {
 
       <FlexWrapper>
         <Heading2 style={{ marginBottom: "8px" }}>오늘의 도약 기록</Heading2>
-        {text ? <></> : <EditButton />}
+        {text ? <EditButton /> : <></>}
       </FlexWrapper>
       <Link href="/writing-page">
         <TextEntryButton>
@@ -85,7 +81,8 @@ const GrowUpRecordHome: React.FC = () => {
           style={{ transform: "translateY(-25px)" }}
         />
       </FlexWrapper>
-      <SubmitButton data={{text, emotion, image: null, tags}}>도약기록 남기기</SubmitButton>
+      {/*<SubmitButton data={{text, emotion, image: null, tags}} onClick={clickModal} size={60}>도약기록 남기기</SubmitButton>
+      {/*{showModal && <DoneModal clickModal={clickModal}/>}*/}
     </Root>
   );
 };

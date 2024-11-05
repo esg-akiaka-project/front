@@ -15,14 +15,18 @@ import iconX from "@/public/assets/common/icon_X.svg";
 import UndoXButton from "../../buttons/UndoXButton";
 import CenterTextHeaderBtn from "./CenterTextHeaderBtn";
 
-const CenterTextHeader: React.FC = () => {
+interface TextCenterHeaderProps {
+  text: string;
+}
+
+const CenterTextHeader: React.FC<TextCenterHeaderProps> = ({ text }) => {
   return (
     <>
       <HeaderWrapper>
         <UndoXButton icon={iconX} />
         <Heading3>도약기록 쓰기</Heading3>
         <Link href="/grow-up-record">
-          <CenterTextHeaderBtn />
+          <CenterTextHeaderBtn text={text} />
         </Link>
         {/* TIP: href 속성에 라우팅하고 싶은 페이지 링크 작성*/}
       </HeaderWrapper>

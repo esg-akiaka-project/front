@@ -6,7 +6,7 @@ import Image from "next/image";
 interface ImageUploadButtonProps {
   src: string;
   children: React.ReactNode;
-  setPreviewUrl: (url: string) => void; // setPreviewUrl prop 추가
+  setPreviewUrl: (url: string) => void; 
 }
 
 const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({
