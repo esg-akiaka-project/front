@@ -74,7 +74,11 @@ const GrowUpRecordHome: React.FC = () => {
         </Tooltip>
       </FlexWrapper>
       <FlexWrapper>
-        <Tags tagslist={mocktags}></Tags>
+        {tags && tags.length > 0 ? (
+          <Tags tagslist={tags} />
+        ) : (
+          <p>아직 출력된 태그가 없습니다.</p>
+        )}
         <Image
           src={iconReload}
           alt="Reload"
