@@ -4,9 +4,13 @@ import { useUserStore } from "../store/useUserStore";
 
 export const certifyEmail = async (email: string) => {
   try {
-    const response = await axiosInstance.post(`auth/email/verify`, {
-      email: email,
-    });
+    const response = await axiosInstance.post(
+      `auth/email/verify`,
+
+      {
+        email: email,
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -52,10 +56,30 @@ export const Login = async (LoginProps: LoginProps) => {
 
 export const setAiGoal = async (aiName: string, goal: string) => {
   const { userId } = useUserStore.getState();
-  const response = await axiosInstance.post("/api/ai", {
-    memId: userId,
-    aiNickName: aiName,
-    goalId: goal,
-  });
-  return response.data;
+  try {
+    const response = await axiosInstance.post("/api/ai", {
+      memId: userId,
+      aiNickName: aiName,
+      goalId: goal,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const changePassword = async (
+  oldpassword: string,
+  newpassword: string
+) => {
+  const { userId } = useUserStore.getState();
+  try {
+    const response = await axiosInstance.patch(`members/${userId}/pwd`, {
+      oldpassword,
+      newpassword,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
