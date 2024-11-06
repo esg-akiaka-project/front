@@ -4,12 +4,12 @@ import SocialLogin from '../components/login/SocialLogin'; // SocialLogin 컴포
 
 const REST_API_KEY = '325f256af9baeeb0dddb1664a61cc7c6'; // Kakao API Key
 const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // 구글 클라이언트 ID
-const REDIRECT_URI = 'http://localhost:3000/oauth/callback'; // 리다이렉트 URI
+const REDIRECT_URI = 'http://localhost:3000/oauth'; // 리다이렉트 URI
 const CLIENT_SECRET = 'YOUR_CLIENT_SECRET'; // Kakao Client Secret (필요 시 사용)
 
 export default function Auth() {
     const { setisSociallogin, setAccessToken } = useUserStore(); // zustand 스토어 사용
-
+ 
     useEffect(() => {
         // 클라이언트 사이드에서만 window 객체 사용
         if (typeof window !== 'undefined') {
