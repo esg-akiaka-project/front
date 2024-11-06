@@ -29,6 +29,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@types/next-seo": "^1.10.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
