@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import NavigationBar from '@/src/components/common/navigationbar/NavigationBar';
 import MainHeader from '../../components/community/MainHeader';
@@ -15,9 +15,19 @@ import Doyak from '../../components/community/Doyak';
 import NumberDoyak from '../../components/community/NumberDoyak';
 import NumberComment from '../../components/community/NumberComment';
 
+// seoroApi.ts에서 API 함수 임포트
+import {
+    fetchPosts,
+    createPost,
+    fetchPostDetail,
+    createComment,
+    fetchComments
+} from '@/src/apis/seoroApi';
+
 const CommunityHome: React.FC = () => {
     const { posts, isCommentOpen, toggleCommentSection } = useCommunityStore();
     const [showSideHeader, setShowSideHeader] = useState(false);
+    const postRefs = useRef<(HTMLDivElement | null)[]>([]); // 게시글 참조 배열 생성
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,13 +37,12 @@ const CommunityHome: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        if (isCommentOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
+    const handleCommentButtonClick = (index: number) => {
+        toggleCommentSection();
+        if (postRefs.current[index]) {
+            postRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' }); // 해당 게시글로 스크롤
         }
-    }, [isCommentOpen]);
+    };
 
     return (
         <Root>
@@ -42,23 +51,23 @@ const CommunityHome: React.FC = () => {
             <PostList>
                 {posts.map((post, index) => (
                     <React.Fragment key={index}>
-                        <Post>
+                        <Post ref={(el) => { postRefs.current[index] = el; }}> {/* 게시글 참조 저장 */}
                             <NickName />
                             <DoyakObject />
                             <MainPhoto selectedPhoto={post.photo} />
                             <ButtonContainer>
-                                <Doyak /> {/* Doyak 추가 */}
-                                <NumberDoyak /> {/* NumberDoyak 추가 */}
-                                <CommentButton /> {/* CommentButton 위치 변경 */}
-                                <NumberComment /> {/* NumberComment 추가 */}
+                                <Doyak />
+                                <NumberDoyak />
+                                <CommentButton onClick={() => handleCommentButtonClick(index)} /> {/* 댓글 버튼 클릭 시 스크롤 */}
+                                <NumberComment />
                             </ButtonContainer>
-                            <CommentText>{post.comment}</CommentText> {/* CommentText로 변경 */}
+                            <CommentText>{post.comment}</CommentText>
                         </Post>
-                        {index < posts.length - 1 && <Separator />} {/* 구분선 추가 */}
+                        {index < posts.length - 1 && <Separator />}
                     </React.Fragment>
                 ))}
             </PostList>
-            {isCommentOpen && <CommentSection onClose={toggleCommentSection} />} {/* CommentSection 조건부 렌더링 */}
+            {isCommentOpen && <CommentSection onClose={toggleCommentSection} />}
             <WriteButton />
             <NavigationBar />
         </Root>
@@ -67,6 +76,7 @@ const CommunityHome: React.FC = () => {
 
 export default CommunityHome;
 
+// 스타일 정의
 const PostList = styled.div`
   display: flex;
   flex-direction: column;
@@ -86,10 +96,10 @@ const Post = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px; /* 버튼 간의 간격 조정 */
+  gap: 10px;
 `;
 
-const CommentText = styled.p`  /* CommentText 스타일 추가 */
+const CommentText = styled.p`
   margin-top: 8px;
   font-size: 1rem;
   color: #333;
@@ -97,6 +107,6 @@ const CommentText = styled.p`  /* CommentText 스타일 추가 */
 
 const Separator = styled.hr`
   border: none;
-  border-top: 1px solid green; /* 초록색 구분선 */
+  border-top: 1px solid green;
   margin: 20px 0;
 `;
