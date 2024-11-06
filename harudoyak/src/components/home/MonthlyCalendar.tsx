@@ -24,7 +24,9 @@ const MonthlyCalendar: React.FC = () => {
     "2024-10-29",
     "2024-10-31",
   ];
-  const recordDayList = [];
+  // const recordDayList = [];
+  // kyle: ts 타입지정해놨습니다.
+  const [recordDayList, setRecordDayList] = useState<string[]>([]);
 
   // api에서 response 받아와서 recordDayList 로 만들어줄 예정
   // creationDate 값들만 추출하여 배열로 만들어줌
@@ -38,7 +40,7 @@ const MonthlyCalendar: React.FC = () => {
     setDate(newDate);
     console.log(date, typeof date, today, typeof today);
   };
-  const handleDateClick = (value) => {
+  const handleDateClick = (value: Date) => {
     console.log(value, typeof date, date, typeof date);
 
     const formattedValue = value.toISOString().split("T")[0];
@@ -49,10 +51,12 @@ const MonthlyCalendar: React.FC = () => {
       case recordDayList.includes(formattedValue):
         router.push("/grow-check");
       // 작성된 기록 없음 && 클릭한 날짜가 오늘 - 기록 작성 페이지로 이동
-      case !recordDayList.includes(formattedValue) && value === formattedToday:
+      case !recordDayList.includes(formattedValue) &&
+        formattedValue === formattedToday:
         router.push("/grow-up-record");
       // 작성된 기록 없음 && 클릭한 날짜가 오늘이 아님 - 모달 팝업
-      case !recordDayList.includes(formattedValue) && value !== formattedToday:
+      case !recordDayList.includes(formattedValue) &&
+        formattedValue !== formattedToday:
         setOpen(true);
         return (
           <Modal open={open} onClose={() => setOpen(false)}>
