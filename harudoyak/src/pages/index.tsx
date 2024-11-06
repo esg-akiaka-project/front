@@ -15,11 +15,11 @@ const Home: React.FC = () => {
 
   const nickname = useUserStore((state) => state.nickname);
   const aiName = useUserStore((state) => state.aiName);
-  const { goalId, setAiName, setGoalId, userId } = useUserStore.getState();
+  const { goalId, setAiName, setGoalId, memberId } = useUserStore.getState();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (!aiName || !goalId) {
+    if (memberId && (!aiName || !goalId)) {
       setShowModal(true);
     }
   }, [aiName, goalId]);
@@ -48,7 +48,7 @@ const Home: React.FC = () => {
         style={imageStyle}
       />
 
-      {userId === null ? ( // 로그인 전, 후 조건부 렌더링
+      {memberId === null ? ( // 로그인 전, 후 조건부 렌더링
         <>
           <Wrapper>
             <Heading2>하루도약 시작하기</Heading2>
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
         </Modal>
       </div>
 
-      {userId === null ? null : <WritingEntryButton />}
+      {memberId === null ? null : <WritingEntryButton />}
 
       <WritingEntryButton />
       {showModal && <BeginningSetting onSave={handleSave} />}
