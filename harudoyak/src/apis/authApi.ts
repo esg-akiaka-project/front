@@ -1,12 +1,16 @@
-// 로그인 , 회원가입 관련 api 모음
+// 로그인 , 회원가입 관련 api 모음.
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
 
 export const certifyEmail = async (email: string) => {
   try {
-    const response = await axiosInstance.post(`auth/email/verify`, {
-      email: email,
-    });
+    const response = await axiosInstance.post(
+      `auth/email/verify`,
+
+      {
+        email: email,
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -15,7 +19,9 @@ export const certifyEmail = async (email: string) => {
 
 export const CheckDuplicateNickname = async (nickname: string) => {
   try {
-    const response = await axiosInstance.get(`auth/check/${nickname}`);
+    const response = await axiosInstance.get(
+      `members/check?nickname=${nickname}`
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -39,7 +45,7 @@ export const CompeleteSignup = async (signupProps: SignupProps) => {
 
 interface LoginProps {
   email: string;
-  passwrod: string;
+  password: string;
 }
 export const Login = async (LoginProps: LoginProps) => {
   try {
@@ -51,11 +57,31 @@ export const Login = async (LoginProps: LoginProps) => {
 };
 
 export const setAiGoal = async (aiName: string, goal: string) => {
-  const { userId } = useUserStore.getState();
-  const response = await axiosInstance.post("/api/ai", {
-    memId: userId,
-    aiNickName: aiName,
-    goalId: goal,
-  });
-  return response.data;
+  const { memberId } = useUserStore.getState();
+  try {
+    const response = await axiosInstance.post("/api/ai", {
+      memId: memberId,
+      aiNickName: aiName,
+      goalId: goal,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const changePassword = async (
+  oldpassword: string,
+  newpassword: string
+) => {
+  const { memberId } = useUserStore.getState();
+  try {
+    const response = await axiosInstance.patch(`members/${memberId}/pwd`, {
+      oldpassword,
+      newpassword,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

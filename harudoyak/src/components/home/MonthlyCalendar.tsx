@@ -5,7 +5,7 @@ import styled from "styled-components";
 import moment from "moment";
 import Image from "next/image";
 import checkBox from "../../../public/assets/home/checkBox.svg";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import Modal from "./Modal";
 
 type ValuePiece = Date | null;
@@ -15,45 +15,56 @@ const MonthlyCalendar: React.FC = () => {
   const today: Date = new Date(); // 현재 날짜 및 시간
   const [date, setDate] = useState<Value>(today);
   // 기록 작성된 일자 (테스트용으로 날짜 임시 지정)
-  const recordOn = ["2022-12-25", "2023-09-15", "2024-09-15", "2024-10-15", "2024-10-20", "2024-10-29", "2024-10-31"];
-  const recordDayList = [];
+  const recordOn = [
+    "2022-12-25",
+    "2023-09-15",
+    "2024-09-15",
+    "2024-10-15",
+    "2024-10-20",
+    "2024-10-29",
+    "2024-10-31",
+  ];
+  // const recordDayList = [];
+  // kyle: ts 타입지정해놨습니다.
+  const [recordDayList, setRecordDayList] = useState<string[]>([]);
 
   // api에서 response 받아와서 recordDayList 로 만들어줄 예정
   // creationDate 값들만 추출하여 배열로 만들어줌
-  // response.data.map(item => item.creationDate) 
+  // response.data.map(item => item.creationDate)
 
   const [open, setOpen] = useState<boolean>(false); // Modal state
-
 
   const router = useRouter();
 
   const handleDateChange = (newDate: Value) => {
     setDate(newDate);
-    console.log(date, typeof(date), today, typeof(today));
+    console.log(date, typeof date, today, typeof today);
   };
-  const handleDateClick = (value) => {
-    console.log(value, typeof(date), date, typeof(date));
+  const handleDateClick = (value: Date) => {
+    console.log(value, typeof date, date, typeof date);
 
     const formattedValue = value.toISOString().split("T")[0];
     const formattedToday = today.toISOString().split("T")[0];
 
     switch (true) {
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
-      case (recordDayList.includes(formattedValue)):
-        router.push('/grow-check')
+      case recordDayList.includes(formattedValue):
+        router.push("/grow-check");
       // 작성된 기록 없음 && 클릭한 날짜가 오늘 - 기록 작성 페이지로 이동
-      case (!recordDayList.includes(formattedValue) && value === formattedToday):
-        router.push('/grow-up-record')
+      case !recordDayList.includes(formattedValue) &&
+        formattedValue === formattedToday:
+        router.push("/grow-up-record");
       // 작성된 기록 없음 && 클릭한 날짜가 오늘이 아님 - 모달 팝업
-      case (!recordDayList.includes(formattedValue) && value !== formattedToday):
+      case !recordDayList.includes(formattedValue) &&
+        formattedValue !== formattedToday:
         setOpen(true);
         return (
-          <Modal open={open} onClose={(() => setOpen(false))}>
+          <Modal open={open} onClose={() => setOpen(false)}>
             <div>선택한 날짜에 작성된 기록이 없습니다</div>
           </Modal>
         );
     }
-  }
+  };
 
   return (
     <StyledCalendarWrapper>
@@ -74,13 +85,18 @@ const MonthlyCalendar: React.FC = () => {
           handleDateClick(value); // 선택한 날짜에 대한 추가 처리
         }}
         tileContent={({ date }) => {
-            let html = [];
-            if (
-                recordOn.find((x) => x === moment(date).format("YYYY-MM-DD"))
-              ) {
-            html.push(<StyledCheckbox className="checkbox" src={checkBox} alt="recorded" key={moment(date).format("YYYY-MM-DD")} />)
-            }
-            return <>{html}</>
+          const html = [];
+          if (recordOn.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+            html.push(
+              <StyledCheckbox
+                className="checkbox"
+                src={checkBox}
+                alt="recorded"
+                key={moment(date).format("YYYY-MM-DD")}
+              />
+            );
+          }
+          return <>{html}</>;
         }}
       />
     </StyledCalendarWrapper>
@@ -149,7 +165,7 @@ const StyledCalendarWrapper = styled.div`
 
   /* 년/월 상단 네비게이션 > 버튼 설정 */
   react-calendar__navigation__arrow react-calendar__navigation__next-button {
-    padding: 10%
+    padding: 10%;
   }
 
   /* 요일 밑줄 제거 */
@@ -162,9 +178,9 @@ const StyledCalendarWrapper = styled.div`
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus,
   .react-calendar__tile--active {
-  background-color: var(--background);
-  border-radius: 0.3rem;
-  }  
+    background-color: var(--background);
+    border-radius: 0.3rem;
+  }
 
   /* 오늘 날짜 하이라이트 */
   .react-calendar__tile--now {
@@ -189,11 +205,11 @@ const StyledCalendarWrapper = styled.div`
 
   /* 일 날짜 간격 */
   .react-calendar__tile {
-    min-height: 46px; 
+    min-height: 46px;
     padding: 5px 0px 18px;
     position: relative;
     img {
-      margin: 3
+      margin: 3;
     }
   }
 
@@ -217,5 +233,5 @@ const StyledCheckbox = styled(Image)`
   position: absolute;
   top: 60%;
   left: 50%;
-  transform: translateX(-50%); 
+  transform: translateX(-50%);
 `;

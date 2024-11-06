@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useUserStore } from "../store/useUserStore";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080/api/",
@@ -10,8 +11,10 @@ const axiosInstance = axios.create({
 
 axios.interceptors.request.use(
   function (config) {
-    // todo: 요청 전달 전 특정 작업 수행
-    // ex) accesstoken 지정
+    const { accessToken } = useUserStore.getState();
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
     return config;
   },
   function (error) {
@@ -31,3 +34,32 @@ axios.interceptors.response.use(
 );
 
 export default axiosInstance;
+
+// async function (error) {
+//   const originalRequest = error.config;
+
+//   if (error.response && error.response.status === 401 && !originalRequest._retry) {
+//     originalRequest._retry = true;
+
+//     const { refreshToken, setAccessToken, clearToken } = useUserStore.getState();
+//     if (refreshToken) {
+//       try {
+//         const response = await axios.post("refresh토큰을 통한 access토큰 재발급 api", {
+//           refreshToken: refreshToken,
+//         });
+
+//         const newAccessToken = response.data.accessToken;
+//         setAccessToken(newAccessToken);
+
+//
+//         originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+//         return axiosInstance(originalRequest);
+//       } catch (refreshError) {
+//         console.error("토큰 재발급 실패:", refreshError);
+//         clearToken();
+//       }
+//     }
+//   }
+
+//   return Promise.reject(error);
+// }

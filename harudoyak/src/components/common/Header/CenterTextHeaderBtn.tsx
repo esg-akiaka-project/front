@@ -11,7 +11,7 @@ import React from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { usePostDataContext } from "@/src/context/PostDataContext";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 interface CenterTextHeaderBtnProps {
   text: string;
@@ -19,7 +19,7 @@ interface CenterTextHeaderBtnProps {
 
 const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({ text }) => {
   const { updateTags } = usePostDataContext();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({ text }) => {
         const tags = response.data.keywords;
         updateTags(tags);
         console.log(tags);
-        router.push('/grow-up-record');
+        router.push("/grow-up-record");
       } else {
         console.error("태그 키워드를 가져오는 데 실패했습니다.");
       }

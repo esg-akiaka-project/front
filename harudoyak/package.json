@@ -1,6 +1,7 @@
 {
   "type": "module",
   "name": "harudoyak",
+  "sideEffects": false,
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,6 +17,7 @@
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
     "next": "^14.2.16",
+    "next-seo": "^6.6.0",
     "next-svgr": "^0.0.2",
     "openai": "^4.71.0",
     "react": "^18.3.1",
@@ -27,6 +29,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@types/next-seo": "^1.10.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -53,7 +53,7 @@ const TosAgreement: React.FC = () => {
 
       <CheckboxWrapper>
         <AllCheckWrapper>
-          <input type="checkbox" checked={allcheck} onChange={handleAllCheck} />
+          <StyledCheckbox checked={allcheck} onChange={handleAllCheck} />
           <AllCheckLabel>
             이용약관, 개인정보 수집 및 이용에 동의합니다.
           </AllCheckLabel>
@@ -61,11 +61,7 @@ const TosAgreement: React.FC = () => {
 
         <TermsSection>
           <div>
-            <input
-              type="checkbox"
-              checked={termsCheck}
-              onChange={handleTermsCheck}
-            />
+            <StyledCheckbox checked={termsCheck} onChange={handleTermsCheck} />
             <label>이용약관 동의 (필수)</label>
           </div>
           <TermsWrapper>
@@ -94,8 +90,7 @@ const TosAgreement: React.FC = () => {
 
         <TermsSection>
           <div>
-            <input
-              type="checkbox"
+            <StyledCheckbox
               checked={privacyCheck}
               onChange={handlePrivacyCheck}
             />
@@ -166,7 +161,11 @@ const AllCheckWrapper = styled.div`
 `;
 
 const AllCheckLabel = styled.label`
-  font-size: 1rem; /* 글씨 크기 확대 */
-  font-weight: bold; /* 굵게 표시하여 구분되게 */
+  font-size: 1rem;
+  font-weight: bold;
   // margin-left: 1px;
+`;
+const StyledCheckbox = styled.input.attrs({ type: "checkbox" })`
+  transform: scale(1.5);
+  margin-right: 10px;
 `;

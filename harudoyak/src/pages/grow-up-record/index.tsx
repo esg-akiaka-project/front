@@ -25,8 +25,11 @@ const GrowUpRecordHome: React.FC = () => {
     usePostDataContext();
 
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
+
   const handleTooltip = (): void => {
-    isTooltipOpened ? setIsTooltipOpened(false) : setIsTooltipOpened(true);
+    return isTooltipOpened
+      ? setIsTooltipOpened(false)
+      : setIsTooltipOpened(true);
   };
 
   const mocktags = ["WAS", "Github", "가이드북", "비즈니스 매너"];

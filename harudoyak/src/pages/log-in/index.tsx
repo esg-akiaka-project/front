@@ -1,23 +1,37 @@
-import React from 'react';
-import styled from 'styled-components';
-import Logo from '../../components/Logo';
-import InputField from '../../components/login/InputField';
-import LoginButton from '../../components/login/LoginButton';
-import LinkOptions from '../../components/login/LinkOptions';
-import SocialLogin from '../../components/login/SocialLogin';
-import FirstSeperator from '../../components/login/FirstSeperator';
-import SecondSeperator from '../../components/login/SecondSeperator';
-import Root from '../../style/Root';
+import React, { useState } from "react";
+import styled from "styled-components";
+import Logo from "../../components/Logo";
+import InputField from "../../components/login/InputField";
+import LoginButton from "../../components/login/LoginButton";
+import LinkOptions from "../../components/login/LinkOptions";
+import SocialLogin from "../../components/login/SocialLogin";
+import FirstSeperator from "../../components/login/FirstSeperator";
+import SecondSeperator from "../../components/login/SecondSeperator";
+import Root from "../../style/Root";
 
 const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   return (
     <Root>
       <Logo />
       <Heading1></Heading1>
-      <InputField label="아이디" placeholder="아이디" />
-      <InputField label="비밀번호" placeholder="비밀번호" type="password" />
+      <InputField
+        label="이메일"
+        placeholder="이메일"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <InputField
+        label="비밀번호"
+        placeholder="비밀번호"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <Heading4></Heading4>
-      <LoginButton />
+      <LoginButton email={email} password={password} />
       <Heading2></Heading2>
       <FirstSeperator></FirstSeperator>
       <Heading2></Heading2>
