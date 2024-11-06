@@ -1,10 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 interface InputFieldProps {
   label: string;
   placeholder: string;
   type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputFieldWrapper = styled.div`
@@ -27,11 +29,22 @@ const Input = styled.input`
   border-radius: 8px;
 `;
 
-const InputField: React.FC<InputFieldProps> = ({ label, placeholder, type = 'text' }) => {
+const InputField: React.FC<InputFieldProps> = ({
+  label,
+  placeholder,
+  type = "text",
+  value,
+  onChange,
+}) => {
   return (
     <InputFieldWrapper>
       <Label>{label}</Label>
-      <Input type={type} placeholder={placeholder} />
+      <Input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
     </InputFieldWrapper>
   );
 };

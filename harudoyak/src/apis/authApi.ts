@@ -45,7 +45,7 @@ export const CompeleteSignup = async (signupProps: SignupProps) => {
 
 interface LoginProps {
   email: string;
-  passwrod: string;
+  password: string;
 }
 export const Login = async (LoginProps: LoginProps) => {
   try {
@@ -57,10 +57,10 @@ export const Login = async (LoginProps: LoginProps) => {
 };
 
 export const setAiGoal = async (aiName: string, goal: string) => {
-  const { userId } = useUserStore.getState();
+  const { memberId } = useUserStore.getState();
   try {
     const response = await axiosInstance.post("/api/ai", {
-      memId: userId,
+      memId: memberId,
       aiNickName: aiName,
       goalId: goal,
     });
@@ -74,9 +74,9 @@ export const changePassword = async (
   oldpassword: string,
   newpassword: string
 ) => {
-  const { userId } = useUserStore.getState();
+  const { memberId } = useUserStore.getState();
   try {
-    const response = await axiosInstance.patch(`members/${userId}/pwd`, {
+    const response = await axiosInstance.patch(`members/${memberId}/pwd`, {
       oldpassword,
       newpassword,
     });
