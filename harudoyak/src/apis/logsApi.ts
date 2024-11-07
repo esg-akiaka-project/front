@@ -2,7 +2,7 @@
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
 
-export const RecordDayList = async () => {
+export const fetchRecordList = async () => {
   try {
     const { memberId } = useUserStore.getState();
     const response = await axiosInstance.get(`logs/list/${memberId}`, {
