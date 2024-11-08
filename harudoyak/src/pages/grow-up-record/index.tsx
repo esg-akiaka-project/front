@@ -23,6 +23,7 @@ import SubmitButton from "../../components/grow-up-record/SubmitButton";
 const GrowUpRecordHome: React.FC = () => {
   const { text, image, emotion, tags, updateEmotion, updateTags } =
     usePostDataContext();
+  // TODO: 도약기록 페이지 들어올 때마다 tags를 초기화하는 state 변수
 
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
 
@@ -80,7 +81,7 @@ const GrowUpRecordHome: React.FC = () => {
         {tags && tags.length > 0 ? (
           <Tags tagslist={tags} />
         ) : (
-          <p>아직 출력된 태그가 없습니다.</p>
+          <P>아직 출력된 태그가 없습니다.</P>
         )}
         <Image
           src={iconReload}
@@ -113,4 +114,8 @@ const FlexWrapper = styled.div`
   display: flex;
   gap: 17px;
   align-items: center;
+`;
+
+const P = styled.p`
+  color: var(--gray-from-grayscale);
 `;

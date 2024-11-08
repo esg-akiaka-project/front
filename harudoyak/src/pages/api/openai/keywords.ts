@@ -39,10 +39,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(openAiResponse.data);
 
     const keywords = openAiResponse.data.choices[0].message.content
+      .slice(1,-1)
       .trim()
       .split(',')
-      .map((tag: string) => tag.trim());
-
+      .map((tag: string, index: number) => 
+        index === 0 ? tag.slice(1,-1).trim() : tag.slice(2,-1).trim()
+      );
+    
     res.status(200).json({ keywords });
   } catch (error) {
     console.error("Error fetching keywords from OpenAI API:", error);
