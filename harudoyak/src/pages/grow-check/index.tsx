@@ -74,8 +74,11 @@ const GrowCheckHome: React.FC = () => {
 export default GrowCheckHome;
 
 const GrowCheckWrapper = styled.div`
-  // margin-top: 63px;
   background-color: #cad3c4;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 3.5rem;
 `;
 
 const ControlContainer = styled.div`

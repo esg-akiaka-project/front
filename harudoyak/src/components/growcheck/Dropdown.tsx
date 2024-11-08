@@ -24,7 +24,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <DropdownContainer>
       <DropdownButton onClick={handleToggleDropdown}>
-        {selectedMonth + 1}월
+        {selectedMonth + 1}월 ▼
       </DropdownButton>
       {isOpen && (
         <DropdownMenu>
@@ -48,7 +48,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 
 export default Dropdown;
 
-// Styled Components
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
@@ -56,12 +55,16 @@ const DropdownContainer = styled.div`
 `;
 
 const DropdownButton = styled.button`
-  padding: 0.2rem 2.5rem;
+  padding: 0.2rem 1.5rem;
   font-size: 1rem;
+  justify-content: left;
+  display: flex;
+  color: grey;
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 1.3rem;
   background-color: #ffffff;
+  font-weight: bold;
 `;
 
 const DropdownMenu = styled.div`

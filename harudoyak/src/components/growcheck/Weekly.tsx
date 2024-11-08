@@ -104,9 +104,10 @@ const DayBox = styled.div<{ isSelected: boolean | null }>`
   ${({ isSelected }) =>
     isSelected &&
     `
-    border-radius: 1rem;
-    background-color: grey; 
-    border: 1px solid #4caf50; 
+    border-radius: 0.6rem;
+    background-color: white; 
+    // border: 1px solid #4caf50; 
+    width: 8%
   
   `}
 `;
