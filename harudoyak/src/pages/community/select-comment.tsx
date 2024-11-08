@@ -14,6 +14,7 @@ const SelectCommentPage: React.FC = () => {
     const { selectedPhoto, comment, setComment, addPost } = useCommunityStore();
 
     const handleShare = () => {
+        console.log("test");
         addPost();
         alert('게시글이 저장되었습니다!');
     };
@@ -26,7 +27,7 @@ const SelectCommentPage: React.FC = () => {
             <MainPhoto selectedPhoto={selectedPhoto} />
             <CommentInput comment={comment} setComment={setComment} />
             <ExampleTextBox />
-            <ShareButton onClick={handleShare} /> {/* onClick 속성 추가 */}
+            <ShareButton /> {/* onClick 속성 추가 */}
         </Root>
     );
 };

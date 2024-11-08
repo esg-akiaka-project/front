@@ -4,15 +4,13 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import useCommunityStore from '../../store/useCommunityStore'; // 상태 가져오기
 
-const CommentButton: React.FC = () => {
-    const { toggleCommentSection } = useCommunityStore(); // 상태 변경 함수 가져오기
+interface CommentButtonProps {
+    onClick: () => void;
+}
 
-    const handleClick = () => {
-        toggleCommentSection(); // CommentSection 상태 변경
-    };
-
+const CommentButton: React.FC<CommentButtonProps> = ({ onClick }) => {
     return (
-        <Button onClick={handleClick}>
+        <Button onClick={onClick}>
             <IconWrapper>
                 <Image src="/assets/community/commentbutton.svg" alt="Comment Icon" width={25} height={23} />
             </IconWrapper>

@@ -25,6 +25,7 @@ const GrowUpRecordHome: React.FC = () => {
     usePostDataContext();
 
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
+
   const handleTooltip = (): void => {
     return isTooltipOpened
       ? setIsTooltipOpened(false)

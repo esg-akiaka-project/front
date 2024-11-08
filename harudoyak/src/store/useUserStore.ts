@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 
 interface UserState {
   isSociallogin: boolean;
-  setisSociallogin: () => void;
+  setisSociallogin: (isSociallogin: boolean) => void;
 
   accessToken: string | null;
   setAccessToken: (token: string | null) => void;

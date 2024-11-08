@@ -7,10 +7,12 @@ import useCommunityStore from '../../store/useCommunityStore';
 
 interface CommentSectionProps {
   onClose: () => void; // 닫기 함수 prop
+  postIndex: number;   // 게시물 인덱스 추가
 }
 
-const CommentSection: React.FC<CommentSectionProps> = ({ onClose }) => {
-  const { comments } = useCommunityStore();
+const CommentSection: React.FC<CommentSectionProps> = ({ onClose, postIndex }) => {
+  const { posts } = useCommunityStore();
+  const comments = posts[postIndex]?.comments || []; // 해당 게시물의 comments 접근
 
   return (
     <CommentSectionContainer>
