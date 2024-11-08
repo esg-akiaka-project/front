@@ -16,6 +16,24 @@ interface MailProps {
 }
 // dummyData todo: api 연동후 적용
 const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
+  const [todayDoyak, setTodayDoyak] = useState<Record<string, string>>({
+    content:
+      "성취 Github 가이드북을 직접 만들고 배포했다. 학교별 아카이브에도\
+        올렸는데 다른 학교 회장단 분들도 편하게 사용했으면 좋겠다! 오늘 친해지고\
+        싶었던 개발자분께 먼저 말을 걸었다! 역시 얘기해 보니깐 배울 점 많고 멋진\
+        분이셔서 앞으로도 더 친해지고 싶다! 개선 가이드북을 최대한 꼼꼼하게\
+        작성하려고 하다보니 너무 많은 시간을 쏟느라 다른 일을 많이 못했다. -\
+        새로운 문서 제작이 오래 걸리니깐 문서 작업하는 날 생각해서 작업 로드\
+        분배하기 프론트엔드 회의 일시와 장소를 이틀 전에는 공지해 주었어야\
+        하는데 미리 챙기지 못해서 급하게 진행이 되었다.. - 내가 참석하지 않는\
+        회의 일정도 캘린더에 적어두고 공지 했는지, 안 했는지 여부 꼼꼼히\
+        확인하기 학습 백엔드 개발자분과 대화하면서 WAS 개념에 대해 새로 배웠다.\
+        WAS와 웹 서버 구분 잘 하기!! 비즈니스 매너 중 이메일 작성법에 대해\
+        배웠다. 깃헙 가이드북을 작성하면서 스터디 리포지토리 만드는 방법에 대해\
+        찾아보고 고민할 수 있었다. 리포지토리 간 PR 요청도 먼저 해보니깐 이제\
+        익숙해졌다!",
+    url: "url",
+  });
   const [emotion, setEmotion] = useState<Record<string, number>>({
     happy: 1,
   });
@@ -47,7 +65,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
       <SectionTitle>오늘의 감정</SectionTitle>
       <EmotionDiv emotions={emotion} />
       <SectionTitle>오늘의 도약기록</SectionTitle>
-
+      <DoyakContent>{todayDoyak.content}</DoyakContent>
       <SectionTitle>오늘의 도약태그</SectionTitle>
       <Tags tags={weeklyTags} />
 
@@ -67,6 +85,15 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
 
 export default TodayFeel;
 
+const DoyakContent = styled.div`
+  border-radius: 2rem;
+  background-color: white;
+  border: 0.5px solid #3c7960;
+  padding: 1rem;
+  font-color: grey;
+  height: 100%;
+  width: 100%;
+`;
 const SectionTitle = styled.h2`
   font-size: 1.6rem;
   color: #3c7960;
