@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import usePostData from "../../hooks/usePostData";
 import styled from "styled-components";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -32,8 +31,6 @@ const GrowUpRecordHome: React.FC = () => {
       ? setIsTooltipOpened(false)
       : setIsTooltipOpened(true);
   };
-
-  const mocktags = ["WAS", "Github", "가이드북", "비즈니스 매너"];
 
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
@@ -83,13 +80,9 @@ const GrowUpRecordHome: React.FC = () => {
         ) : (
           <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <Image
-          src={iconReload}
-          alt="Reload"
-          style={{ transform: "translateY(-25px)" }}
-        />
+        <Image src={iconReload} alt="Reload" />
       </FlexWrapper>
-      {/*<SubmitButton data={{text, emotion, image: null, tags}} onClick={clickModal} size={60}>도약기록 남기기</SubmitButton>
+      <SubmitButton text={text} image={image} emotion={emotion} tags={tags} />
       {/*{showModal && <DoneModal clickModal={clickModal}/>}*/}
     </Root>
   );
@@ -118,4 +111,5 @@ const FlexWrapper = styled.div`
 
 const P = styled.p`
   color: var(--gray-from-grayscale);
+  margin: 0;
 `;

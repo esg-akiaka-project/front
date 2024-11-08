@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
-// src와 children을 받도록 설정
+// src와 children을 받음
 interface CameraUploadButtonProps {
   src: string;
   children: React.ReactNode;
