@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import * as S from "./UploadButton.style";
-import { uploadToS3 } from "@/src/apis/logsApi";
+import { uploadToS3 } from "@/src/apis/uploadToS3";
 
 interface ImageUploadButtonProps {
   src: string;
@@ -22,9 +22,8 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({
     const file = event?.target.files?.[0];
     if (file) {
       try {
-        console.log("Selected image:", file);
         const photoUrl = await uploadToS3(file);
-        console.log("Photo Url", photoUrl);
+        console.log("Photo Url:", photoUrl);
         setPreviewUrl(photoUrl);
       } catch (error) {
         console.error("파일 업로드 중 에러 발생:", error);

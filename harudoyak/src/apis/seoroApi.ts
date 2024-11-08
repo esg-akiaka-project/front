@@ -2,29 +2,7 @@ import axiosInstance from "./axiosInstance";
 import axios from "axios";
 import { useCommunityStore } from '../store/useCommunityStore';
 import { useUserStore } from "../store/useUserStore";
-
-// S3에 파일 업로드 함수
-export const uploadToS3 = async (photo: File) => {
-  const timestamp = Date.now();
-  const extension = photo.name.split('.').pop();
-  const fileName = `${timestamp}.${extension}`;
-
-  try {
-    const { data: uploadUrl } = await axiosInstance.get(`/s3/upload-url?fileName=${fileName}`);
-    const formData = new FormData();
-    formData.append("file", photo);
-
-    await axios.put(uploadUrl, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    return uploadUrl.split("?")[0];
-  } catch (error) {
-    throw new Error("S3 업로드 실패: " + error);
-  }
-};
+import { uploadToS3 } from './uploadToS3';
 
 // 게시글 작성 API (S3 URL 사용)
 export const createPost = async (photo: File, comment: string) => {
