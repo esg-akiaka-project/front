@@ -2,17 +2,11 @@ import React, { useEffect } from "react";
 import { useUserStore } from "../store/useUserStore"; // zustand 스토어 가져오기
 import SocialLogin from "../components/login/SocialLogin"; // SocialLogin 컴포넌트 가져오기
 
-<<<<<<< HEAD
 const REST_API_KEY = "325f256af9baeeb0dddb1664a61cc7c6"; // Kakao API Key
-const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"; // 구글 클라이언트 ID
+const GOOGLE_CLIENT_ID =
+  "385470385560-cfsvbff5a4iv2e01hio2r4obekflg1qt.apps.googleusercontent.com"; // 구글 클라이언트 ID
 const REDIRECT_URI = "http://localhost:3000/oauth"; // 리다이렉트 URI
 const CLIENT_SECRET = "YOUR_CLIENT_SECRET"; // Kakao Client Secret (필요 시 사용)
-=======
-const REST_API_KEY = '325f256af9baeeb0dddb1664a61cc7c6'; // Kakao API Key
-const GOOGLE_CLIENT_ID = '385470385560-cfsvbff5a4iv2e01hio2r4obekflg1qt.apps.googleusercontent.com'; // 구글 클라이언트 ID
-const REDIRECT_URI = 'http://localhost:3000/oauth'; // 리다이렉트 URI
-const CLIENT_SECRET = 'YOUR_CLIENT_SECRET'; // Kakao Client Secret (필요 시 사용)
->>>>>>> d23bfef58f399d0ad8f51e9983d412915b2cbbf9
 
 export default function Auth() {
   const { setisSociallogin, setAccessToken } = useUserStore(); // zustand 스토어 사용
