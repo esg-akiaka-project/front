@@ -2,20 +2,20 @@
 import { useState } from 'react';
 
 export interface PostData {
-  emotion: number;
+  emotion: string;
   text: string;
   image: File | null;
   tags: string[];
 }
 
 const usePostData = () => {
-  const [emotion, setEmotion] = useState<number>(0);
+  const [emotion, setEmotion] = useState<string>("");
   const [text, setText] = useState<string>('');
   const [image, setImage] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
 
   // 감정 업데이트 함수
-  const updateEmotion = (newEmotion: number) => setEmotion(newEmotion);
+  const updateEmotion = (newEmotion: string) => setEmotion(newEmotion);
 
   // 텍스트 업데이트 함수
   const updateText = (newText: string) => setText(newText);

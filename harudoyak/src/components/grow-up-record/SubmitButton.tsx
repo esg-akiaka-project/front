@@ -19,13 +19,8 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   emotion,
   tags,
 }) => {
-  const [doyakData, setDoyakData] = useState<PostDataContextType | undefined>(
-    undefined,
-  );
-
   const handleSubmit = async () => {
-    console.log("작성된 도약기록 내용: ", doyakData);
-    console.log(text, emotion, image, tags);
+    console.log("작성된 도약 기록\n text:", text, "emotion:", emotion, "image:", image, "tags:", tags);
     try {
       const response = await createPost(text, emotion, image, tags);
       console.log("기록 작성 성공:", response);

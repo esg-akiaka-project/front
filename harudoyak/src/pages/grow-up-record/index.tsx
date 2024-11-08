@@ -9,7 +9,7 @@ import Root from "../../style/Root";
 import UndoXButton from "../../components/buttons/UndoXButton";
 import Emotions from "../../components/grow-up-record/Emotions";
 import TextEntryButton from "../../components/grow-up-record/TextEntryButton";
-import ImageUploadSection from "../../components/grow-up-record/UploadSection";
+import ImageUploadSection from "../../components/grow-up-record/UploadImage/UploadSection";
 import EditButton from "../../components/grow-up-record/EditButton";
 import Tags from "../../components/common/Tags";
 import Tooltip from "../../components/common/Tooltip";

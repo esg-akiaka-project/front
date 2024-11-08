@@ -5,8 +5,8 @@ import CameraUploadButton from "./CameraUploadButton";
 import ImageUploadButton from "./ImageUploadButton";
 import Preview from "./Preview";
 
-import cameraIcon from "../../../public/assets/grow-up-record/icon_camera.svg";
-import imageIcon from "../../../public/assets/grow-up-record/icon_image.svg";
+import cameraIcon from "../../../../public/assets/grow-up-record/icon_camera.svg";
+import imageIcon from "../../../../public/assets/grow-up-record/icon_image.svg";
 
 const UploadSection: React.FC = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -19,7 +19,7 @@ const UploadSection: React.FC = () => {
     <Wrapper>
       <Text>이미지 업로드(선택)</Text>
       <FlexWrapper>
-        <CameraUploadButton src={cameraIcon}>카메라 열기</CameraUploadButton>
+        <CameraUploadButton src={cameraIcon} setPreviewUrl={setPreviewUrl}>카메라 열기</CameraUploadButton>
         <ImageUploadButton src={imageIcon} setPreviewUrl={setPreviewUrl}>
           이미지 파일 추가
         </ImageUploadButton>

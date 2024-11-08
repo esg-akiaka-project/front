@@ -41,12 +41,12 @@ export const uploadToS3 = async (photo: File) => {
 };
 
 // 도약기록 쓰기 API (S3 URL 사용)
-export const createPost = async (text: string, emotion: string, image: File, tags: string[]) => {
+export const createPost = async (text: string, emotion: string, image: File|null, tags: string[]) => {
   const { memberId } = useUserStore.getState();
-  
-  try {
-    const photoUrl = await uploadToS3(image);
 
+  try {
+    const photoUrl = image? await uploadToS3(image) : null;
+    console.log("작성된 도약 기록\n text:", text, "emotion:", emotion, "imageUrl:", photoUrl, "tags:", tags)
     const response = await axiosInstance.post(`/api/posts/${memberId}`, {
       memberId: memberId,
       logContent:text,
