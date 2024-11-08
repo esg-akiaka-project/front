@@ -19,7 +19,8 @@ const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
       const formData = new FormData();
       formData.append('memberId', memberId || '');
       formData.append('photo', selectedPhoto || '');
-
+      console.log(formData);
+      console.log(selectedPhoto);
       // await axios.post('/api/community/post', formData);
 
       // 라우팅 추가
