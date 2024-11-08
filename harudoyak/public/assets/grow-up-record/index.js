@@ -1,18 +1,10 @@
 // grow-up-record/index.js
-import emotion1 from "./emotion1.svg";
-import emotion2 from "./emotion2.svg";
-import emotion3 from "./emotion3.svg";
-import emotion4 from "./emotion4.svg";
-import emotion5 from "./emotion5.svg";
-import emotion6 from "./emotion6.svg";
-import emotion7 from "./emotion7.svg";
+import love from "./love.svg";
+import happy from "./happy.svg";
+import sad from "./sad.svg";
+import angry from "./angry.svg";
+import surprise from "./surprise.svg";
+import funny from "./funny.svg";
+import etc from "./etc.svg";
 
-export {
-  emotion1,
-  emotion2,
-  emotion3,
-  emotion4,
-  emotion5,
-  emotion6,
-  emotion7,
-};
+export { love, happy, sad, angry, surprise, funny, etc };

@@ -3,13 +3,13 @@ import Image from "next/image";
 import styled from "styled-components";
 
 import {
-  emotion1,
-  emotion2,
-  emotion3,
-  emotion4,
-  emotion5,
-  emotion6,
-  emotion7,
+  love,
+  happy,
+  sad,
+  angry,
+  surprise,
+  funny,
+  etc,
 } from "../../../public/assets/grow-up-record";
 
 interface EmotionsProps {
@@ -37,25 +37,25 @@ const Emotions: React.FC<EmotionsProps> = ({ emotion, updateEmotion }) => {
   return (
     <Root>
       <StyledBtn $isSelected={emotion === 1} onClick={() => handleClick(1)}>
-        <Image src={emotion1} alt="사랑" />
+        <Image src={love} alt="사랑" />
       </StyledBtn>
       <StyledBtn $isSelected={emotion === 2} onClick={() => handleClick(2)}>
-        <Image src={emotion2} alt="기쁨" />
+        <Image src={happy} alt="기쁨" />
       </StyledBtn>
       <StyledBtn $isSelected={emotion === 3} onClick={() => handleClick(3)}>
-        <Image src={emotion3} alt="슬픔" />
+        <Image src={sad} alt="슬픔" />
       </StyledBtn>
       <StyledBtn $isSelected={emotion === 4} onClick={() => handleClick(4)}>
-        <Image src={emotion4} alt="화남" />
+        <Image src={angry} alt="화남" />
       </StyledBtn>
       <StyledBtn $isSelected={emotion === 5} onClick={() => handleClick(5)}>
-        <Image src={emotion5} alt="놀람" />
+        <Image src={surprise} alt="놀람" />
       </StyledBtn>
       <StyledBtn $isSelected={emotion === 6} onClick={() => handleClick(6)}>
-        <Image src={emotion6} alt="재밌음" />
+        <Image src={funny} alt="재밌음" />
       </StyledBtn>
       <StyledBtn $isSelected={emotion === 7} onClick={() => handleClick(7)}>
-        <Image src={emotion7} alt="기타" />
+        <Image src={etc} alt="기타" />
       </StyledBtn>
       {isOpened && (
         <PopMessage>도약기록에는 오늘의 감정이 꼭 포함되어야 해요!</PopMessage>
