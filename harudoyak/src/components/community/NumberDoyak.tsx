@@ -8,3 +8,4 @@ const NumberDoyak: React.FC = () => {
 };
 
 export default NumberDoyak;
+1

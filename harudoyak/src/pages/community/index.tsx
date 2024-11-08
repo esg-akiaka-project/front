@@ -37,6 +37,15 @@ const CommunityHome: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {
+        // 댓글 창이 열리면 body 스크롤 비활성화
+        if (isCommentOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [isCommentOpen]);
+
     const handleCommentButtonClick = (index: number) => {
         toggleCommentSection();
         if (postRefs.current[index]) {
