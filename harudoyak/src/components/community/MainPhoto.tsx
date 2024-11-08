@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface MainPhotoProps {
-    selectedPhoto: string | null;
+    selectedPhoto: File | null;
 }
 
 const MainPhotoContainer = styled.div`

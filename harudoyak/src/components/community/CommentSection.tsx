@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import WriteCommentBox from './WriteCommentBox';
 import WrittenCommentBox from './WrittenCommentBox';
 import CancelCommentBar from './CancelCommentBar';
-import useCommunityStore from '../../store/useCommunityStore';
+import { createComment, fetchComments } from '../../apis/seoroApi'; // API 함수 임포트
 
 interface CommentSectionProps {
   onClose: () => void; // 닫기 함수 prop
-  postIndex: number;   // 게시물 인덱스 추가
+  postId: number;      // 게시물 ID 추가
 }
 
-const CommentSection: React.FC<CommentSectionProps> = ({ onClose, postIndex }) => {
-  const { posts } = useCommunityStore();
-  const comments = posts[postIndex]?.comments || []; // 해당 게시물의 comments 접근
+const CommentSection: React.FC<CommentSectionProps> = ({ onClose, postId }) => {
+  const [comments, setComments] = useState<string[]>([]);
+
+  useEffect(() => {
+    const loadComments = async () => {
+      try {
+        const data = await fetchComments(postId);
+        setComments(data);
+      } catch (error) {
+        console.error('댓글을 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    loadComments();
+  }, [postId]);
+
+  const handleCommentSubmit = async (commentContent: string) => {
+    try {
+      const newComment = await createComment(postId, commentContent);
+      setComments([...comments, newComment]);
+    } catch (error) {
+      console.error('댓글 작성 중 오류 발생:', error);
+    }
+  };
 
   return (
     <CommentSectionContainer>
@@ -23,7 +44,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ onClose, postIndex }) =
           <WrittenCommentBox key={index} content={comment} />
         ))}
       </CommentList>
-      <WriteCommentBox />
+      <WriteCommentBox onSubmit={handleCommentSubmit} /> {/* 댓글 작성 핸들러 전달 */}
     </CommentSectionContainer>
   );
 };

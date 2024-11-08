@@ -34,6 +34,7 @@ export const createPost = async (photo: File, comment: string) => {
     const photoUrl = await uploadToS3(photo);
 
     const response = await axiosInstance.post(`/api/posts/${memberId}`, {
+      memberId : memberId,
       shareContent: comment,
       shareImageUrl: photoUrl,
     });

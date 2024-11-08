@@ -1,30 +1,26 @@
-// src/components/community/ShareButton.tsx
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import useCommunityStore from '../../store/useCommunityStore';
+import { useCommunityStore } from '../../store/useCommunityStore';
+import { createPost } from '@/src/apis/seoroApi'; // createPost 함수 임포트
 
 interface ShareButtonProps {
   onClick?: () => void;
 }
 
 const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
-  const { selectedPhoto, memberId } = useCommunityStore();
+  const { selectedPhoto, comment } = useCommunityStore(); // comment 추가
   const router = useRouter();
 
   const handleShare = async () => {
     try {
-      const formData = new FormData();
-      formData.append('memberId', memberId || '');
-      formData.append('photo', selectedPhoto || '');
-      console.log(formData);
-      console.log(selectedPhoto);
-      // await axios.post('/api/community/post', formData);
-
-      // 라우팅 추가
-      router.push('/community');
+      if (selectedPhoto && comment) { // 선택된 사진과 댓글이 있는지 확인
+        await createPost(selectedPhoto, comment); // createPost 호출
+        router.push('/community'); // 성공 시 라우팅
+      } else {
+        console.error("사진 또는 댓글이 누락되었습니다.");
+      }
     } catch (error) {
       console.error("게시글 작성 오류:", error);
     }
