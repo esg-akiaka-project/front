@@ -15,14 +15,15 @@ const Home: React.FC = () => {
 
   const nickname = useUserStore((state) => state.nickname);
   const aiName = useUserStore((state) => state.aiName);
-  const { goalId, setAiName, setGoalId, memberId } = useUserStore.getState();
+  const { goalName, setAiName, setGoalName, memberId } =
+    useUserStore.getState();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (memberId && (!aiName || !goalId)) {
+    if (memberId && (!aiName || !goalName)) {
       setShowModal(true);
     }
-  }, [aiName, goalId]);
+  }, [aiName, goalName]);
 
   const handleSave = async (newAiName: string, newGoal: string) => {
     // 지금은 임의적으로 누르면 저장되게 했음, 회원가입 -로그인 로직이 후 수정해야함 todo:
