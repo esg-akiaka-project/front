@@ -12,7 +12,7 @@ export const uploadToS3 = async (photo: File) => {
 
   try {
     const { data: uploadUrl } = await axiosInstance.get(
-      `/s3/upload-url?fileName=${fileName}`
+      `s3/upload-url?fileName=${fileName}`
     );
     const formData = new FormData();
     formData.append("file", photo);
@@ -36,7 +36,7 @@ export const createPost = async (photo: File, comment: string) => {
   try {
     const photoUrl = await uploadToS3(photo);
 
-    const response = await axiosInstance.post(`/api/posts/${memberId}`, {
+    const response = await axiosInstance.post(`posts/${memberId}`, {
       shareContent: comment,
       shareImageUrl: photoUrl,
     });
@@ -49,7 +49,7 @@ export const createPost = async (photo: File, comment: string) => {
 // 게시글 목록 조회 API
 export const fetchPosts = async () => {
   try {
-    const response = await axiosInstance.get(`/api/posts/list`);
+    const response = await axiosInstance.get(`posts/list`);
     return response.data;
   } catch (error) {
     throw error;
@@ -59,7 +59,7 @@ export const fetchPosts = async () => {
 // 특정 게시글 조회 API (닉네임, 도약목표, 댓글 포함)
 export const fetchPostDetail = async (shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.get(`/api/posts/${shareDoyakId}`);
+    const response = await axiosInstance.get(`posts/${shareDoyakId}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -74,7 +74,7 @@ export const createComment = async (
   const { memberId } = useCommunityStore.getState();
   try {
     const response = await axiosInstance.post(
-      `/api/posts/comments/${memberId}/${shareDoyakId}`,
+      `posts/comments/${memberId}/${shareDoyakId}`,
       {
         commentContent,
       }
@@ -89,7 +89,7 @@ export const createComment = async (
 export const fetchComments = async (shareDoyakId: number) => {
   try {
     const response = await axiosInstance.get(
-      `/api/posts/comments/list/${shareDoyakId}`
+      `posts/comments/list/${shareDoyakId}`
     );
     return response.data;
   } catch (error) {
@@ -101,7 +101,7 @@ export const fetchComments = async (shareDoyakId: number) => {
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {
   try {
     const response = await axiosInstance.post(
-      `/api/posts/doyak/${memberId}/${shareDoyakId}`
+      `posts/doyak/${memberId}/${shareDoyakId}`
     );
     return response.data;
   } catch (error) {
