@@ -6,7 +6,6 @@ import LoginButton from "../components/home/HomeLoginButton";
 import WritingEntryButton from "@/src/components/buttons/WritingEntryButton";
 import BeginningSetting from "../components/home/beginningSetting";
 import { setAiGoal } from "../apis/authApi";
-import Modal from "@/src/components/home/Modal";
 import Logo from "@/public/assets/common/OptimizedLogo.svg";
 import { useUserStore } from "../store/useUserStore";
 
@@ -65,13 +64,6 @@ const Home: React.FC = () => {
       )}
 
       <MonthlyCalendar></MonthlyCalendar>
-
-      <div>
-        <button onClick={() => setOpen(true)}>Modal</button>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          선택한 날짜에 작성된 기록이 없습니다
-        </Modal>
-      </div>
 
       {memberId === null ? null : <WritingEntryButton />}
 

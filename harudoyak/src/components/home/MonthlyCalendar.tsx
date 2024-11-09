@@ -7,7 +7,7 @@ import Image from "next/image";
 import checkBox from "../../../public/assets/home/checkBox.svg";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
-import { fetchRecordList } from "../../apis/logsApi";
+import { fetchRecordList, RecordItem } from "../../apis/logsApi";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -31,8 +31,9 @@ const MonthlyCalendar: React.FC = () => {
   const fetchList = async () => {
     try {
       const response = await fetchRecordList();
-      setRecordDayList(response.data.map((item) => item.creationDate));
+      setRecordDayList(response.map((item: RecordItem) => item.creationDate));
     } catch (error) {
+      console.error("Failed to fetch record list:", error);
       throw error;
     }
   };
