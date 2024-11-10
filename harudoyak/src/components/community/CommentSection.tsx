@@ -1,16 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import WriteCommentBox from './WriteCommentBox';
-import WrittenCommentBox from './WrittenCommentBox';
-import CancelCommentBar from './CancelCommentBar';
-import useCommunityStore from '../../store/useCommunityStore';
+import React from "react";
+import styled from "styled-components";
+import WriteCommentBox from "./WriteCommentBox";
+import WrittenCommentBox from "./WrittenCommentBox";
+import CancelCommentBar from "./CancelCommentBar";
+import useCommunityStore from "../../store/useCommunityStore";
 
 interface CommentSectionProps {
   onClose: () => void; // 닫기 함수 prop
-  postIndex: number;   // 게시물 인덱스 추가
+  postIndex: number; // 게시물 인덱스 추가
 }
 
-const CommentSection: React.FC<CommentSectionProps> = ({ onClose, postIndex }) => {
+const CommentSection: React.FC<CommentSectionProps> = ({
+  onClose,
+  postIndex,
+}) => {
   const { posts } = useCommunityStore();
   const comments = posts[postIndex]?.comments || []; // 해당 게시물의 comments 접근
 

@@ -2,19 +2,20 @@ import axios from "axios";
 import { useUserStore } from "../store/useUserStore";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api/",
+  baseURL: "http://harudoyak.site/api/",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   function (config) {
     const { accessToken } = useUserStore.getState();
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
+    console.log("axiosInstance");
     return config;
   },
   function (error) {
@@ -22,7 +23,7 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   function (response) {
     return response;
   },

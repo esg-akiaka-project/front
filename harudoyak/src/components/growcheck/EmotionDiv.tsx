@@ -1,26 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  love,
-  happy,
-  sad,
-  angry,
-  surprise,
-  funny,
-  etc,
-} from "@/public/assets/grow-up-record";
+
 interface EmotionProps {
-  emotions: Record<string, number>; // ex) { "happy": 3, "sad": 2, "angry": 0 }
+  emotions: Record<string, number>;
 }
 
 const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
-  // 감정 목록에서 0이 아닌 항목만 필터링하여 배열로 변환
   const emotionArray = Object.entries(emotions)
     .filter(([_, count]) => count > 0)
-    .sort((a, b) => b[1] - a[1]); // 개수가 많은 순서대로 정렬
+    .sort((a, b) => b[1] - a[1]);
 
-  const mainEmotion = emotionArray[0]; // 가장 많은 감정
-  const otherEmotions = emotionArray.slice(1); // 나머지 감정
+  const mainEmotion = emotionArray[0];
+  const otherEmotions = emotionArray;
 
   return (
     <EmotionContainer>
@@ -32,7 +23,7 @@ const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
           />
         </MainEmotion>
       )}
-      <EmotionList>
+      <EmotionList numEmotions={otherEmotions.length}>
         {otherEmotions.map(([emotion, count], index) => (
           <EmotionItem key={index}>
             <EmotionImageSmall
@@ -69,9 +60,10 @@ const EmotionImage = styled.img`
   height: 80px;
 `;
 
-const EmotionList = styled.div`
+const EmotionList = styled.div<{ numEmotions: number }>`
   display: grid;
-  grid-template-columns: repeat(2, auto); /* 두 열 */
+  grid-template-columns: ${({ numEmotions }) =>
+    numEmotions <= 4 ? `repeat(1, auto)` : `repeat(2, auto)`};
   gap: 0.5rem;
   justify-items: center;
   align-items: center;

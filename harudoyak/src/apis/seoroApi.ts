@@ -1,17 +1,42 @@
 import axiosInstance from "./axiosInstance";
 import axios from "axios";
-import { useCommunityStore } from '../store/useCommunityStore';
+// import { useCommunityStore } from '../store/useCommunityStore';
+import useCommunityStore from "../store/useCommunityStore";
 import { useUserStore } from "../store/useUserStore";
-import { uploadToS3 } from './uploadToS3';
+
+// S3에 파일 업로드 함수
+export const uploadToS3 = async (photo: File) => {
+  const timestamp = Date.now();
+  const extension = photo.name.split(".").pop();
+  const fileName = `${timestamp}.${extension}`;
+
+  try {
+    const { data: uploadUrl } = await axiosInstance.get(
+      `s3/upload-url?fileName=${fileName}`
+    );
+    const formData = new FormData();
+    formData.append("file", photo);
+
+    await axios.put(uploadUrl, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return uploadUrl.split("?")[0];
+  } catch (error) {
+    throw new Error("S3 업로드 실패: " + error);
+  }
+};
 
 // 게시글 작성 API (S3 URL 사용)
 export const createPost = async (photo: File, comment: string) => {
   const { memberId } = useUserStore.getState();
-  
+
   try {
     const photoUrl = await uploadToS3(photo);
 
-    const response = await axiosInstance.post(`/api/posts/${memberId}`, {
+    const response = await axiosInstance.post(`posts/${memberId}`, {
       shareContent: comment,
       shareImageUrl: photoUrl,
     });
@@ -24,7 +49,7 @@ export const createPost = async (photo: File, comment: string) => {
 // 게시글 목록 조회 API
 export const fetchPosts = async () => {
   try {
-    const response = await axiosInstance.get(`/api/posts/list`);
+    const response = await axiosInstance.get(`posts/list`);
     return response.data;
   } catch (error) {
     throw error;
@@ -34,7 +59,7 @@ export const fetchPosts = async () => {
 // 특정 게시글 조회 API (닉네임, 도약목표, 댓글 포함)
 export const fetchPostDetail = async (shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.get(`/api/posts/${shareDoyakId}`);
+    const response = await axiosInstance.get(`posts/${shareDoyakId}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -42,12 +67,18 @@ export const fetchPostDetail = async (shareDoyakId: number) => {
 };
 
 // 댓글 작성 API
-export const createComment = async (shareDoyakId: number, commentContent: string) => {
+export const createComment = async (
+  shareDoyakId: number,
+  commentContent: string
+) => {
   const { memberId } = useCommunityStore.getState();
   try {
-    const response = await axiosInstance.post(`/api/posts/comments/${memberId}/${shareDoyakId}`, {
-      commentContent,
-    });
+    const response = await axiosInstance.post(
+      `posts/comments/${memberId}/${shareDoyakId}`,
+      {
+        commentContent,
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -57,7 +88,9 @@ export const createComment = async (shareDoyakId: number, commentContent: string
 // 댓글 목록 조회 API
 export const fetchComments = async (shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.get(`/api/posts/comments/list/${shareDoyakId}`);
+    const response = await axiosInstance.get(
+      `posts/comments/list/${shareDoyakId}`
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -67,7 +100,9 @@ export const fetchComments = async (shareDoyakId: number) => {
 // 도약하기 추가 API
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.post(`/api/posts/doyak/${memberId}/${shareDoyakId}`);
+    const response = await axiosInstance.post(
+      `posts/doyak/${memberId}/${shareDoyakId}`
+    );
     return response.data;
   } catch (error) {
     throw error;

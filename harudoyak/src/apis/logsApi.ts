@@ -4,7 +4,12 @@ import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
 import { uploadToS3 } from './uploadToS3';
 
-export const fetchRecordList = async () => {
+export type RecordItem = {
+  logId: number;
+  creationDate: string;
+};
+
+export const fetchRecordList = async (): Promise<RecordItem[]> => {
   try {
     const { memberId } = useUserStore.getState();
     const response = await axiosInstance.get(`logs/list/${memberId}`, {
