@@ -107,7 +107,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   };
   const cancelSignUp = () => {
     router.push("/log-in");
-  };
+  }; //
   const steps: StepperItemProps[] = [
     { stepNumber: 1, stepName: "약관동의", status: "completed" },
     { stepNumber: 2, stepName: "인증 및 등록", status: "completed" },
