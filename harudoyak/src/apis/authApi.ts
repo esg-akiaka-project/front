@@ -59,7 +59,7 @@ export const Login = async (LoginProps: LoginProps) => {
 export const setAiGoal = async (aiName: string, goal: string) => {
   const { memberId } = useUserStore.getState();
   try {
-    const response = await axiosInstance.post("/api/ai", {
+    const response = await axiosInstance.post("/ai", {
       memId: memberId,
       aiNickName: aiName,
       goalId: goal,
