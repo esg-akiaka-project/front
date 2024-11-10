@@ -25,7 +25,7 @@ const MonthlyCalendar: React.FC = () => {
     "2024-10-29",
     "2024-10-31",
   ];
-  
+
   const [recordDayList, setRecordDayList] = useState<string[]>([]);
 
   const fetchList = async () => {
@@ -37,21 +37,22 @@ const MonthlyCalendar: React.FC = () => {
       throw error;
     }
   };
-  
-  // let recordDayList: string[] = [];    
+
+  // let recordDayList: string[] = [];
   // api에서 response 받아와서 recordDayList 로 만들어줄 예정
   // creationDate 값들만 추출하여 배열로 만들어줌
   // response.data.map(item => item.creationDate)
-  
+
   const formatDate = (date: Date) =>
-    date.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })
-    .replace(/\./g, "-") // 점을 대시로 변경
-    .replace(/\s/g, "") // 공백 제거
-    .replace(/-$/, ""); // 마지막에 있는 '-' 제거
+    date
+      .toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replace(/\./g, "-") // 점을 대시로 변경
+      .replace(/\s/g, "") // 공백 제거
+      .replace(/-$/, ""); // 마지막에 있는 '-' 제거
 
   const [open, setOpen] = useState<boolean>(false); // Modal state
 
@@ -64,14 +65,17 @@ const MonthlyCalendar: React.FC = () => {
 
   const handleDateClick = (value: Date) => {
     console.log(value, typeof value, today, typeof today);
-    
+
     const formattedValue = formatDate(value);
     const formattedToday = formatDate(today);
     console.log(formattedValue, formattedToday);
 
-    console.log('recordDayList:', recordDayList);
-    console.log('formattedValue is in recordDayList:', recordDayList.includes(formattedValue));
-    
+    console.log("recordDayList:", recordDayList);
+    console.log(
+      "formattedValue is in recordDayList:",
+      recordDayList.includes(formattedValue)
+    );
+
     switch (true) {
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
@@ -89,7 +93,7 @@ const MonthlyCalendar: React.FC = () => {
         formattedValue !== formattedToday:
         setOpen(true);
         break;
-        
+
       default:
         break;
     }
@@ -130,7 +134,7 @@ const MonthlyCalendar: React.FC = () => {
       />
       {open && (
         <Modal open={open} onClose={() => setOpen(false)}>
-        <div>선택한 날짜에 작성된 기록이 없습니다</div>
+          <div>선택한 날짜에 작성된 기록이 없습니다</div>
         </Modal>
       )}
     </StyledCalendarWrapper>

@@ -14,46 +14,32 @@ const LoginButton: React.FC<LoginButtonProps> = ({ email, password }) => {
   const {
     setAccessToken,
     setAiName,
-    setGoalId,
+    setGoalName,
     setProfileImage,
     setMemberId,
     setExp,
     setNickname,
   } = useUserStore();
+
   const LoginProcess = async () => {
     try {
       // Login API 호출 시 아이디와 비밀번호 전달
       const response = await Login({ email, password });
       if (response.status === 200) {
-        // 로그인 성공 시 홈 화면으로 이동
-        // todo: 전역변수 관리 이후 라우팅 해야함
-        // 응답 header : Authorization : Bearer ${accessToken}
-        // 응답 body : {
-        //        refreshtoken: "string",
-        //        memberId: "number",
-        //        exp: "number",
-        //        ainame: "string",
-        //        nickname: "string",
-        //        profileimage: "string",
-        //        goalId: "string,"
-        //     }
-        const {
-          refreshtoken,
-          memberId,
-          exp,
-          ainame,
-          nickname,
-          profileimage,
-          goalId,
-        } = response.data;
-        setAccessToken(response.headers["Authorization"].split(" ")[1]); // todo: accessToken (추후에 콘솔을 통해 다시 정리해야함)
-        setAiName(ainame);
-        setGoalId(goalId);
-        setProfileImage(profileimage);
-        setMemberId(memberId);
-        setExp(exp);
-        setNickname(nickname);
-        localStorage.setItem("refreshToken", refreshtoken);
+        const { member, level, file } = response.data;
+
+        // todo: accessToken (추후에 콘솔을 통해 다시 정리해야함)
+        const accessToken = response.headers["authorization"].split(" ")[1];
+        setAccessToken(accessToken);
+
+        setMemberId(member.memberId);
+        setAiName(member.aiNickname);
+        setGoalName(member.goalName);
+        setProfileImage(file.filePathName);
+        setNickname(member.nickname);
+        setExp(level.point);
+
+        localStorage.setItem("refreshToken", member.refreshToken);
 
         router.push("/");
       } else {
@@ -64,7 +50,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({ email, password }) => {
       console.error("로그인 중 에러 발생:", error);
     }
   }; // todo : 추후에 로그인 로직 해야함
-  return <Button onClick={() => router.push("/")}>로그인</Button>;
+  return <Button onClick={LoginProcess}>로그인</Button>;
 };
 
 export default LoginButton;
