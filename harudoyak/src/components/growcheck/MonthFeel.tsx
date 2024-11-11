@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { format } from "date-fns";
 import styled from "styled-components";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
+import Circle from "./Circle";
 
 const MonthFeel: React.FC = () => {
   // dummyData todo: api 연동 후 적용
@@ -60,23 +60,4 @@ const ParellelWrapper = styled.div`
   justify-content: left;
   align-items: center;
   gap: 1rem;
-`;
-interface CircleProps {
-  number: number;
-}
-
-const Circle: React.FC<CircleProps> = ({ number }) => (
-  <StyledCircle>{number}</StyledCircle>
-);
-const StyledCircle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3rem;
-  background-color: white;
-  width: 1.3rem;
-  height: 1.3rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #3c7960;
 `;

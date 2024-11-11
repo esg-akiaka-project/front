@@ -8,15 +8,11 @@ export type RecordItem = {
 };
 
 export const fetchRecordList = async (): Promise<RecordItem[]> => {
-  try {
-    const { memberId } = useUserStore.getState();
-    const response = await axiosInstance.get(`logs/list/${memberId}`, {
-      params: {
-        memberId: memberId,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.get(`logs/list/${memberId}`, {
+    params: {
+      memberId: memberId,
+    },
+  });
+  return response.data;
 };

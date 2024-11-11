@@ -45,7 +45,6 @@ const LoginPage: React.FC = () => {
 
 export default LoginPage;
 
-// 추가된 스타일 컴포넌트
 const Heading1 = styled.h1`
   font-size: 1.44rem;
   color: var(--main-green);

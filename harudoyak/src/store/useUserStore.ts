@@ -41,9 +41,6 @@ interface UserState {
 
   clearToken: () => void;
 }
-// 전역변수를 사용할때는 useUserStore를 import 후에
-// const { userId, accessToken, exp } = useUserStore.getState()
-// 위 처럼 필요한 정보를 불러와서 쓰면됨
 
 export const useUserStore = create<UserState>()(
   persist(

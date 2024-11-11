@@ -7,6 +7,8 @@ import Image from "next/image";
 import checkBox from "../../../public/assets/home/checkBox.svg";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
+import { useUserStore } from "@/src/store/useUserStore";
+
 import { fetchRecordList, RecordItem } from "../../apis/logsApi";
 
 type ValuePiece = Date | null;
@@ -27,7 +29,7 @@ const MonthlyCalendar: React.FC = () => {
   ];
 
   const [recordDayList, setRecordDayList] = useState<string[]>([]);
-
+  const { memberId } = useUserStore();
   const fetchList = async () => {
     try {
       const response = await fetchRecordList();
@@ -60,23 +62,17 @@ const MonthlyCalendar: React.FC = () => {
 
   const handleDateChange = (newDate: Value) => {
     setDate(newDate);
-    console.log(date, typeof date, today, typeof today);
   };
 
   const handleDateClick = (value: Date) => {
-    console.log(value, typeof value, today, typeof today);
-
     const formattedValue = formatDate(value);
     const formattedToday = formatDate(today);
-    console.log(formattedValue, formattedToday);
-
-    console.log("recordDayList:", recordDayList);
-    console.log(
-      "formattedValue is in recordDayList:",
-      recordDayList.includes(formattedValue)
-    );
 
     switch (true) {
+      // 로그인이 안되어 있을경우 ,
+      case memberId === null:
+        alert("로그인을 먼저 해주세요");
+        break;
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
         router.push("/grow-check");

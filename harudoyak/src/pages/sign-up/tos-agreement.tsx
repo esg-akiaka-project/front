@@ -130,7 +130,6 @@ const TosAgreement: React.FC = () => {
 
 export default TosAgreement;
 
-// 스타일 정의
 const TermsWrapper = styled.div`
   border: 1px solid #ccc;
   padding: 10px;
