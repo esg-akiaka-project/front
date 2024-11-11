@@ -18,8 +18,8 @@ interface UserState {
   exp: number; // 경험치
   setExp: (exp: number) => void;
 
-  goalId: string | null;
-  setGoalId: (goalId: string) => void;
+  goalName: string | null;
+  setGoalName: (goalName: string) => void;
 
   nickname: string | null;
   setNickname: (nickname: string) => void;
@@ -37,25 +37,25 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       isSociallogin: false,
-      setisSociallogin: () => set({ isSociallogin: true }),
+      setisSociallogin: (isSociallogin) => set({ isSociallogin }),
 
       accessToken: null,
       setAccessToken: (token) => set({ accessToken: token }),
 
       memberId: null,
-      setMemberId: (memberId) => set({ memberId: memberId }),
+      setMemberId: (memberId) => set({ memberId }),
 
       aiName: null,
       setAiName: (name) => set({ aiName: name }),
 
       exp: 0,
-      setExp: (exp) => set({ exp: exp }),
+      setExp: (exp) => set({ exp }),
 
-      goalId: null,
-      setGoalId: (goalId) => set({ goalId }),
+      goalName: null,
+      setGoalName: (goalName) => set({ goalName }),
 
       nickname: null,
-      setNickname: (nickname) => set({ nickname: nickname }),
+      setNickname: (nickname) => set({ nickname }),
 
       profileImage: null,
       setProfileImage: (url) => set({ profileImage: url }),
@@ -67,7 +67,7 @@ export const useUserStore = create<UserState>()(
           memberId: null,
           aiName: null,
           exp: 0,
-          goalId: null,
+          goalName: null,
           nickname: null,
           profileImage: null,
         });

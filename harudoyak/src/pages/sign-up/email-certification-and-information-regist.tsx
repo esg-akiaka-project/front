@@ -23,20 +23,21 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   useEffect(() => {
-    // storage 이벤트 핸들러 등록 (다른 창에서 Local Storage가 변경될 때 감지)
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === "emailVerified" && event.newValue === "true") {
+    // window 객체에 메시지 리스너 추가
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return; // 보안 검증: 같은 출처인지 확인
+
+      const { type, email } = event.data;
+
+      if (type === "EMAIL_VERIFIED" && email) {
         setEmailVerified(true);
-        const verifiedEmail = localStorage.getItem("verifiedEmail");
-        if (verifiedEmail) {
-          setEmail(verifiedEmail);
-        }
+        setEmail(email);
       }
     };
 
-    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("message", handleMessage);
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("message", handleMessage);
     };
   }, []);
 
@@ -88,8 +89,6 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
       router.push("/sign-up/signup-complete");
     } catch (error) {
       console.log("회원가입 완료 중 오류", error);
-      // todo: 임의적으로 이동하게 했음
-      router.push("/sign-up/signup-complete");
     }
   };
 
@@ -108,7 +107,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   };
   const cancelSignUp = () => {
     router.push("/log-in");
-  };
+  }; //
   const steps: StepperItemProps[] = [
     { stepNumber: 1, stepName: "약관동의", status: "completed" },
     { stepNumber: 2, stepName: "인증 및 등록", status: "completed" },

@@ -3,19 +3,30 @@ import { useRouter } from "next/router";
 
 const Verified: React.FC = () => {
   const router = useRouter();
-  const { email } = router.query;
-  // todo: 이 화면에서 백엔드로 만료시간을 get요청 얻은 후,
-  // 만료기간이 넘었다면 다시 인증을 요구하는 로직, 기간내라면 인증 완료 로직
+  const { email, isVerified, expireDate } = router.query;
+
   useEffect(() => {
-    if (email) {
-      localStorage.setItem("emailVerified", "true");
-      localStorage.setItem("verifiedEmail", String(email));
+    if (email && isVerified === "true" && expireDate) {
+      // 만료 시간을 체크하고 로컬 스토리지에 인증 정보를 저장
+      const currentDate = new Date();
+      const expirationDate = new Date(expireDate as string);
 
-      window.close();
+      if (currentDate <= expirationDate) {
+        localStorage.setItem("emailVerified", "true");
+        localStorage.setItem("verifiedEmail", String(email));
+
+        // 부모 창으로 인증 완료 메시지 전송
+        window.opener?.postMessage(
+          { type: "EMAIL_VERIFIED", email: email },
+          window.location.origin
+        );
+      }
     }
-  }, [email]);
 
-  return <p>이메일 인증이 완료되었습니다. 회원가입 페이지로 돌아갑니다...</p>;
+    window.close();
+  }, [email, isVerified, expireDate]);
+
+  return <></>;
 };
 
 export default Verified;

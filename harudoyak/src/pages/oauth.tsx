@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import { useUserStore } from "../store/useUserStore"; // zustand 스토어 가져오기
 import SocialLogin from "../components/login/SocialLogin"; // SocialLogin 컴포넌트 가져오기
 
-const REST_API_KEY = "325f256af9baeeb0dddb1664a61cc7c6"; // Kakao API Key
-const GOOGLE_CLIENT_ID =
-  "385470385560-cfsvbff5a4iv2e01hio2r4obekflg1qt.apps.googleusercontent.com"; // 구글 클라이언트 ID
-const REDIRECT_URI = "http://localhost:3000/oauth"; // 리다이렉트 URI
-const CLIENT_SECRET = "YOUR_CLIENT_SECRET"; // Kakao Client Secret (필요 시 사용)
+const kakaoRestApiKey: string = process.env.REACT_APP_REST_API_KEY || "default_kakao_api_key";
+const googleClientId: string = process.env.REACT_APP_GOOGLE_CLIENT_ID || "default_google_client_id";
+const redirectUrl: string = process.env.REACT_APP_REDIRECT_URI || "default_redirect_url";
 
 export default function Auth() {
   const { setisSociallogin, setAccessToken } = useUserStore(); // zustand 스토어 사용
@@ -26,10 +24,9 @@ export default function Auth() {
 
         const payload = new URLSearchParams({
           grant_type: "authorization_code",
-          client_id: REST_API_KEY,
-          redirect_uri: REDIRECT_URI,
+          client_id: kakaoRestApiKey,
+          redirect_url: redirectUrl,
           code: kakaoCode,
-          client_secret: CLIENT_SECRET,
         }).toString();
 
         try {
@@ -64,9 +61,8 @@ export default function Auth() {
 
         const payload = new URLSearchParams({
           code: googleCode,
-          client_id: GOOGLE_CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          redirect_uri: REDIRECT_URI,
+          client_id: googleClientId,
+          redirect_url: redirectUrl,
           grant_type: "authorization_code",
         }).toString();
 
@@ -105,7 +101,7 @@ export default function Auth() {
   return (
     <div>
       {true ? ( // 실제 인가 코드 여부에 따라 조건 수정 필요
-        <div>로그인 진행중입니다..</div>
+        <div>로그인 진행중입니다</div>
       ) : (
         <SocialLogin />
       )}

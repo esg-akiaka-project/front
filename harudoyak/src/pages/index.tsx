@@ -6,41 +6,46 @@ import LoginButton from "../components/home/HomeLoginButton";
 import WritingEntryButton from "@/src/components/buttons/WritingEntryButton";
 import BeginningSetting from "../components/home/beginningSetting";
 import { setAiGoal } from "../apis/authApi";
-import Modal from "@/src/components/home/Modal";
 import Logo from "@/public/assets/common/OptimizedLogo.svg";
 import { useUserStore } from "../store/useUserStore";
+import Image from "next/image";
 
 const Home: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const nickname = useUserStore((state) => state.nickname);
   const aiName = useUserStore((state) => state.aiName);
-  const { goalId, setAiName, setGoalId, memberId } = useUserStore.getState();
-  const [showModal, setShowModal] = useState(false);
+  const { goalName, setAiName, setGoalName, memberId } =
+    useUserStore.getState();
+  // 임의적으로 true , todo: 원래대로면 로그인 판별후 true 바꿔야함 default: false
+
+  const [showModal, setShowModal] = useState<boolean>(true);
 
   useEffect(() => {
-    if (memberId && (!aiName || !goalId)) {
+    if (memberId && (!aiName || !goalName)) {
       setShowModal(true);
     }
-  }, [aiName, goalId]);
+  }, [aiName, goalName, memberId]);
 
   const handleSave = async (newAiName: string, newGoal: string) => {
     // 지금은 임의적으로 누르면 저장되게 했음, 회원가입 -로그인 로직이 후 수정해야함 todo:
-    setShowModal(false);
+    // console.log(newAiName);
+    // console.log(newGoal);
+    // setShowModal(false);
 
-    // try {
-    //   const response = await setAiGoal(newAiName, newGoal);
-    //   setAiName(response.aiName);
-    //   setGoalId(response.goalId);
-    //   setShowModal(false);
-    // } catch (error) {
-    //   console.error("AI 설정 저장 중 오류 발생:", error);
-    // }
+    try {
+      const response = await setAiGoal(newAiName, newGoal);
+      setAiName(response.aiName);
+      setGoalName(response.goalName);
+      setShowModal(false);
+    } catch (error) {
+      console.error("AI 설정 저장 중 오류 발생:", error);
+    }
   };
 
   return (
     <Root>
-      <img
+      <Image
         src={Logo.src}
         width={120}
         height={80}
@@ -65,17 +70,11 @@ const Home: React.FC = () => {
 
       <MonthlyCalendar></MonthlyCalendar>
 
-      <div>
-        <button onClick={() => setOpen(true)}>Modal</button>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          선택한 날짜에 작성된 기록이 없습니다
-        </Modal>
-      </div>
-
       {memberId === null ? null : <WritingEntryButton />}
 
       <WritingEntryButton />
       {showModal && <BeginningSetting onSave={handleSave} />}
+      {/* <BeginningSetting onSave={handleSave} /> */}
     </Root>
   );
 };
