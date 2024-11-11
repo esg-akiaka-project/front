@@ -41,12 +41,12 @@ const IconWrapper = styled.div`
 `;
 
 const SocialLogin: React.FC = () => {
-  const googleClientId = '385470385560-cfsvbff5a4iv2e01hio2r4obekflg1qt.apps.googleusercontent.com';
-  const kakaoRestApiKey = '325f256af9baeeb0dddb1664a61cc7c6';
-  const redirectUri = 'http://localhost:3000/oauth';
+  const kakaoRestApiKey = process.env.REACT_APP_REST_API_KEY; // Kakao API Key
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID; // 구글 클라이언트 ID
+  const redirectUrl  = process.env.REACT_APP_REDIRECT_URI; // 리다이렉트 URI
 
-  const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
-  const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+  const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUrl}&response_type=code&scope=email profile`;
+  const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApiKey}&redirect_uri=${redirectUrl}&response_type=code`;
 
   const handleGoogleLogin = () => {
     window.location.href = googleLoginUrl;

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useUserStore } from "../store/useUserStore";
 
 const axiosInstance = axios.create({
-  baseURL: "http://13.124.230.171:8080/api/",
+  baseURL: "/api/",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

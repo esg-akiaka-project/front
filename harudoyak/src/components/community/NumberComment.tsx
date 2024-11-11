@@ -1,10 +1,10 @@
-import React from 'react';
-import useCommunityStore from '../../store/useCommunityStore';
+import React from "react";
 
-const NumberComment: React.FC = () => {
-    const { commentCount } = useCommunityStore();
-
-    return <div>{commentCount}</div>;
+interface CommentProps {
+  commentCnt: number;
+}
+const NumberComment: React.FC<CommentProps> = ({ commentCnt }) => {
+  return <div>{commentCnt}</div>;
 };
 
 export default NumberComment;
