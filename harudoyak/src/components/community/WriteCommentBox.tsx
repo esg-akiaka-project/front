@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import useCommunityStore from '../../store/useCommunityStore';
-import Image from 'next/image';
+import React, { useState } from "react";
+import styled from "styled-components";
+import useCommunityStore from "../../store/useCommunityStore";
+import Image from "next/image";
+import { createComment } from "@/src/apis/seoroApi";
 
 const CommentInputContainer = styled.div`
   position: sticky;
@@ -31,15 +32,18 @@ const SubmitIcon = styled.div`
   z-index: 1; /* 아이콘이 앞으로 나오도록 설정 */
 `;
 
-const WriteCommentBox: React.FC = () => {
-  const [comment, setComment] = useState('');
-  const { incrementCommentCount, addComment } = useCommunityStore();
+interface ShareProps {
+  shareId: number;
+}
+const WriteCommentBox: React.FC<ShareProps> = ({ shareId }) => {
+  const [comment, setComment] = useState("");
+  const { incrementCommentCount } = useCommunityStore();
 
-  const handleSubmit = () => {
-    if (comment.trim() !== '') {
-      incrementCommentCount();
-      addComment(comment); // 댓글 추가
-      setComment(''); // 입력 필드 초기화
+  const handleSubmit = async () => {
+    try {
+      const data = await createComment(shareId, comment);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -52,7 +56,12 @@ const WriteCommentBox: React.FC = () => {
       />
       <IconWrapper>
         <SubmitIcon onClick={handleSubmit}>
-          <Image src="/assets/community/sharebutton.svg" alt="Submit Icon" width={24} height={24} />
+          <Image
+            src="/assets/community/sharebutton.svg"
+            alt="Submit Icon"
+            width={24}
+            height={24}
+          />
         </SubmitIcon>
       </IconWrapper>
     </CommentInputContainer>
