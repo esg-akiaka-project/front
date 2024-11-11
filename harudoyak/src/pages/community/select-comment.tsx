@@ -8,7 +8,7 @@ import { CommentInput } from '../../components/community/CommentInput';
 import { ExampleTextBox } from '../../components/community/ExampleTextBox';
 import ShareButton from '../../components/community/ShareButton';
 import Root from '../../style/Root';
-import useCommunityStore from '../../store/useCommunityStore';
+import { useCommunityStore } from '../../store/useCommunityStore';
 
 const SelectCommentPage: React.FC = () => {
     const { selectedPhoto, comment, setComment, addPost } = useCommunityStore();

@@ -26,15 +26,23 @@ export const uploadToS3 = async (photo: File) => {
   }
 };
 
-// 게시글 작성 API (S3 URL 사용)
-export const createPost = async (photo: File, comment: string) => {
+// seoroApi.ts
+export const createPost = async (photo: File | string, comment: string) => {
   const { memberId } = useUserStore.getState();
   
   try {
-    const photoUrl = await uploadToS3(photo);
+    let photoUrl: string;
+
+    if (typeof photo === 'string') {
+      // photo가 URL인 경우
+      photoUrl = photo;
+    } else {
+      // photo가 File인 경우
+      photoUrl = await uploadToS3(photo);
+    }
 
     const response = await axiosInstance.post(`/api/posts/${memberId}`, {
-      memberId : memberId,
+      memberId: memberId,
       shareContent: comment,
       shareImageUrl: photoUrl,
     });
@@ -43,6 +51,7 @@ export const createPost = async (photo: File, comment: string) => {
     throw error;
   }
 };
+
 
 // 게시글 목록 조회 API
 export const fetchPosts = async () => {

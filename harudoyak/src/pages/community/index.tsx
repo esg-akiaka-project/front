@@ -5,7 +5,7 @@ import MainHeader from '../../components/community/MainHeader';
 import { MainPhoto } from '../../components/community/MainPhoto';
 import WriteButton from '../../components/community/WriteButton';
 import Root from '../../style/Root';
-import { useCommunityStore } from '../../store/useCommunityStore';
+import useCommunityStore from '../../store/useCommunityStore';
 import SideHeader from '@/src/components/community/SideHeader';
 import CommentSection from '../../components/community/CommentSection';
 import NickName from '../../components/community/NickName';

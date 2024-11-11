@@ -1,9 +1,8 @@
-// MainPhoto.tsx
 import React from 'react';
 import styled from 'styled-components';
 
 interface MainPhotoProps {
-    selectedPhoto: File | null;
+    selectedPhoto: File | string | null;
 }
 
 const MainPhotoContainer = styled.div`
@@ -22,10 +21,21 @@ const Photo = styled.img`
 `;
 
 export const MainPhoto: React.FC<MainPhotoProps> = ({ selectedPhoto }) => {
+    const getPhotoSrc = (photo: File | string | null): string | undefined => {
+        if (photo instanceof File) {
+            return URL.createObjectURL(photo);
+        } else if (typeof photo === 'string') {
+            return photo;
+        }
+        return undefined;
+    };
+
+    const photoSrc = getPhotoSrc(selectedPhoto);
+
     return (
         <MainPhotoContainer>
-            {selectedPhoto ? (
-                <Photo src={selectedPhoto} alt="Selected" />
+            {photoSrc ? (
+                <Photo src={photoSrc} alt="Selected" />
             ) : (
                 <p>아래의 첨부된 사진에서 선택하면 표시됩니다.</p>
             )}
