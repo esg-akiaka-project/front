@@ -1,6 +1,7 @@
 // 로그인 , 회원가입 관련 api 모음.
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
+import NickName from "../components/community/NickName";
 
 export const certifyEmail = async (email: string) => {
   try {
@@ -84,4 +85,12 @@ export const changePassword = async (
   } catch (error) {
     throw error;
   }
+};
+
+export const changeAiname = async (aiNickname: string) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.put(`members/${memberId}/aiNickname`, {
+    aiNickname,
+  });
+  return response.data;
 };

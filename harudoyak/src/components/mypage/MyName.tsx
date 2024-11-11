@@ -1,8 +1,12 @@
 // todo: 닉네임 api 연동
 
 import React from "react";
+import { useUserStore } from "@/src/store/useUserStore";
 
 const MyName: React.FC = () => {
-  return <p>지구는 소중해</p>;
+  const { nickname } = useUserStore();
+  const name = nickname === null ? "닉네임 없음" : nickname;
+
+  return <p>{name}</p>;
 };
 export default MyName;
