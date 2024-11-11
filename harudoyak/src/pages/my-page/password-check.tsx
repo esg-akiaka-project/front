@@ -30,8 +30,6 @@ const PasswordCheck: React.FC = () => {
         />
       </PasswordWrapper>
       <CheckButton onClick={() => CheckPassword(password)}>확인</CheckButton>
-
-      {/* 근데 여기 비밀번호 변경 버튼을 넣으면 닉네임 변경이랑 따로 로직이 돌아가는건가?  */}
     </Root>
   );
 };
@@ -47,7 +45,7 @@ const PasswordWrapper = styled.div`
 `;
 
 const StyledInputTitle = styled.p`
-  width: 90%; /* 비밀번호 입력 텍스트를 비밀번호 칸과 왼쪽 정렬로 맞춤 */
+  width: 90%;
   font-weight: bold;
   color: grey;
   text-align: left;

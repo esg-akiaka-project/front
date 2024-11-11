@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Image from 'next/image';
+import Image from "next/image";
 import messageIcon from "../../Images/messageIcon.png";
 import Root from "../../style/Root";
+import { useRouter } from "next/router";
 
 interface AlarmData {
   id: string;
@@ -14,12 +15,10 @@ interface AlarmData {
 const AlarmHome: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Record");
   const [isClicked, setIsClicked] = useState(false); // isClicked 상태 추가
+  const router = useRouter();
 
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-  };
-
-  const GeneralAlarmData: AlarmData[] = [
+  // todo: 알람 데이터 api 연동
+  const [generalAlarmData, setGeneralAlarmData] = useState<AlarmData[]>([
     {
       id: "성장기록",
       content:
@@ -32,9 +31,8 @@ const AlarmHome: React.FC = () => {
         "친애하는 친구에게, 당신의 성장 가능성을 믿습니다. 항상 새로운 도전과 배움을 통해 더 나은 자신을 만들어가길 응원합니다.힘든 순간에도 포기하지 말고, 당신의 꿈을 향해 한 걸음씩 나아가세요.",
       date: "2024-10-23",
     },
-  ];
-
-  const CommunityAlarmData: AlarmData[] = [
+  ]);
+  const [communityAlarmData, setCommunityAlarmData] = useState<AlarmData[]>([
     {
       id: "신규댓글",
       title: "게시글 Title",
@@ -42,14 +40,19 @@ const AlarmHome: React.FC = () => {
       content: "댓글 요약",
       date: "2024-10-23",
     },
-  ];
+  ]);
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  };
 
   const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState<
     boolean[]
-  >(new Array(GeneralAlarmData.length).fill(false));
+  >(new Array(generalAlarmData.length).fill(false));
+
   const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState<
     boolean[]
-  >(new Array(CommunityAlarmData.length).fill(false));
+  >(new Array(communityAlarmData.length).fill(false));
 
   const handleCardClick = (index: number) => {
     if (activeTab === "Record") {
@@ -91,14 +94,12 @@ const AlarmHome: React.FC = () => {
     return (
       <Root>
         <div style={styles.Title}>
-          <IconComponent isClicked={isClicked} /> {/* isClicked 값 전달 */}
-          <div style={styles.Messenger}>{buttonLabel1}</div>{" "}
-          {/* 첫 번째 버튼 */}
-          {buttonLabel2 && (
-            <div style={styles.Messenger}>{buttonLabel2}</div>
-          )}{" "}
-          {/* 두 번째 버튼 (신규댓글 경우에만) */}
-          <span>{titleText}</span> {/* 제목 텍스트 */}
+          <IconComponent isClicked={isClicked} />
+
+          <div style={styles.Messenger}>{buttonLabel1}</div>
+          {buttonLabel2 && <div style={styles.Messenger}>{buttonLabel2}</div>}
+
+          <span>{titleText}</span>
         </div>
       </Root>
     );
@@ -237,12 +238,7 @@ const AlarmHome: React.FC = () => {
 
   const IconComponent = ({ isClicked }: { isClicked: boolean }) => (
     <div style={styles.Icon(isClicked)}>
-          <Image 
-            src={messageIcon} 
-            alt="message Icon" 
-            width={80} 
-            height={80}
-          />
+      <Image src={messageIcon} alt="message Icon" width={80} height={80} />
     </div>
   );
 
@@ -264,7 +260,7 @@ const AlarmHome: React.FC = () => {
       </div>
       <div style={styles.AlarmList}>
         {activeTab === "Record"
-          ? GeneralAlarmData.map((alarmCard, index) => (
+          ? generalAlarmData.map((alarmCard, index) => (
               <div
                 key={alarmCard.id}
                 onClick={() => handleCardClick(index)}
@@ -275,12 +271,18 @@ const AlarmHome: React.FC = () => {
                   {truncatedContent(alarmCard.content)}
                 </div>
                 <div style={styles.Date}>
-                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" })} 
-                  ${new Date(alarmCard.date).toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()}`}
+                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })} 
+                  ${new Date(alarmCard.date)
+                    .toLocaleDateString("en-US", { weekday: "short" })
+                    .toUpperCase()}`}
                 </div>
               </div>
             ))
-          : CommunityAlarmData.map((alarmCard, index) => (
+          : communityAlarmData.map((alarmCard, index) => (
               <div
                 key={alarmCard.id}
                 onClick={() => handleCardClick(index)}
@@ -291,8 +293,14 @@ const AlarmHome: React.FC = () => {
                   {truncatedContent(alarmCard.content)}
                 </div>
                 <div style={styles.Date}>
-                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" })} 
-                  ${new Date(alarmCard.date).toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()}`}
+                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })} 
+                  ${new Date(alarmCard.date)
+                    .toLocaleDateString("en-US", { weekday: "short" })
+                    .toUpperCase()}`}
                 </div>
               </div>
             ))}

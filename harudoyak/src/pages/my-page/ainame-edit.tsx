@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Root from "../../style/Root";
 import UndoAndPageName from "@/src/components/mypage/UndoAndPageName";
 import styled from "styled-components";
+import { useUserStore } from "@/src/store/useUserStore";
+import { changeAiname } from "../../apis/authApi";
+import { useRouter } from "next/router";
 
 const AiNameEdit: React.FC = () => {
+  const router = useRouter();
+  const { aiName, setAiName } = useUserStore();
+  const [newAiname, setNewAiname] = useState<string>("");
+
+  const originaiName = aiName === null ? "ai이름 없음" : aiName;
+
+  const handleAiNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewAiname(e.target.value);
+  };
+
+  const changeAi = async () => {
+    try {
+      const response = await changeAiname(newAiname);
+      setAiName(response);
+      alert("AI 이름이 성공적으로 변경되었습니다.");
+      router.back();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Root>
       <UndoAndPageName pageName="AI Info" />
@@ -13,10 +36,14 @@ const AiNameEdit: React.FC = () => {
 
       <FormContainer>
         <Label>이름</Label>
-        <StyledInput placeholder="조이..." maxLength={8} />
+        <StyledInput
+          placeholder={originaiName}
+          maxLength={8}
+          value={newAiname}
+          onChange={handleAiNickname}
+        />
         <CharLimitText>2~8자 이하</CharLimitText>
-        <SaveButton>저장</SaveButton>
-        {/* 이 버튼도 전역상태관리에 저장한 후에 백엔드로 보내줘야함 */}
+        <SaveButton onClick={changeAi}>저장</SaveButton>
       </FormContainer>
     </Root>
   );

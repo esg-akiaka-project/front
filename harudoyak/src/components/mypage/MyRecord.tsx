@@ -1,16 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { useUserStore } from "@/src/store/useUserStore";
 
 interface RecordItemProps {
   title: string;
   value: string | number;
 }
-// todo: 데이터는 api 연동후에 다시 작성
+// todo: firstDoyak 작성
 const MyRecord: React.FC = () => {
+  const { firstDoyak, recentContinuity, maxContinuity, shareDoyakCount } =
+    useUserStore();
   const records: RecordItemProps[] = [
     { title: "첫번째 하루도약", value: "2024.12.01" },
-    { title: "하루도약 연속일", value: "15 days" },
-    { title: "전체 하루도약", value: "37 번" },
+    { title: "하루도약 연속일", value: recentContinuity },
+    { title: "전체 하루도약", value: shareDoyakCount },
+    { title: "최장 연속일", value: maxContinuity },
   ];
 
   return (

@@ -27,15 +27,36 @@ interface UserState {
   profileImage: string | null; // 프로필 이미지 URL
   setProfileImage: (url: string) => void;
 
+  firstDoyak: Date | null;
+  setFirstDoyak: (firstDoyak: Date) => void;
+
+  recentContinuity: number;
+  setRecentContinuity: (recentContinuity: number) => void;
+
+  maxContinuity: number;
+  setMaxContinuity: (maxContinuity: number) => void;
+
+  shareDoyakCount: number;
+  setShareDoyakCount: (shareDoyakCount: number) => void;
+
   clearToken: () => void;
 }
-// 전역변수를 사용할때는 useUserStore를 import 후에
-// const { userId, accessToken, exp } = useUserStore.getState()
-// 위 처럼 필요한 정보를 불러와서 쓰면됨
 
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
+      firstDoyak: null,
+      setFirstDoyak: (firstDoyak) => set({ firstDoyak }),
+
+      recentContinuity: 0,
+      setRecentContinuity: (recentContinuity) => set({ recentContinuity }),
+
+      maxContinuity: 0,
+      setMaxContinuity: (maxContinuity) => set({ maxContinuity }),
+
+      shareDoyakCount: 0,
+      setShareDoyakCount: (shareDoyakCount) => set({ shareDoyakCount }),
+
       isSociallogin: false,
       setisSociallogin: (isSociallogin) => set({ isSociallogin }),
 
@@ -70,6 +91,10 @@ export const useUserStore = create<UserState>()(
           goalName: null,
           nickname: null,
           profileImage: null,
+          firstDoyak: null,
+          recentContinuity: 0,
+          maxContinuity: 0,
+          shareDoyakCount: 0,
         });
         localStorage.removeItem("refreshToken");
       },
