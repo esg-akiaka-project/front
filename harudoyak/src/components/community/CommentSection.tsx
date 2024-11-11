@@ -1,38 +1,58 @@
 import React from "react";
 import styled from "styled-components";
 import WriteCommentBox from "./WriteCommentBox";
-import WrittenCommentBox from "./WrittenCommentBox";
+// import WrittenCommentBox from "./WrittenCommentBox";
 import CancelCommentBar from "./CancelCommentBar";
 import useCommunityStore from "../../store/useCommunityStore";
 
+interface CommentProps {
+  commentShareDoyakId: number;
+  commentId: number;
+  commentContent: string;
+  commentAuthorNickname: string;
+}
+
 interface CommentSectionProps {
   onClose: () => void; // 닫기 함수 prop
-  postIndex: number; // 게시물 인덱스 추가
+  comments: CommentProps[];
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({
   onClose,
-  postIndex,
+  comments,
 }) => {
-  const { posts } = useCommunityStore();
-  const comments = posts[postIndex]?.comments || []; // 해당 게시물의 comments 접근
-
   return (
     <CommentSectionContainer>
       <h2>댓글</h2>
       <CancelCommentBar onClose={onClose} /> {/* onClose 전달 */}
       <CommentList>
-        {comments.map((comment, index) => (
-          <WrittenCommentBox key={index} content={comment} />
+        {comments.map((comment) => (
+          <CommentBox key={comment.commentId}>
+            <CommentAuthor>{comment.commentAuthorNickname}</CommentAuthor>
+            <CommentContent>{comment.commentContent}</CommentContent>
+          </CommentBox>
         ))}
       </CommentList>
-      <WriteCommentBox onSubmit={handleCommentSubmit} /> {/* 댓글 작성 핸들러 전달 */}
+      {/* <WriteCommentBox shareId={} /> */}
     </CommentSectionContainer>
   );
 };
 
 export default CommentSection;
 
+const CommentBox = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+`;
+
+const CommentAuthor = styled.div`
+  font-weight: bold;
+  margin-bottom: 5px;
+`;
+
+const CommentContent = styled.div`
+  font-size: 14px;
+`;
 const CommentSectionContainer = styled.div`
   position: fixed;
   bottom: 0;
