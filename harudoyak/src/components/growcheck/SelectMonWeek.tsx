@@ -16,8 +16,8 @@ const SelectMonWeek: React.FC<SelectMonWeekProps> = ({
 
   return (
     <ToggleContainer onClick={toggleMode}>
-      <ToggleIndicator isWeekly={selectedMode === "Week"} />
-      <ModeText isWeekly={selectedMode === "Week"}>
+      <ToggleIndicator $isWeekly={selectedMode === "Week"} />
+      <ModeText $isWeekly={selectedMode === "Week"}>
         {selectedMode === "Week" ? "Weekly" : "Monthly"}
       </ModeText>
     </ToggleContainer>
@@ -40,23 +40,24 @@ const ToggleContainer = styled.div`
   justify-content: center;
 `;
 
-const ToggleIndicator = styled.div<{ isWeekly: boolean }>`
+const ToggleIndicator = styled.div<{ $isWeekly: boolean }>`
   position: absolute;
   top: 4px;
-  left: ${({ isWeekly }) => (isWeekly ? "0.2rem" : "4rem")}; /* 슬라이딩 위치 */
+  left: ${({ $isWeekly }) =>
+    $isWeekly ? "0.2rem" : "4rem"}; /* 슬라이딩 위치 */
   width: 1.5rem;
   height: 1.5rem;
-  background-color: ${({ isWeekly }) => (isWeekly ? "#3C7960" : "#A5CBBC")};
+  background-color: ${({ $isWeekly }) => ($isWeekly ? "#3C7960" : "#A5CBBC")};
   border-radius: 30px;
   transition: left 0.3s ease;
 `;
 
-const ModeText = styled.span<{ isWeekly: boolean }>`
+const ModeText = styled.span<{ $isWeekly: boolean }>`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: ${({ isWeekly }) =>
-    isWeekly ? "2rem" : "0.8rem"}; /* 글씨 위치 조정 */
+  left: ${({ $isWeekly }) =>
+    $isWeekly ? "2rem" : "0.8rem"}; /* 글씨 위치 조정 */
   font-size: 0.8rem;
   font-weight: bold;
   color: #333;

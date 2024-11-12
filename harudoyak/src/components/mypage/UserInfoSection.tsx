@@ -44,5 +44,6 @@ const Namediv = styled.div`
 `;
 
 const MyLevelWrapper = styled.div`
-  margin-left: 2rem;
+  margin-left: 3.6rem;
+  font-weight: bold;
 `;

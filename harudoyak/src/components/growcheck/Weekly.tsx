@@ -70,7 +70,7 @@ const Weekly: React.FC<WeeklyProps> = ({
         <DayBox
           key={index}
           onClick={() => onDayClick(dayInfo.date)}
-          isSelected={
+          $isSelected={
             selectedDay && selectedDay.getTime() === dayInfo.date.getTime()
           }
         >
@@ -96,13 +96,13 @@ const WeekContainer = styled.div`
   border-radius: 8px;
 `;
 
-const DayBox = styled.div<{ isSelected: boolean | null }>`
+const DayBox = styled.div<{ $isSelected: boolean | null }>`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  ${({ isSelected }) =>
-    isSelected &&
+  ${({ $isSelected }) =>
+    $isSelected &&
     `
     border-radius: 0.6rem;
     background-color: white; 

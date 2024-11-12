@@ -5,7 +5,7 @@ import Root from "./../style/Root";
 import LoginButton from "../components/home/HomeLoginButton";
 import WritingEntryButton from "@/src/components/buttons/WritingEntryButton";
 import BeginningSetting from "../components/home/beginningSetting";
-import { setAiGoal } from "../apis/authApi";
+import { changeAiname, changeNickname } from "../apis/authApi";
 import Logo from "@/public/assets/common/OptimizedLogo.svg";
 import { useUserStore } from "../store/useUserStore";
 import Image from "next/image";
@@ -18,16 +18,17 @@ const Home: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
-    if (memberId && (!aiName || !goalName)) {
+    if (memberId && (aiName === "도약이" || !goalName)) {
       setShowModal(true);
     }
   }, [aiName, goalName, memberId]);
 
   const handleSave = async (newAiName: string, newGoal: string) => {
     try {
-      const response = await setAiGoal(newAiName, newGoal);
-      setAiName(response.aiName);
-      setGoalName(response.goalName);
+      const response = await changeAiname(newAiName);
+      const response1 = await changeNickname(newGoal);
+      setGoalName(newGoal);
+      setAiName(newAiName);
       setShowModal(false);
     } catch (error) {
       console.error("AI 설정 저장 중 오류 발생:", error);

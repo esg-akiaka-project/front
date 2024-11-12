@@ -12,7 +12,7 @@ const Tags: React.FC<TagsProps> = ({ tags }) => {
   return (
     <TagContainer>
       {tags.map((tag, index) => (
-        <TagBox key={index} isIndented={Math.floor(index / 4) % 2 === 1}>
+        <TagBox key={index} $isIndented={Math.floor(index / 4) % 2 === 1}>
           #<TagText>{truncateTag(tag)}</TagText>
         </TagBox>
       ))}
@@ -27,7 +27,7 @@ const TagContainer = styled.div`
   gap: 0.5rem;
 `;
 
-const TagBox = styled.div<{ isIndented: boolean }>`
+const TagBox = styled.div<{ $isIndented: boolean }>`
   background-color: white;
   color: #2e7d32;
   // border: 1px solid #2e7d32;
@@ -41,7 +41,7 @@ const TagBox = styled.div<{ isIndented: boolean }>`
   max-width: 6rem;
   overflow: hidden;
   white-space: nowrap;
-  margin-left: ${({ isIndented }) => (isIndented ? "1.5rem" : "0")};
+  margin-left: ${({ $isIndented }) => ($isIndented ? "1.5rem" : "0")};
 `;
 
 const TagText = styled.span`

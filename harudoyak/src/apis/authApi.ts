@@ -36,17 +36,6 @@ export const Login = async (LoginProps: LoginProps) => {
   return response.data;
 };
 
-export const setAiGoal = async (aiName: string, goal: string) => {
-  const { memberId } = useUserStore.getState();
-
-  const response = await axiosInstance.post("/ai", {
-    memId: memberId,
-    aiNickName: aiName,
-    goalId: goal,
-  });
-  return response.data;
-};
-
 export const changePassword = async (
   oldpassword: string,
   newpassword: string
@@ -63,6 +52,22 @@ export const changeAiname = async (aiNickname: string) => {
   const { memberId } = useUserStore.getState();
   const response = await axiosInstance.put(`members/${memberId}/aiNickname`, {
     aiNickname,
+  });
+  return response.data;
+};
+
+export const changeNickname = async (nickname: string) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.put(`members/${memberId}/nickname`, {
+    nickname,
+  });
+  return response.data;
+};
+
+export const changeGoal = async (goalName: string) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.put(`members/${memberId}/goalName`, {
+    goalName,
   });
   return response.data;
 };
