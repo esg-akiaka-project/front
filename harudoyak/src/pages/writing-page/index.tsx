@@ -3,10 +3,11 @@ import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import { usePostDataContext } from "@/src/context/PostDataContext";
 import TextCenterHeader from "../../components/common/Header/CenterTextHeader";
+import { TitleModal } from "@/src/components/grow-up-record";
 
 const WritingPage: React.FC = () => {
-  const {text, updateText} = usePostDataContext();
- //const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { text, updateText } = usePostDataContext();
+
   const infoMarkdown = `도약기록에 다음과 같은 것들을 적어보세요. \n
 - **성취**: '오늘의 나는 무엇을 잘했는지'  
 - **개선**: '오늘의 나는 어떤 문제를 겪었는지, 앞으로 어떻게 해결할 것인지'  
@@ -14,20 +15,34 @@ const WritingPage: React.FC = () => {
 위 세 가지가 오늘도 한 단계 도약한 나 자신을 발견하도록 이끌어 줄 거예요 :)
 `;
 
+  const [showModal, setShowModal] = useState(false);
+  const textRef = useRef<any>(null);
+
+  const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    updateText(newText);
+
+    if (textRef.current) {
+      textRef.current.style.height = `auto`;
+      textRef.current.style.height = `${textRef.current.scrollHeight}px`;
+    }
+  };
+
   return (
     <>
-      <TextCenterHeader text={text}/>
+      <TextCenterHeader text={text} onFail={() => setShowModal(true)} />
       <Wrapper>
         <Textarea
           value={text}
-          onChange={(e) => updateText(e.target.value)}
           placeholder="오늘의 도약기록을 작성해 주세요."
-        ></Textarea>
-
+          ref={textRef}
+          onChange={changeHandler}
+        />
         <Info>
           <ReactMarkdown>{infoMarkdown}</ReactMarkdown>
         </Info>
       </Wrapper>
+      {showModal && <TitleModal onClose={() => setShowModal(false)} />}
     </>
   );
 };
@@ -43,7 +58,6 @@ const Textarea = styled.textarea`
   all: unset;
   white-space: pre-line;
   width: 100%;
-  height: 300px;
   background: var(--background);
   border: none;
   color: var(--gray-for-grayscale);
@@ -51,11 +65,9 @@ const Textarea = styled.textarea`
 
 const Info = styled.div`
   color: #a6a6a6;
-  position: sticky;
   bottom: 100px;
   font-size: 12px;
-  margin-top: 70px;
-
+  margin-top: 190px;
   line-height: 1.4;
 
   p {

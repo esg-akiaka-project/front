@@ -28,12 +28,12 @@ const EntryButton = styled.button`
   min-height: 100px;
   border-radius: 10px;
   border: 0.05px solid #b5d6bf;
-  padding: 0 10px;
+  padding: 0 12px;
   color: var(--gray-from-grayscale);
   font-size: 0.94rem;
-  display: flex;
   align-items: flex-start;
   margin-right: 23px;
+
 `;
 
 const Span = styled.span`
