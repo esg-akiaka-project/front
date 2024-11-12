@@ -46,8 +46,7 @@ const MonthlyCalendar: React.FC = () => {
   if (memberId) {
     fetchList();
   }
-  console.log(recordDayList);
-  
+
   const formatDate = (date: Date) =>
     date
       .toLocaleDateString("ko-KR", {
@@ -76,7 +75,7 @@ const MonthlyCalendar: React.FC = () => {
       case memberId === null:
         alert("로그인을 먼저 해주세요");
         break;
-      
+
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
         router.push("/grow-check");
