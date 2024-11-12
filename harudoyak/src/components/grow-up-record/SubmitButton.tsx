@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import { PostDataContextType } from "@/src/context/PostDataContext";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-// logsApi.ts에서 API 함수 임포트
+// logsApi.ts에서 API 함수 import
 import { createPost } from "@/src/apis/logsApi";
 
 interface SubmitButtonProps {
@@ -19,6 +21,8 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   emotion,
   tags,
 }) => {
+  const router = useRouter();
+
   const handleSubmit = async () => {
     console.log(
       "작성된 도약 기록\n text:",
@@ -32,12 +36,46 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     );
     try {
       const response = await createPost(text, emotion, image, tags);
-      console.log("기록 작성 성공:", response);
+      console.log("기록 작성 성공:", response.content);
+
+      router.push(`./detail/${response.memberId}/${response.logId}`);
     } catch (error) {
       console.log("기록 작성 실패:", error);
     }
   };
-  return <Button onClick={handleSubmit}>도약기록 남기기</Button>;
+
+  const addLetter = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/openai/letter", {
+        text: `${emotion}, ${text}`,
+      });
+
+      if (response.status === 200) {
+        router.push(`./detail`); // 라우팅 테스트를 위한 임시 코드
+        const letter = response.data.letter;
+        console.log(letter);
+      } else {
+        console.error("도약이 편지를 가져오는 데 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  };
+
+  return <Button onClick={addLetter}>도약기록 남기기</Button>;
+
+  {
+    /* <Button
+      onClick={(e) => {
+        handleSubmit();
+        addLetter(e);
+      }}
+    >
+      도약기록 남기기
+    </Button> */
+  }
 };
 export default SubmitButton;
 
