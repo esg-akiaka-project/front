@@ -13,17 +13,17 @@ import {
 } from "../../../public/assets/grow-up-record";
 
 interface EmotionsProps {
-  emotion: number;
-  updateEmotion: (emotion: number) => void;
+  emotion: string;
+  updateEmotion: (emotion: string) => void;
 }
 
 const Emotions: React.FC<EmotionsProps> = ({ emotion, updateEmotion }) => {
-  const handleClick = (emotionNum: number): void => {
-    updateEmotion(emotionNum);
-    console.log(emotionNum);
+  const handleClick = (emotionData: string): void => {
+    updateEmotion(emotionData);
+    console.log(emotionData);
 
     //isOpened 제어 코드
-    if (emotion === emotionNum) {
+    if (emotion === emotionData) {
       setIsOpened(true);
     } else {
       setIsOpened(false);
@@ -36,25 +36,46 @@ const Emotions: React.FC<EmotionsProps> = ({ emotion, updateEmotion }) => {
 
   return (
     <Root>
-      <StyledBtn $isSelected={emotion === 1} onClick={() => handleClick(1)}>
+      <StyledBtn
+        $isSelected={emotion === "love"}
+        onClick={() => handleClick("love")}
+      >
         <Image src={love} alt="사랑" />
       </StyledBtn>
-      <StyledBtn $isSelected={emotion === 2} onClick={() => handleClick(2)}>
+      <StyledBtn
+        $isSelected={emotion === "happy"}
+        onClick={() => handleClick("happy")}
+      >
         <Image src={happy} alt="기쁨" />
       </StyledBtn>
-      <StyledBtn $isSelected={emotion === 3} onClick={() => handleClick(3)}>
+      <StyledBtn
+        $isSelected={emotion === "sad"}
+        onClick={() => handleClick("sad")}
+      >
         <Image src={sad} alt="슬픔" />
       </StyledBtn>
-      <StyledBtn $isSelected={emotion === 4} onClick={() => handleClick(4)}>
+      <StyledBtn
+        $isSelected={emotion === "angry"}
+        onClick={() => handleClick("angry")}
+      >
         <Image src={angry} alt="화남" />
       </StyledBtn>
-      <StyledBtn $isSelected={emotion === 5} onClick={() => handleClick(5)}>
+      <StyledBtn
+        $isSelected={emotion === "surprised"}
+        onClick={() => handleClick("surprised")}
+      >
         <Image src={surprise} alt="놀람" />
       </StyledBtn>
-      <StyledBtn $isSelected={emotion === 6} onClick={() => handleClick(6)}>
+      <StyledBtn
+        $isSelected={emotion === "fun"}
+        onClick={() => handleClick("fun")}
+      >
         <Image src={funny} alt="재밌음" />
       </StyledBtn>
-      <StyledBtn $isSelected={emotion === 7} onClick={() => handleClick(7)}>
+      <StyledBtn
+        $isSelected={emotion === "etc"}
+        onClick={() => handleClick("etc")}
+      >
         <Image src={etc} alt="기타" />
       </StyledBtn>
       {isOpened && (

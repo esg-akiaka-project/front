@@ -37,7 +37,8 @@ const PreviewImage = styled.img`
 const DeleteButton = styled.button`
   position: absolute;
   top: 0px;
-  transform: translateY(-50%);
+  transform: translateY(50%);
+  transform: translateX(50%);
   right: 0px;
   background: #A6A6A6;
   color: #ffffff;

@@ -1,5 +1,6 @@
+// src/pages/api/openai/keywords.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
+import { openAiApi } from '../../../apis/openAIApi';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -11,41 +12,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { text } = req.body;
 
   try {
-    const openAiResponse = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
-      {
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: 'You will be provided with a block of text, and your task is to extract a list of keywords from it.'
-          },
-          {
-            role: 'user',
-            content: text
-          }
-        ],
-        temperature: 0.5,
-        max_tokens: 64,
-        top_p: 1,
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    console.log(openAiResponse.data);
-
-    const keywords = openAiResponse.data.choices[0].message.content
-      .trim()
-      .split(',')
-      .map((tag: string) => tag.trim());
+    const prompt = '직장인 사용자가 하루의 일기를 담은 텍스트를 제공합니다. 텍스트를 분석하여 중요한 의미를 가진 핵심 명사를 3개에서 7개까지 추출하세요. 핵심 단어만 간단하게 나열하고, 추가 설명은 하지 마세요.';
+    const keywordsResponse = await openAiApi(prompt, text);
+    const keywords = keywordsResponse.split(',').map((keyword: string) => keyword.trim());
 
     res.status(200).json({ keywords });
   } catch (error) {
-    console.error("Error fetching keywords from OpenAI API:", error);
     res.status(500).json({ error: '태그를 가져오는 데 실패했습니다.' });
   }
 }
+
+
+

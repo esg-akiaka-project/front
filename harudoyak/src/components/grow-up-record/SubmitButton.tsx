@@ -1,23 +1,50 @@
+import React, { useState } from "react";
 import styled from "styled-components";
-import { PostData } from "../../hooks/usePostData";
 import Image from "next/image";
+import { PostDataContextType } from "@/src/context/PostDataContext";
+
+// logsApi.ts에서 API 함수 임포트
+import { createPost } from "@/src/apis/logsApi";
 
 interface SubmitButtonProps {
-  data: PostData;
+  text: string;
+  image: File | null;
+  emotion: string;
+  tags: string[];
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ data }) => {
-  const handleSubmit = () => {
-    // POST 요청 로직
-    console.log("Client to Server: ", data);
+const SubmitButton: React.FC<SubmitButtonProps> = ({
+  text,
+  image,
+  emotion,
+  tags,
+}) => {
+  const handleSubmit = async () => {
+    console.log(
+      "작성된 도약 기록\n text:",
+      text,
+      "emotion:",
+      emotion,
+      "image:",
+      image,
+      "tags:",
+      tags,
+    );
+    try {
+      const response = await createPost(text, emotion, image, tags);
+      console.log("기록 작성 성공:", response);
+    } catch (error) {
+      console.log("기록 작성 실패:", error);
+    }
   };
-  return <Button onClick={handleSubmit}>기록하기</Button>;
+  return <Button onClick={handleSubmit}>도약기록 남기기</Button>;
 };
-
 export default SubmitButton;
 
 // styled-components
 const Button = styled.button`
+  display: fixed;
+
   border-radius: 20px;
   background: #3c7960;
   width: 100%;
@@ -25,8 +52,9 @@ const Button = styled.button`
   color: #ffffff;
   font-size: 1.13rem;
   text-align: center;
-  display: fixed;
   bottom: 0;
+  margin-top: 7px;
+  margin-bottom: 14px;
 `;
 
 const Testbutton = styled.button<{ $data: boolean; $display: boolean }>`
