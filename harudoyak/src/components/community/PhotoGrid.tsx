@@ -1,5 +1,4 @@
-// PhotoGrid.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Thumbnail from './Thumbnail';
 import useCommunityStore from '../../store/useCommunityStore';
@@ -60,25 +59,23 @@ const Label = styled.label`
 `;
 
 interface PhotoGridProps {
-    setSelectedPhoto: (photo: string | null) => void;
+    setSelectedPhoto: (photo: string | null) => void; // 수정된 부분
 }
 
 export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
-    const { photos, addPhotos, setSelectedPhoto: setCommunitySelectedPhoto } = useCommunityStore();
+    const { photos, addPhotos } = useCommunityStore();
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files) {
             const newPhotos = Array.from(files).map(file => URL.createObjectURL(file));
-            addPhotos([...newPhotos, ...photos]); // 새로운 사진을 기존 사진 배열의 앞에 추가
+            addPhotos(newPhotos); // 새로운 사진 배열을 상단에 추가
         }
     };
-    
 
-    const handlePhotoClick = (photo: string) => {
-        setSelectedPhoto(photo); // PhotoGrid의 로컬 상태만 사용하도록 수정
+    const handlePhotoClick = (photo: string) => { // 수정된 부분
+        setSelectedPhoto(photo);
     };
-    
 
     return (
         <PhotoGridContainer>
@@ -105,3 +102,4 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
         </PhotoGridContainer>
     );
 };
+

@@ -15,7 +15,6 @@ const MyPageHome: React.FC = () => {
         <UserOptionSection />
         <MyRecord />
       </Container>
-      {/* <UserOptionSection /> */}
     </Root>
   );
 };
@@ -25,5 +24,6 @@ export default MyPageHome;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* UndoAndPageName과 UserInfoSection 간 간격 */
+  gap: 2rem;
+  padding-bottom: 6rem;
 `;

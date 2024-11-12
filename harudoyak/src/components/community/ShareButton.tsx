@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import useCommunityStore from '../../store/useCommunityStore';
-import { createPost } from '@/src/apis/seoroApi'; // createPost 함수 임포트
-
+import { createPost } from '@/src/apis/seoroApi'; // createPost와 uploadToS3Seoro 함수 임포트
+import { uploadToS3Seoro } from '@/src/apis/uploadToS3Seoro'; 
 interface ShareButtonProps {
   onClick?: () => void;
 }
@@ -15,8 +15,23 @@ const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
 
   const handleShare = async () => {
     try {
+      console.log(comment, selectedPhoto);
       if (selectedPhoto && comment) { // 선택된 사진과 댓글이 있는지 확인
-        await createPost(comment, selectedPhoto); // createPost 호출 시 인수 순서 수정
+        // 선택된 사진을 S3에 업로드
+        const response = await fetch(selectedPhoto);
+        const blob = await response.blob();
+        const file = new File([blob], 'photo.jpg', { type: blob.type });
+
+        // 파일 유효성 검사
+        if (!file || !file.name || file.size === 0 || !file.type.startsWith('image/')) {
+          throw new Error("유효하지 않은 파일입니다.");
+        }
+
+        const uploadedUrl = await uploadToS3Seoro(file);
+        console.log('Uploaded URL:', uploadedUrl);
+
+        // 게시글 생성
+        await createPost(comment, uploadedUrl); // createPost 호출 시 업로드된 URL 사용
         router.push('/community'); // 성공 시 라우팅
       } else {
         console.error("사진 또는 댓글이 누락되었습니다.");

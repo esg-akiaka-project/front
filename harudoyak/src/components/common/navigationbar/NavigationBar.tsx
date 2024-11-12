@@ -7,11 +7,18 @@ import Community from "@/public/assets/common/Community.svg";
 import Home from "@/public/assets/common/Home.svg";
 import Mypage from "@/public/assets/common/Mypage.svg";
 import Record from "@/public/assets/common/Record.svg";
+import { useUserStore } from "@/src/store/useUserStore";
 
 const NavigationBar: React.FC = () => {
   const router = useRouter();
+  const { memberId } = useUserStore();
 
   const navigate = (path: string) => {
+    const checkingPages = ["/grow-check", "/alarm", "/my-page"];
+    if (checkingPages.includes(path) && memberId === null) {
+      router.push("log-in");
+      return;
+    }
     router.push(path);
   };
 

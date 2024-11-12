@@ -28,11 +28,9 @@ const AccountEdit: React.FC = () => {
   };
   const savePassword = async () => {
     if (newPassword === confirmPassword) {
-      console.log("비밀번호 변경 저장:", newPassword);
       // try {
       //   const response = await changePassword()
       // }
-      // 예시: await updatePasswordAPI(newPassword);
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }

@@ -1,5 +1,6 @@
 import React from "react";
 import UndoXButton from "../buttons/UndoXButton";
+import SpeicificUndoXButton from "../buttons/SpecificUndoXButton";
 import styled from "styled-components";
 import iconArrow from "@/public/assets/common/icon_arrow.svg";
 
@@ -7,10 +8,15 @@ interface PageNameProps {
   pageName: string;
 }
 const UndoAndPageName: React.FC<PageNameProps> = ({ pageName }) => {
+  const isMaintainPage = pageName === "계정관리";
   return (
     <>
       <UPN>
-        <UndoXButton icon={iconArrow} />
+        {isMaintainPage ? (
+          <SpeicificUndoXButton icon={iconArrow} />
+        ) : (
+          <UndoXButton icon={iconArrow} />
+        )}
         <StyledTitle>{pageName}</StyledTitle>
       </UPN>
     </>

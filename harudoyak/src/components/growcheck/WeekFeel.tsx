@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import Root from "@/src/style/Root";
+
 import styled from "styled-components";
 import Tags from "./Tags";
 import EmotionDiv from "./EmotionDiv";
 import Mailbox from "./Mailbox";
+import Circle from "./Circle";
 
 interface WeekProps {
   onDayClick: (date: Date) => void;
@@ -92,27 +93,6 @@ const SectionTitle = styled.h2`
   font-size: 1.6rem;
   color: #3c7960;
   margin-bottom: 1rem;
-`;
-
-interface CircleProps {
-  number: number;
-}
-
-const Circle: React.FC<CircleProps> = ({ number }) => (
-  <StyledCircle>{number}</StyledCircle>
-);
-
-const StyledCircle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3rem;
-  background-color: white;
-  width: 1.3rem;
-  height: 1.3rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #3c7960;
 `;
 
 const ParellelWrapper = styled.div`

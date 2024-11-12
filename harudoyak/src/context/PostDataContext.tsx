@@ -1,9 +1,9 @@
 import React, { createContext, useContext } from "react";
 import usePostData, { PostData } from "../hooks/usePostData";
 
-interface PostDataContextType extends PostData {
+export interface PostDataContextType extends PostData {
   updateText: (newText: string) => void;
-  updateEmotion: (newEmotion: number) => void;
+  updateEmotion: (newEmotion: string) => void;
   updateImage: (newImage: File | null) => void;
   updateTags: (newTags: string[]) => void;
 }

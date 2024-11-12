@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import usePostData from "../../hooks/usePostData";
 import styled from "styled-components";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -10,7 +9,7 @@ import Root from "../../style/Root";
 import UndoXButton from "../../components/buttons/UndoXButton";
 import Emotions from "../../components/grow-up-record/Emotions";
 import TextEntryButton from "../../components/grow-up-record/TextEntryButton";
-import ImageUploadSection from "../../components/grow-up-record/UploadSection";
+import ImageUploadSection from "../../components/grow-up-record/UploadImage/UploadSection";
 import EditButton from "../../components/grow-up-record/EditButton";
 import Tags from "../../components/common/Tags";
 import Tooltip from "../../components/common/Tooltip";
@@ -18,11 +17,13 @@ import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
 import iconReload from "../../../public/assets/common/icon_reload.svg";
 import iconX from "../../../public/assets/common/icon_X.svg";
 import SubmitButton from "../../components/grow-up-record/SubmitButton";
+import ReloadButton from "../../components/grow-up-record/Reload";
 //import DoneModal from '../../components/grow-up-record/DoneModal';
 
 const GrowUpRecordHome: React.FC = () => {
   const { text, image, emotion, tags, updateEmotion, updateTags } =
     usePostDataContext();
+  // TODO: 도약기록 페이지 들어올 때마다 tags를 초기화하는 state 변수
 
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
 
@@ -32,10 +33,12 @@ const GrowUpRecordHome: React.FC = () => {
       : setIsTooltipOpened(true);
   };
 
-  const mocktags = ["WAS", "Github", "가이드북", "비즈니스 매너"];
-
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
+
+  const isReadyToSubmit = text && emotion && tags && tags.length > 0;
+
+  const [index, setIndex] = useState(0);
 
   return (
     <Root>
@@ -60,8 +63,6 @@ const GrowUpRecordHome: React.FC = () => {
           </ReactMarkdown>
         </TextEntryButton>
       </Link>
-      {/*TODO : Writing Page로 들어가기 전에 감정 선택 안 되어 있으면 경고 팝업 띄우기*/}
-      {/*TODO : Emotions.tsx에서 마지막으로 선택한 감정을 받아서 server로 전송하는 로직 구현*/}
 
       <ImageUploadSection />
 
@@ -80,15 +81,15 @@ const GrowUpRecordHome: React.FC = () => {
         {tags && tags.length > 0 ? (
           <Tags tagslist={tags} />
         ) : (
-          <p>아직 출력된 태그가 없습니다.</p>
+          <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <Image
-          src={iconReload}
-          alt="Reload"
-          style={{ transform: "translateY(-25px)" }}
-        />
+        <ReloadButton index={index}>
+          <Image src={iconReload} alt="Reload" />
+        </ReloadButton>
       </FlexWrapper>
-      {/*<SubmitButton data={{text, emotion, image: null, tags}} onClick={clickModal} size={60}>도약기록 남기기</SubmitButton>
+      {isReadyToSubmit && (
+        <SubmitButton text={text} image={image} emotion={emotion} tags={tags} />
+      )}
       {/*{showModal && <DoneModal clickModal={clickModal}/>}*/}
     </Root>
   );
@@ -113,4 +114,9 @@ const FlexWrapper = styled.div`
   display: flex;
   gap: 17px;
   align-items: center;
+`;
+
+const P = styled.p`
+  color: var(--gray-from-grayscale);
+  margin: 0;
 `;

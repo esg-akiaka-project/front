@@ -48,3 +48,4 @@ export const uploadToS3 = async (file: File) => {
     }
   }
 };
+

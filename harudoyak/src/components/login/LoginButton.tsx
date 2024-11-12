@@ -19,6 +19,10 @@ const LoginButton: React.FC<LoginButtonProps> = ({ email, password }) => {
     setMemberId,
     setExp,
     setNickname,
+    setRecentContinuity,
+    setFirstDoyak,
+    setMaxContinuity,
+    setShareDoyakCount,
   } = useUserStore();
 
   const LoginProcess = async () => {
@@ -38,6 +42,11 @@ const LoginButton: React.FC<LoginButtonProps> = ({ email, password }) => {
         setProfileImage(file.filePathName);
         setNickname(member.nickname);
         setExp(level.point);
+
+        setRecentContinuity(level.sharedotakCount);
+        setFirstDoyak(level.firstDate);
+        setMaxContinuity(level.maxContinuity);
+        setShareDoyakCount(level.shareDoyakCount);
 
         localStorage.setItem("refreshToken", member.refreshToken);
 
