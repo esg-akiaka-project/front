@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface MainPhotoProps {
@@ -21,6 +21,8 @@ const Photo = styled.img`
 `;
 
 export const MainPhoto: React.FC<MainPhotoProps> = ({ selectedPhoto }) => {
+    const [photoSrc, setPhotoSrc] = useState<string | undefined>(undefined);
+
     const getPhotoSrc = (photo: File | string | null): string | undefined => {
         if (photo instanceof File) {
             return URL.createObjectURL(photo);
@@ -30,7 +32,18 @@ export const MainPhoto: React.FC<MainPhotoProps> = ({ selectedPhoto }) => {
         return undefined;
     };
 
-    const photoSrc = getPhotoSrc(selectedPhoto);
+    useEffect(() => {
+        // 선택된 사진이 바뀔 때마다 photoSrc를 새로 설정
+        const src = getPhotoSrc(selectedPhoto);
+        setPhotoSrc(src);
+
+        // 메모리 누수를 방지하기 위해 URL 해제
+        return () => {
+            if (src && selectedPhoto instanceof File) {
+                URL.revokeObjectURL(src);
+            }
+        };
+    }, [selectedPhoto]);
 
     return (
         <MainPhotoContainer>

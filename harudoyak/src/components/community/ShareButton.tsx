@@ -1,9 +1,8 @@
-// ShareButton.tsx
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useCommunityStore } from '../../store/useCommunityStore';
+import useCommunityStore from '../../store/useCommunityStore';
 import { createPost } from '@/src/apis/seoroApi'; // createPost 함수 임포트
 
 interface ShareButtonProps {
@@ -17,7 +16,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
   const handleShare = async () => {
     try {
       if (selectedPhoto && comment) { // 선택된 사진과 댓글이 있는지 확인
-        await createPost(selectedPhoto, comment); // createPost 호출
+        await createPost(comment, selectedPhoto); // createPost 호출 시 인수 순서 수정
         router.push('/community'); // 성공 시 라우팅
       } else {
         console.error("사진 또는 댓글이 누락되었습니다.");

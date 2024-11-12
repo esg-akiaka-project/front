@@ -70,18 +70,19 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
         const files = event.target.files;
         if (files) {
             const newPhotos = Array.from(files).map(file => URL.createObjectURL(file));
-            addPhotos(newPhotos);
+            addPhotos([...newPhotos, ...photos]); // 새로운 사진을 기존 사진 배열의 앞에 추가
         }
     };
+    
 
     const handlePhotoClick = (photo: string) => {
-        setSelectedPhoto(photo);
-        setCommunitySelectedPhoto(photo);
+        setSelectedPhoto(photo); // PhotoGrid의 로컬 상태만 사용하도록 수정
     };
+    
 
     return (
         <PhotoGridContainer>
-            <SelectBox>사진 한 개 선택</SelectBox>
+            <SelectBox>사진 한 장을 선택해주세요!</SelectBox>
             <Label htmlFor="file-input">사진 업로드</Label>
             <FileInput
                 id="file-input"
