@@ -1,5 +1,4 @@
 // 도약기록 관련 api 모음
-import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
 import { uploadToS3 } from './uploadToS3';

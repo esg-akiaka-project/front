@@ -42,7 +42,8 @@ const Home: React.FC = () => {
         height={80}
         alt="Logo"
         style={imageStyle}
-      />
+        priority={Logo ? true : false}
+        />
 
       {memberId === null ? ( // 로그인 전, 후 조건부 렌더링
         <>

@@ -28,11 +28,14 @@ const MonthlyCalendar: React.FC = () => {
     "2024-10-31",
   ];
 
+  // api에서 response 받아와서 recordDayList 로 만들어줄 예정
   const [recordDayList, setRecordDayList] = useState<string[]>([]);
   const { memberId } = useUserStore();
   const fetchList = async () => {
     try {
       const response = await fetchRecordList();
+      // creationDate 값들만 추출하여 배열로 만들어줌
+      // response.data.map(item => item.creationDate)
       setRecordDayList(response.map((item: RecordItem) => item.creationDate));
     } catch (error) {
       console.error("Failed to fetch record list:", error);
@@ -40,11 +43,11 @@ const MonthlyCalendar: React.FC = () => {
     }
   };
 
-  // let recordDayList: string[] = [];
-  // api에서 response 받아와서 recordDayList 로 만들어줄 예정
-  // creationDate 값들만 추출하여 배열로 만들어줌
-  // response.data.map(item => item.creationDate)
-
+  if (memberId) {
+    fetchList();
+  }
+  console.log(recordDayList);
+  
   const formatDate = (date: Date) =>
     date
       .toLocaleDateString("ko-KR", {
@@ -69,10 +72,11 @@ const MonthlyCalendar: React.FC = () => {
     const formattedToday = formatDate(today);
 
     switch (true) {
-      // // 로그인이 안되어 있을경우 ,
-      // case memberId === null:
-      //   alert("로그인을 먼저 해주세요");
-      //   break;
+      // 로그인이 안되어 있을경우 ,
+      case memberId === null:
+        alert("로그인을 먼저 해주세요");
+        break;
+      
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
         router.push("/grow-check");
