@@ -7,7 +7,6 @@ import SignUpButton from "@/src/components/buttons/SignUpButton";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
 import styled from "styled-components";
 import Root from "../../style/Root";
-import useEmailStore from "@/src/store/useEmailStore";
 
 import {
   certifyEmail,
@@ -23,15 +22,24 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   const [nicknameVerified, setnicknameVerified] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const isVerified = useEmailStore((state) => state.isVerified);
-  const setVerified = useEmailStore((state) => state.setVerified);
 
   useEffect(() => {
-    if (isVerified) {
-      setVerified(false);
-      console.log("이메일 인증이 완료되었습니다.");
-    }
-  }, [isVerified, setVerified]);
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "emailVerification") {
+        const updatedState = JSON.parse(event.newValue || "{}");
+        if (updatedState.isVerified) {
+          setEmailVerified(true);
+          console.log("이메일 인증이 완료되었습니다. (스토리지 이벤트)");
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -51,9 +59,6 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
     setConfirmPassword(e.target.value);
   };
 
-  // todo: 이메일 인증 로직 다시 확인
-  // 실제 로직은 백엔드에 이메일 인증 요청 -> 메일 내의 인증 링크 클릭 -> localstorage 이메일 및 인증여부 등록 이벤트 발생
-  // 해당 이벤트를 통해 이메일 인증 확인 후에 로직 실행
   const verifyEmail = async () => {
     console.log("이메일 인증 요청: ", email);
     try {
@@ -79,11 +84,9 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
     }
   };
 
-  // todo: 닉네임 중복확인 로직 다시 확인!!
   const CheckDuplicateId = async () => {
     try {
       const response = await CheckDuplicateNickname(nickname);
-
       console.log("닉네임 중복 확인 성공", response);
       setnicknameVerified(true);
     } catch (error) {
