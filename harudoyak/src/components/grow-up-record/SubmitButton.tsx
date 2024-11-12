@@ -70,7 +70,6 @@ export default SubmitButton;
 // styled-components
 const Button = styled.button`
   display: fixed;
-
   border-radius: 20px;
   background: #3c7960;
   width: 100%;
@@ -78,25 +77,11 @@ const Button = styled.button`
   color: #ffffff;
   font-size: 1.13rem;
   text-align: center;
-  bottom: 0;
-  margin-top: 7px;
-  margin-bottom: 14px;
+  bottom: 0%;
+  margin-top: 110px;
+  font-weight: bold;
 `;
 
-const Testbutton = styled.button<{ $data: boolean; $display: boolean }>`
-  background: ${({ $data }) => ($data === true ? "#3C7960" : "#D9D9D9")};
-  width: 100%;
-  height: 60px;
-  border: none;
-  border-radius: 25px;
-  color: white;
-  font-weight: bold;
-  font-size: 1.5rem;
-  align-items: center;
-  justify-content: center;
-  display: ${({ $display }) => ($display ? "flex" : "None")};
-  cursor: ${({ $data }) => ($data ? "pointer" : "not-allowed")};
-`;
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;

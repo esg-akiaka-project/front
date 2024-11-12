@@ -3,7 +3,7 @@ import CloseButton from "./CloseButton";
 import DoneModal from "./DoneModal";
 import EditButton from "./EditButton";
 import Emotions from "./Emotions";
-import ReloadButton from "./Reload";
+import ReloadButton from "./ReloadButton";
 import SubmitButton from "./SubmitButton";
 import TextEntryButton from "./TextEntryButton";
 import TitleModal from "./TitleModal";

@@ -31,5 +31,4 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap; // 태그가 가로 너비를 초과하면 다음 줄로 넘기기
   gap: 10px;
-  margin-bottom: 50px;
 `;

@@ -11,7 +11,6 @@ import ImageUploadSection from "../../components/grow-up-record/UploadImage/Uplo
 import Tags from "../../components/common/Tags";
 import Tooltip from "../../components/common/Tooltip";
 import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
-import iconReload from "../../../public/assets/common/icon_reload.svg";
 import iconX from "../../../public/assets/common/icon_X.svg";
 
 import {
@@ -86,9 +85,7 @@ const GrowUpRecordHome: React.FC = () => {
         ) : (
           <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <ReloadButton index={index}>
-          <Image src={iconReload} alt="Reload" />
-        </ReloadButton>
+        <ReloadButton index={index}/>
       </FlexWrapper>
       {isReadyToSubmit && (
         <SubmitButton
