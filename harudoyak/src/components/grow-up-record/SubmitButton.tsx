@@ -13,6 +13,7 @@ interface SubmitButtonProps {
   image: File | null;
   emotion: string;
   tags: string[];
+  onSuccess: () => void;
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
@@ -20,6 +21,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   image,
   emotion,
   tags,
+  OnSuccess
 }) => {
   const router = useRouter();
 
@@ -44,13 +46,14 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         text: `${emotion}, ${text}`,
       });
 
-      if (letterResponse.status === 2000) {
+      if (letterResponse.status === 200) {
         const letter = letterResponse.data.letter;
         console.log("도약이의 편지가 생성되었습니다:", letter);
 
         await saveLetter(letter, logId);
         console.log("Letter saved successfully");
-
+        
+        OnSuccess();
         router.push(`/`);
       } else {
         console.error("도약이 편지 생성에 실패했습니다.");

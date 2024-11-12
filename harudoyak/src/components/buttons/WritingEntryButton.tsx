@@ -15,7 +15,7 @@ const WritingEntryButton: React.FC = () => {
 
   return (
     <ButtonLayout>
-      <button type="button" onClick={() => router.push('/grow-up-record')}>
+      <button type="button" onClick={() => router.push("/grow-up-record")}>
         <ContentWrapper>
           <Image src={iconPencil} alt="도약기록 쓰기 아이콘" />
           <Text>도약기록 쓰기</Text>
@@ -33,7 +33,6 @@ const ButtonLayout = styled.div`
   bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
-  
 `;
 
 const ContentWrapper = styled.div`

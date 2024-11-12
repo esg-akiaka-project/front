@@ -4,11 +4,7 @@ import modalBGImage from "../../../public/assets/grow-up-record/modal_background
 import doyakSticker from "../../../public/assets/grow-up-record/doyaksticker.svg";
 import CloseButton from "./CloseButton";
 
-interface DoneModalProps {
-  clickModal: () => void;
-}
-
-const DoneModal: React.FC<DoneModalProps> = ({ clickModal }) => {
+const DoneModal: React.FC = () => {
   return (
     <ModalShadow>
       <ModalComponent>
