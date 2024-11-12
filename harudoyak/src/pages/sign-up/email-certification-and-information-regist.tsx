@@ -7,6 +7,8 @@ import SignUpButton from "@/src/components/buttons/SignUpButton";
 import SignUpTitle from "@/src/components/tosagreement/SignUpTitle";
 import styled from "styled-components";
 import Root from "../../style/Root";
+import useEmailStore from "@/src/store/useEmailStore";
+
 import {
   certifyEmail,
   CheckDuplicateNickname,
@@ -21,25 +23,15 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   const [nicknameVerified, setnicknameVerified] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const isVerified = useEmailStore((state) => state.isVerified);
+  const setVerified = useEmailStore((state) => state.setVerified);
 
   useEffect(() => {
-    // window 객체에 메시지 리스너 추가
-    const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return; // 보안 검증: 같은 출처인지 확인
-
-      const { type, email } = event.data;
-
-      if (type === "EMAIL_VERIFIED" && email) {
-        setEmailVerified(true);
-        setEmail(email);
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
-  }, []);
+    if (isVerified) {
+      setVerified(false);
+      console.log("이메일 인증이 완료되었습니다.");
+    }
+  }, [isVerified, setVerified]);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

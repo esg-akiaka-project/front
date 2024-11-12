@@ -1,30 +1,24 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import useEmailStore from "@/src/store/useEmailStore";
 
 const Verified: React.FC = () => {
   const router = useRouter();
   const { email, isVerified, expireDate } = router.query;
+  const setVerified = useEmailStore((state) => state.setVerified);
 
   useEffect(() => {
-    if (!router.isReady) return;
-    console.log("verified 페이지 입장");
+    if (!router.isReady) return; // 쿼리가 준비되었는지 확인
     if (email && isVerified === "true" && expireDate) {
-      // 만료 시간을 체크하고 로컬 스토리지에 인증 정보를 저장
       const currentDate = new Date();
       const expirationDate = new Date(expireDate as string);
 
       if (currentDate <= expirationDate) {
-        localStorage.setItem("emailVerified", "true");
-        localStorage.setItem("verifiedEmail", String(email));
-
-        // 부모 창으로 인증 완료 메시지 전송
-        window.opener?.postMessage(
-          { type: "EMAIL_VERIFIED", email: email },
-          window.location.origin
-        );
+        setVerified(true); // Zustand 상태 업데이트
       }
     }
-  }, [router.isReady, email, isVerified, expireDate]);
+    window.close();
+  }, [router.isReady, email, isVerified, expireDate, setVerified]);
 
   return <div>이메일 인증 중입니다...</div>;
 };
