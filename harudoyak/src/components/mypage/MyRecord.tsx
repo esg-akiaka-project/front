@@ -1,17 +1,18 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { useUserStore } from "@/src/store/useUserStore";
 
 interface RecordItemProps {
   title: string;
-  value: string | number;
+  value?: number | Date | null | ReactNode;
 }
 // todo: firstDoyak 작성
 const MyRecord: React.FC = () => {
   const { firstDoyak, recentContinuity, maxContinuity, shareDoyakCount } =
     useUserStore();
+  console.log(firstDoyak);
   const records: RecordItemProps[] = [
-    { title: "첫번째 하루도약", value: "2024.12.01" },
+    { title: "첫번째 하루도약", value: firstDoyak },
     { title: "하루도약 연속일", value: recentContinuity },
     { title: "전체 하루도약", value: shareDoyakCount },
     { title: "최장 연속일", value: maxContinuity },
@@ -22,6 +23,7 @@ const MyRecord: React.FC = () => {
       {records.map((record, index) => (
         <RecordItem key={index}>
           <RecordTitle>{record.title}</RecordTitle>
+          {/* todo: type 맞추기 */}
           <RecordValue>{record.value}</RecordValue>
         </RecordItem>
       ))}

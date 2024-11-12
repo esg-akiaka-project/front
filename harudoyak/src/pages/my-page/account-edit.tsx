@@ -8,12 +8,14 @@ import Camera from "@/public/assets/grow-up-record/icon_camera_grey.svg";
 import InputField from "@/src/components/mypage/InputField";
 import { changeNickname, changePassword } from "@/src/apis/authApi";
 import { useUserStore } from "@/src/store/useUserStore";
+import { useRouter } from "next/router";
 
 const AccountEdit: React.FC = () => {
+  const router = useRouter();
   const [oldnickname, setOldNickname] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [oldPassword, setOldpassword] = useState<string>("");
-  const { nickname, setNickname } = useUserStore();
+  const { nickname, setNickname, clearToken } = useUserStore();
 
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -25,6 +27,10 @@ const AccountEdit: React.FC = () => {
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOldNickname(e.target.value);
+  };
+  const logout = () => {
+    clearToken();
+    router.push("/");
   };
   const savePassword = async () => {
     if (newPassword === oldPassword) {
@@ -59,6 +65,7 @@ const AccountEdit: React.FC = () => {
             <Image src={Camera} alt="카메라" width={25} height={25} />
           </CameraIconWrapper>
         </AvatarContainer>
+        <LogoutButton onClick={logout}>로그아웃</LogoutButton>
       </AvatarWrapper>
       <InfoSection>
         <div>
@@ -171,4 +178,11 @@ const SavePasswordButton = styled.button`
   border-radius: 10px;
   margin-top: 1rem;
   margin: 1rem auto;
+`;
+
+const LogoutButton = styled.button`
+  display: flex;
+  margin-left: 1rem;
+  align-items: end;
+  font-weight: bold;
 `;

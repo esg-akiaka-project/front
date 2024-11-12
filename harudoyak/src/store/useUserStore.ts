@@ -101,13 +101,12 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: "userInfoStorage",
-      partialize: (state) => {
+      partialize: (state) =>
         Object.fromEntries(
           Object.entries(state).filter(
             ([key]) => key !== "accessToken" && !key.startsWith("set")
           )
-        );
-      },
+        ),
     }
   )
 );

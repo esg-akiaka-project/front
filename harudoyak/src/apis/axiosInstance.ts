@@ -2,7 +2,7 @@ import axios from "axios";
 import { useUserStore } from "../store/useUserStore";
 
 const axiosInstance = axios.create({
-  baseURL: "/api/",
+  baseURL: "https://www.harudoyak.site/api/",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

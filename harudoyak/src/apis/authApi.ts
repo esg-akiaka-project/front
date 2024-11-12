@@ -33,7 +33,7 @@ interface LoginProps {
 }
 export const Login = async (LoginProps: LoginProps) => {
   const response = await axiosInstance.post(`/auth/login`, LoginProps);
-  return response.data;
+  return response;
 };
 
 export const changePassword = async (

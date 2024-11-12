@@ -5,15 +5,14 @@ import Root from "./../style/Root";
 import LoginButton from "../components/home/HomeLoginButton";
 import WritingEntryButton from "@/src/components/buttons/WritingEntryButton";
 import BeginningSetting from "../components/home/beginningSetting";
-import { changeAiname, changeNickname } from "../apis/authApi";
+import { changeAiname, changeGoal } from "../apis/authApi";
 import Logo from "@/public/assets/common/OptimizedLogo.svg";
 import { useUserStore } from "../store/useUserStore";
 import Image from "next/image";
 
 const Home: React.FC = () => {
-  const nickname = useUserStore((state) => state.nickname);
-  const aiName = useUserStore((state) => state.aiName);
-  const { goalName, setAiName, setGoalName, memberId } = useUserStore();
+  const { goalName, setAiName, setGoalName, memberId, nickname, aiName } =
+    useUserStore();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -26,9 +25,11 @@ const Home: React.FC = () => {
   const handleSave = async (newAiName: string, newGoal: string) => {
     try {
       const response = await changeAiname(newAiName);
-      const response1 = await changeNickname(newGoal);
-      setGoalName(newGoal);
+      const response1 = await changeGoal(newGoal);
+
       setAiName(newAiName);
+      setGoalName(newGoal);
+
       setShowModal(false);
     } catch (error) {
       console.error("AI 설정 저장 중 오류 발생:", error);

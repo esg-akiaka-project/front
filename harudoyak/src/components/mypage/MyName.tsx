@@ -5,8 +5,8 @@ import { useUserStore } from "@/src/store/useUserStore";
 
 const MyName: React.FC = () => {
   const { nickname } = useUserStore();
-  const name = nickname === null ? "닉네임 없음" : nickname;
+  // const name = nickname === null ? "닉네임 없음" : nickname;
 
-  return <p>{name}</p>;
+  return <p>{nickname}</p>;
 };
 export default MyName;
