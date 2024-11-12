@@ -20,7 +20,16 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   tags,
 }) => {
   const handleSubmit = async () => {
-    console.log("작성된 도약 기록\n text:", text, "emotion:", emotion, "image:", image, "tags:", tags);
+    console.log(
+      "작성된 도약 기록\n text:",
+      text,
+      "emotion:",
+      emotion,
+      "image:",
+      image,
+      "tags:",
+      tags,
+    );
     try {
       const response = await createPost(text, emotion, image, tags);
       console.log("기록 작성 성공:", response);
@@ -35,7 +44,7 @@ export default SubmitButton;
 // styled-components
 const Button = styled.button`
   display: fixed;
-  bottom: 10px;
+
   border-radius: 20px;
   background: #3c7960;
   width: 100%;
@@ -44,7 +53,8 @@ const Button = styled.button`
   font-size: 1.13rem;
   text-align: center;
   bottom: 0;
-  margin-top: 60px;
+  margin-top: 7px;
+  margin-bottom: 14px;
 `;
 
 const Testbutton = styled.button<{ $data: boolean; $display: boolean }>`

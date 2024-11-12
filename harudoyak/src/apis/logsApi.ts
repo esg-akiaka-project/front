@@ -19,23 +19,32 @@ export const fetchRecordList = async (): Promise<RecordItem[]> => {
   return response.data;
 };
 
-// 도약기록 쓰기 API (S3 URL 사용)
+// 도약기록 쓰기 API (image -> S3 URL 사용)
 export const createPost = async (text: string, emotion: string, image: File|null, tags: string[]) => {
   const { memberId } = useUserStore.getState();
+
+  if (!memberId) {
+    throw new Error("memberId가 유효하지 않습니다.");
+  }
 
   try {
     const photoUrl = image? await uploadToS3(image) : null;
     console.log("작성된 도약 기록\n text:", text, "emotion:", emotion, "imageUrl:", photoUrl, "tags:", tags)
-    const response = await axiosInstance.post(`/api/posts/${memberId}`, {
-      memberId: memberId,
-      logContent:text,
-      tagNameList: tags,
+    
+    const tagNameList = tags.map(tag => ({ tagName: tag}));
+
+    const response = await axiosInstance.post(`/api/logs/${memberId}`, {
+      logContent: text,
+      tagNameList: tagNameList,
       emotion: emotion,
-      logImageUrl: photoUrl
+      logImageUrl: photoUrl,
+    }, {
+      params: {memberId: memberId}
     });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
+
 

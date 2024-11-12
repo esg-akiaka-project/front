@@ -17,6 +17,7 @@ import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
 import iconReload from "../../../public/assets/common/icon_reload.svg";
 import iconX from "../../../public/assets/common/icon_X.svg";
 import SubmitButton from "../../components/grow-up-record/SubmitButton";
+import ReloadButton from "../../components/grow-up-record/Reload";
 //import DoneModal from '../../components/grow-up-record/DoneModal';
 
 const GrowUpRecordHome: React.FC = () => {
@@ -34,6 +35,10 @@ const GrowUpRecordHome: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
+
+  const isReadyToSubmit = text && emotion && tags && tags.length > 0;
+
+  const [index, setIndex] = useState(0);
 
   return (
     <Root>
@@ -58,8 +63,6 @@ const GrowUpRecordHome: React.FC = () => {
           </ReactMarkdown>
         </TextEntryButton>
       </Link>
-      {/*TODO : Writing Page로 들어가기 전에 감정 선택 안 되어 있으면 경고 팝업 띄우기*/}
-      {/*TODO : Emotions.tsx에서 마지막으로 선택한 감정을 받아서 server로 전송하는 로직 구현*/}
 
       <ImageUploadSection />
 
@@ -80,9 +83,13 @@ const GrowUpRecordHome: React.FC = () => {
         ) : (
           <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <Image src={iconReload} alt="Reload" />
+        <ReloadButton index={index}>
+          <Image src={iconReload} alt="Reload" />
+        </ReloadButton>
       </FlexWrapper>
-      <SubmitButton text={text} image={image} emotion={emotion} tags={tags} />
+      {isReadyToSubmit && (
+        <SubmitButton text={text} image={image} emotion={emotion} tags={tags} />
+      )}
       {/*{showModal && <DoneModal clickModal={clickModal}/>}*/}
     </Root>
   );

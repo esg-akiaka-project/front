@@ -42,11 +42,6 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({
           accept="image/*"
           onChange={handleFileSelect}
         />
-        <S.HiddenInput
-          type="file"
-          accept="image/*"
-          onChange={handleFileSelect}
-        />
       </S.Label>
     </div>
   );
