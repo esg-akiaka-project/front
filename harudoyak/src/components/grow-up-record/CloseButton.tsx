@@ -6,7 +6,12 @@ const CloseButton: React.FC = () => {
 
   return (
     <>
-      <Button type="button" onClick={() => router.push("/")}>
+      <Button
+        type="button"
+        onClick={() => {
+          router.back();
+        }}
+      >
         닫기
       </Button>
     </>
@@ -21,6 +26,6 @@ const Button = styled.button`
   font:weight: bold;
   color: #ffffff;
   margin-top: 40px;
-  width: 80%;
+  width: 90%;
   height: 36px;
 `;

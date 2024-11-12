@@ -21,7 +21,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   image,
   emotion,
   tags,
-  OnSuccess
+  onSuccess,
 }) => {
   const router = useRouter();
 
@@ -51,9 +51,9 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         console.log("도약이의 편지가 생성되었습니다:", letter);
 
         await saveLetter(letter, logId);
-        console.log("Letter saved successfully");
-        
-        OnSuccess();
+        console.log("도약이 편지 저장 성공!");
+
+        onSuccess();
         router.push(`/`);
       } else {
         console.error("도약이 편지 생성에 실패했습니다.");

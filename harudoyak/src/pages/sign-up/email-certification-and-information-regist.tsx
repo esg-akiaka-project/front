@@ -74,7 +74,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
     }
     // 실제로는 백엔드에서 성공 응답을 받은 후에 호출해야됨
     // 일단은 무조건 true가 오게함
-    setEmailVerified(true);
+    //setEmailVerified(true);
   };
 
   const gotoSignupCompletePage = async () => {

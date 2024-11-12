@@ -15,9 +15,13 @@ import { useRouter } from "next/router";
 
 interface CenterTextHeaderBtnProps {
   text: string;
+  onFail: () => void;
 }
 
-const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({ text }) => {
+const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({
+  text,
+  onFail,
+}) => {
   const { updateTags } = usePostDataContext();
   const router = useRouter();
 
@@ -29,9 +33,13 @@ const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({ text }) => {
 
       if (response.status === 200) {
         const tags = response.data.keywords;
-        updateTags(tags);
         console.log(tags);
-        router.push("/grow-up-record");
+        if (tags.length <= 1) {
+          onFail();
+        } else {
+          updateTags(tags);
+          router.push("/grow-up-record");
+        }
       } else {
         console.error("태그 키워드를 가져오는 데 실패했습니다.");
       }
