@@ -4,13 +4,10 @@ import useCommunityStore from "../store/useCommunityStore";
 import { uploadToS3Seoro } from "./uploadToS3Seoro";
 
 // 게시글 작성 API
-export const createPost = async (comment: string, photo: File) => {
+export const createPost = async (comment: string, photoUrl: string) => { // photoUrl을 string으로 받음
   const { memberId } = useUserStore.getState();
 
   try {
-    // 사진 파일을 S3에 업로드하여 URL을 얻음
-    const photoUrl = await uploadToS3Seoro(photo);
-
     console.log("게시글 작성 요청\n내용:", comment, "이미지 URL:", photoUrl);
     
     // 백엔드로 게시글 데이터 전송
@@ -18,13 +15,15 @@ export const createPost = async (comment: string, photo: File) => {
       shareContent: comment,
       shareImageUrl: photoUrl,
     });
+    console.log("백엔드로 게시글 데이터 전송");
 
     return response.data;
   } catch (error) {
-    console.error("게시글 작성 실패:", error);
+    console.error("게시글 작성 실패///서로Api.ts:", error);
     throw error;
   }
 };
+
 
 // 도약하기 추가 API
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {

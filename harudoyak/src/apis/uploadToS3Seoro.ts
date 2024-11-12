@@ -22,7 +22,7 @@ const s3Client = new S3Client({
 export const uploadToS3Seoro = async (file: File) => {
   // file이 유효하지 않은 경우 오류를 던집니다.
   if (!file || !file.name) {
-    throw new Error("유효하지 않은 파일입니다.");
+    throw new Error("유효하지 않은 파일입니다.////업로드s3.ts");
   }
 
   const timestamp = Date.now();
