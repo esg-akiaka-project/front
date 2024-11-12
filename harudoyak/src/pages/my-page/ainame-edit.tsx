@@ -20,7 +20,8 @@ const AiNameEdit: React.FC = () => {
   const changeAi = async () => {
     try {
       const response = await changeAiname(newAiname);
-      setAiName(response);
+      console.log(response.data);
+      setAiName(newAiname);
       alert("AI 이름이 성공적으로 변경되었습니다.");
       router.back();
     } catch (error) {

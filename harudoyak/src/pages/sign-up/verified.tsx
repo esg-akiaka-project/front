@@ -6,6 +6,8 @@ const Verified: React.FC = () => {
   const { email, isVerified, expireDate } = router.query;
 
   useEffect(() => {
+    if (!router.isReady) return;
+    console.log("verified 페이지 입장");
     if (email && isVerified === "true" && expireDate) {
       // 만료 시간을 체크하고 로컬 스토리지에 인증 정보를 저장
       const currentDate = new Date();
@@ -22,11 +24,9 @@ const Verified: React.FC = () => {
         );
       }
     }
+  }, [router.isReady, email, isVerified, expireDate]);
 
-    window.close();
-  }, [email, isVerified, expireDate]);
-
-  return <></>;
+  return <div>이메일 인증 중입니다...</div>;
 };
 
 export default Verified;

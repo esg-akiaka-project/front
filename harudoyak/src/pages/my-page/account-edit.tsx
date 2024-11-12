@@ -6,33 +6,53 @@ import styled from "styled-components";
 import Image from "next/image";
 import Camera from "@/public/assets/grow-up-record/icon_camera_grey.svg";
 import InputField from "@/src/components/mypage/InputField";
-import { changePassword } from "@/src/apis/authApi";
+import { changeNickname, changePassword } from "@/src/apis/authApi";
+import { useUserStore } from "@/src/store/useUserStore";
+import { useRouter } from "next/router";
 
 const AccountEdit: React.FC = () => {
-  const [nickname, setNickname] = useState<string>("");
+  const router = useRouter();
+  const [oldnickname, setOldNickname] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [oldPassword, setOldpassword] = useState<string>("");
+  const { nickname, setNickname, clearToken } = useUserStore();
 
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
   };
 
-  const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setConfirmPassword(e.target.value);
+  const handleOldPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setOldpassword(e.target.value);
   };
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    setOldNickname(e.target.value);
+  };
+  const logout = () => {
+    clearToken();
+    router.push("/");
   };
   const savePassword = async () => {
-    if (newPassword === confirmPassword) {
-      // try {
-      //   const response = await changePassword()
-      // }
+    if (newPassword === oldPassword) {
+      alert("기존 비밀번호와 새 비밀번호가 같습니다.");
     } else {
-      alert("비밀번호가 일치하지 않습니다.");
+      try {
+        const response = await changePassword(oldPassword, newPassword);
+        console.log(response.data);
+        alert("비밀번호 수정 완료");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const changeId = async () => {
+    try {
+      const response = await changeNickname(oldnickname);
+      console.log(response.data);
+      setNickname(oldnickname);
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -45,17 +65,20 @@ const AccountEdit: React.FC = () => {
             <Image src={Camera} alt="카메라" width={25} height={25} />
           </CameraIconWrapper>
         </AvatarContainer>
+        <LogoutButton onClick={logout}>로그아웃</LogoutButton>
       </AvatarWrapper>
       <InfoSection>
         <div>
           <Label>닉네임</Label>
           <NicknameDivWrapper>
             <InputField
-              value={nickname}
+              value={oldnickname}
               placeholder={"닉네임을 입력하세요"}
               onChange={handleNicknameChange}
             />
-            <DuplicateCheckButton>중복확인</DuplicateCheckButton>
+            <DuplicateCheckButton onClick={changeId}>
+              중복확인
+            </DuplicateCheckButton>
           </NicknameDivWrapper>
         </div>
 
@@ -67,16 +90,16 @@ const AccountEdit: React.FC = () => {
           <Label>비밀번호 변경</Label>
           <InputField
             type="password"
-            value={newPassword}
-            placeholder="새 비밀번호"
-            onChange={handleNewPasswordChange}
+            value={oldPassword}
+            placeholder="기존 비밀번호"
+            onChange={handleOldPasswordChange}
           />
           <br></br>
           <InputField
             type="password"
-            value={confirmPassword}
-            placeholder="새 비밀번호 확인"
-            onChange={handleConfirmPasswordChange}
+            value={newPassword}
+            placeholder="새 비밀번호 "
+            onChange={handleNewPasswordChange}
           />
         </div>
       </InfoSection>
@@ -155,4 +178,11 @@ const SavePasswordButton = styled.button`
   border-radius: 10px;
   margin-top: 1rem;
   margin: 1rem auto;
+`;
+
+const LogoutButton = styled.button`
+  display: flex;
+  margin-left: 1rem;
+  align-items: end;
+  font-weight: bold;
 `;
