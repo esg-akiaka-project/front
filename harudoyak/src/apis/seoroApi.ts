@@ -6,6 +6,11 @@ import { uploadToS3Seoro } from "./uploadToS3Seoro";
 // 게시글 작성 API
 export const createPost = async (comment: string, photoUrl: string) => { // photoUrl을 string으로 받음
   const { memberId } = useUserStore.getState();
+  
+  if (!memberId) {
+    throw new Error("memberId가 유효하지 않습니다.");
+  }
+
 
   try {
     console.log("게시글 작성 요청\n내용:", comment, "이미지 URL:", photoUrl);

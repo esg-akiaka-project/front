@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface CommunityState {
-  selectedPhoto: File | null; // 글쓰기 작성 시 선택된 사진
+  selectedPhoto: string | null; // 글쓰기 작성 시 선택된 사진
   comment: string; // 글쓰기 작성 시 입력된 댓글
   photos: string[]; // 업로드된 사진 목록
   memberId: string | null; // 사용자 ID
@@ -13,7 +13,7 @@ interface CommunityState {
   commentCount: number; // 댓글 수 (게시글의 댓글 수)
 
   // 상태 변경 함수들
-  setSelectedPhoto: (photo: File | null) => void; // 선택된 사진 설정
+  setSelectedPhoto: (photo: string | null) => void; // 선택된 사진 설정
   setComment: (comment: string) => void; // 댓글 설정
   setMemberId: (id: string) => void; // 사용자 ID 설정
   setNickname: (nickname: string) => void; // 사용자 닉네임 설정
