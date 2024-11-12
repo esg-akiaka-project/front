@@ -69,10 +69,10 @@ const MonthlyCalendar: React.FC = () => {
     const formattedToday = formatDate(today);
 
     switch (true) {
-      // 로그인이 안되어 있을경우 ,
-      case memberId === null:
-        alert("로그인을 먼저 해주세요");
-        break;
+      // // 로그인이 안되어 있을경우 ,
+      // case memberId === null:
+      //   alert("로그인을 먼저 해주세요");
+      //   break;
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
         router.push("/grow-check");
