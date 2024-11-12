@@ -7,8 +7,6 @@ interface TitleModalProps {
 }
 
 const TitleModal: React.FC<TitleModalProps> = ({ onClose }) => {
-  const router = useRouter();
-
   return (
     <>
       <S.Background />

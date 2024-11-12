@@ -26,13 +26,6 @@ const WritingPage: React.FC = () => {
       textRef.current.style.height = `auto`;
       textRef.current.style.height = `${textRef.current.scrollHeight}px`;
     }
-
-    // 글자수 검사
-    if (newText.length > 0 && newText.length < 50) {
-      setShowModal(true);
-    } else {
-      setShowModal(false);
-    }
   };
 
   return (

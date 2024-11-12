@@ -28,6 +28,12 @@ const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
 
+    if (text.length < 50) {
+      onFail();
+      console.log(text.length);
+      return;
+    }
+
     try {
       const response = await axios.post("/api/openai/keywords", { text });
 
