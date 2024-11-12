@@ -18,7 +18,7 @@ import iconReload from "../../../public/assets/common/icon_reload.svg";
 import iconX from "../../../public/assets/common/icon_X.svg";
 import SubmitButton from "../../components/grow-up-record/SubmitButton";
 import ReloadButton from "../../components/grow-up-record/Reload";
-//import DoneModal from '../../components/grow-up-record/DoneModal';
+import DoneModal from '../../components/grow-up-record/DoneModal';
 
 const GrowUpRecordHome: React.FC = () => {
   const { text, image, emotion, tags, updateEmotion, updateTags } =
@@ -90,7 +90,8 @@ const GrowUpRecordHome: React.FC = () => {
       {isReadyToSubmit && (
         <SubmitButton text={text} image={image} emotion={emotion} tags={tags} />
       )}
-      {/*{showModal && <DoneModal clickModal={clickModal}/>}*/}
+       <DoneModal clickModal={clickModal} />
+      {/* {showModal && <DoneModal clickModal={clickModal} />} */}
     </Root>
   );
 };
