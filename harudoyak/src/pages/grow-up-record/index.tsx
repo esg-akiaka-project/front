@@ -7,18 +7,21 @@ import { usePostDataContext } from "@/src/context/PostDataContext";
 
 import Root from "../../style/Root";
 import UndoXButton from "../../components/buttons/UndoXButton";
-import Emotions from "../../components/grow-up-record/Emotions";
-import TextEntryButton from "../../components/grow-up-record/TextEntryButton";
 import ImageUploadSection from "../../components/grow-up-record/UploadImage/UploadSection";
-import EditButton from "../../components/grow-up-record/EditButton";
 import Tags from "../../components/common/Tags";
 import Tooltip from "../../components/common/Tooltip";
 import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
 import iconReload from "../../../public/assets/common/icon_reload.svg";
 import iconX from "../../../public/assets/common/icon_X.svg";
-import SubmitButton from "../../components/grow-up-record/SubmitButton";
-import ReloadButton from "../../components/grow-up-record/Reload";
-//import DoneModal from '../../components/grow-up-record/DoneModal';
+
+import {
+  DoneModal,
+  EditButton,
+  Emotions,
+  SubmitButton,
+  TextEntryButton,
+  ReloadButton,
+} from "../../components/grow-up-record";
 
 const GrowUpRecordHome: React.FC = () => {
   const { text, image, emotion, tags, updateEmotion, updateTags } =
@@ -88,9 +91,15 @@ const GrowUpRecordHome: React.FC = () => {
         </ReloadButton>
       </FlexWrapper>
       {isReadyToSubmit && (
-        <SubmitButton text={text} image={image} emotion={emotion} tags={tags} />
+        <SubmitButton
+          text={text}
+          image={image}
+          emotion={emotion}
+          tags={tags}
+          onSuccess={() => setShowModal(true)}
+        />
       )}
-      {/*{showModal && <DoneModal clickModal={clickModal}/>}*/}
+      {showModal && <DoneModal />}
     </Root>
   );
 };

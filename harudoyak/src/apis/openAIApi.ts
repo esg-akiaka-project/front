@@ -1,6 +1,6 @@
-// src/lib/openAiApi.ts
 import axios from 'axios';
 
+// openAI API 공통
 export async function openAiApi(prompt: string, userContent: string) {
   try {
     const response = await axios.post(

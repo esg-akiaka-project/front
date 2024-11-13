@@ -37,7 +37,6 @@ export const uploadToS3 = async (file: File) => {
     await s3Client.send(command);
 
     // 업로드된 파일의 URL 반환
-    //https://undefined.s3.undefined.amazonaws.com/upload/1731054897585.png?x-id=PutObject
     return `https://${S3_BUCKET_NAME}.s3.${REGION}.amazonaws.com/${fileName}`;
   } catch (error: unknown) {
     console.error("S3 업로드 실패:", error);
