@@ -140,24 +140,26 @@ const CommunityHome: React.FC = () => {
     const loadPosts = async () => {
       try {
         const data = await fetchPosts();
-
+        
         const formattedData = data.map((post: PostProps) => ({
           shareDoyakId: post.shareDoyakId,
-          photo: post.shareImageUrl,
-          comment: post.shareContent,
+          shareImageUrl: post.shareImageUrl, // 이미지 URL 필드
+          shareContent: post.shareContent, // 게시글 내용
           doyakCount: post.doyakCount,
           commentCount: post.commentCount,
-          nickname: post.shareAuthorNickname,
+          shareAuthorNickname: post.shareAuthorNickname, // 작성자 닉네임
           goalName: post.goalName,
+          resComments: post.resComments,
         }));
+        
         setPosts(formattedData);
-        console.log("hi");
       } catch (error) {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
       }
     };
     loadPosts();
   }, []);
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -237,7 +239,7 @@ const CommunityHome: React.FC = () => {
                 />
                 <NumberComment commentCnt={post.commentCount} />
               </ButtonContainer>
-              {/* <CommentText>{post.commentContent}</CommentText> */}
+              { <CommentText>{post.shareContent}</CommentText> }
             </Post>
             {index < posts.length - 1 && <Separator />}
           </React.Fragment>
