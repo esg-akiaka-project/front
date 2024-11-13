@@ -3,11 +3,14 @@ import UndoXButton from "../buttons/UndoXButton";
 import SpeicificUndoXButton from "../buttons/SpecificUndoXButton";
 import styled from "styled-components";
 import iconArrow from "@/public/assets/common/icon_arrow.svg";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface PageNameProps {
   pageName: string;
 }
 const UndoAndPageName: React.FC<PageNameProps> = ({ pageName }) => {
+  const router = useRouter();
   const isMaintainPage = pageName === "계정관리";
   return (
     <>
@@ -15,7 +18,9 @@ const UndoAndPageName: React.FC<PageNameProps> = ({ pageName }) => {
         {isMaintainPage ? (
           <SpeicificUndoXButton icon={iconArrow} />
         ) : (
-          <UndoXButton icon={iconArrow} />
+          <button type="button" onClick={() => router.push("/")}>
+            <Image src={iconArrow} alt="닫기" />
+          </button>
         )}
         <StyledTitle>{pageName}</StyledTitle>
       </UPN>

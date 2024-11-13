@@ -5,6 +5,8 @@ import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
 import pot from "../../../public/assets/grow-up-record/pot.svg";
 import Image from "next/image";
+import useLogsStore from "@/src/store/useLogStore";
+
 interface TodayProps {
   selectedDay: Date;
 }
@@ -16,6 +18,11 @@ interface MailProps {
 }
 // dummyData todo: api 연동후 적용
 const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
+  const formattedDate = selectedDay.toISOString().split("T")[0];
+  const { getLogByDate } = useLogsStore();
+  const logId = getLogByDate(formattedDate);
+  // todo: logId가 없을 경우 기록이 없다는 표시를, 있으면 api 요청을 통해 데이터를 불러와야함
+
   const [todayDoyak, setTodayDoyak] = useState<Record<string, string>>({
     content:
       "성취 Github 가이드북을 직접 만들고 배포했다. 학교별 아카이브에도\

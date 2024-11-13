@@ -36,12 +36,20 @@ export const Login = async (LoginProps: LoginProps) => {
   return response;
 };
 
+export const checkPassword = async (password: string) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.post(`/members/${memberId}/pwd`, {
+    password,
+  });
+  return response;
+};
+
 export const changePassword = async (
   oldpassword: string,
   newpassword: string
 ) => {
   const { memberId } = useUserStore.getState();
-  const response = await axiosInstance.patch(`members/${memberId}/pwd`, {
+  const response = await axiosInstance.put(`members/${memberId}/pwd`, {
     oldpassword,
     newpassword,
   });

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Root from "../../style/Root";
 
 import UndoAndPageName from "@/src/components/mypage/UndoAndPageName";
+import { checkPassword } from "@/src/apis/authApi";
 import styled from "styled-components";
 
 const PasswordCheck: React.FC = () => {
@@ -12,10 +13,14 @@ const PasswordCheck: React.FC = () => {
     setPassword(e.target.value);
   };
 
-  const CheckPassword = (pw: string) => {
-    // 전역상태관리에 저장한 비밀번호와 같은 경우 다음 페이지로 이동하는 로직
-    console.log(pw);
-    router.push("/my-page/account-edit");
+  const CheckPassword = async (pw: string) => {
+    try {
+      const response = await checkPassword(pw);
+
+      router.push("/my-page/account-edit");
+    } catch (error) {
+      alert("비밀번호가 맞지 않습니다");
+    }
   };
   return (
     <Root>

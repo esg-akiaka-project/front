@@ -29,7 +29,8 @@ const LinkOptions: React.FC = () => {
       <LinkText onClick={() => router.push("/sign-up/tos-agreement")}>
         회원가입
       </LinkText>
-      <LinkText>아이디 찾기</LinkText>
+      {/* <LinkText>아이디 찾기</LinkText> */}
+      {/* todo: 비밀번호 찾기 페이지 필요 */}
       <LinkText>비밀번호 찾기 </LinkText>
     </LinksWrapper>
   );

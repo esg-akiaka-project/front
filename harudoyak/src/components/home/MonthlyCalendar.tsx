@@ -37,6 +37,7 @@ const MonthlyCalendar: React.FC = () => {
       // creationDate 값들만 추출하여 배열로 만들어줌
       // response.data.map(item => item.creationDate)
       setRecordDayList(response.map((item: RecordItem) => item.creationDate));
+      // console.log(recordDayList);
     } catch (error) {
       console.error("Failed to fetch record list:", error);
       throw error;
