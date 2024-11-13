@@ -76,3 +76,15 @@ export const fetchPosts = async () => {
     throw error;
   }
 };
+
+// 특정 게시글 세부 정보를 가져오는 API
+export const fetchPostDetail = async (shareDoyakId: number) => {
+  try {
+    const response = await axiosInstance.get(`/posts/detail/${shareDoyakId}`);
+    return response.data;
+  } catch (error) {
+    console.error("게시글 세부 정보 불러오기 실패:", error);
+    throw error;
+  }
+};
+
