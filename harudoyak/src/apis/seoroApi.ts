@@ -9,7 +9,7 @@ export const createPost = async (comment: string, photoUrl: string) => { // phot
   
   if (!memberId) {
     throw new Error("memberId가 유효하지 않습니다.");
-  }
+  }  
 
 
   try {
