@@ -37,7 +37,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({ email, password }) => {
         const { member, level, file } = response.data;
 
         const accessToken = response.headers["authorization"].split(" ")[1];
-        console.log(accessToken);
+
         setAccessToken(accessToken);
 
         setMemberId(member.memberId);

@@ -49,7 +49,7 @@ const AccountEdit: React.FC = () => {
   const changeId = async () => {
     try {
       const response = await changeNickname(oldnickname);
-      console.log(response.data);
+      console.log(response);
       setNickname(oldnickname);
     } catch (error) {
       console.log(error);
