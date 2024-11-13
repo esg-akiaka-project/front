@@ -32,6 +32,19 @@ const SubmitIcon = styled.div`
   z-index: 1; /* 아이콘이 앞으로 나오도록 설정 */
 `;
 
+<<<<<<< HEAD
+interface WriteCommentBoxProps {
+  onSubmit: (commentContent: string) => void; // onSubmit prop 추가
+}
+
+const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({ onSubmit }) => {
+  const [comment, setComment] = useState('');
+
+  const handleSubmit = () => {
+    if (comment.trim() !== '') {
+      onSubmit(comment); // 댓글 작성 핸들러 호출
+      setComment(''); // 입력 필드 초기화
+=======
 interface ShareProps {
   shareId: number;
 }
@@ -44,6 +57,7 @@ const WriteCommentBox: React.FC<ShareProps> = ({ shareId }) => {
       const data = await createComment(shareId, comment);
     } catch (error) {
       console.log(error);
+>>>>>>> 83c3d6bbbefec30a7b3b4b8ba20c9bcb6f59c063
     }
   };
 

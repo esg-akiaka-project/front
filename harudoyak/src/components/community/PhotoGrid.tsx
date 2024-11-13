@@ -1,5 +1,4 @@
-// PhotoGrid.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Thumbnail from './Thumbnail';
 import useCommunityStore from '../../store/useCommunityStore';
@@ -60,28 +59,27 @@ const Label = styled.label`
 `;
 
 interface PhotoGridProps {
-    setSelectedPhoto: (photo: string | null) => void;
+    setSelectedPhoto: (photo: string | null) => void; // 수정된 부분
 }
 
 export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
-    const { photos, addPhotos, setSelectedPhoto: setCommunitySelectedPhoto } = useCommunityStore();
+    const { photos, addPhotos } = useCommunityStore();
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files) {
             const newPhotos = Array.from(files).map(file => URL.createObjectURL(file));
-            addPhotos(newPhotos);
+            addPhotos(newPhotos); // 새로운 사진 배열을 상단에 추가
         }
     };
 
-    const handlePhotoClick = (photo: string) => {
+    const handlePhotoClick = (photo: string) => { // 수정된 부분
         setSelectedPhoto(photo);
-        setCommunitySelectedPhoto(photo);
     };
 
     return (
         <PhotoGridContainer>
-            <SelectBox>사진 한 개 선택</SelectBox>
+            <SelectBox>사진 한 장을 선택해주세요!</SelectBox>
             <Label htmlFor="file-input">사진 업로드</Label>
             <FileInput
                 id="file-input"
@@ -104,3 +102,4 @@ export const PhotoGrid: React.FC<PhotoGridProps> = ({ setSelectedPhoto }) => {
         </PhotoGridContainer>
     );
 };
+

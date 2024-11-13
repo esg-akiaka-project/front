@@ -1,34 +1,51 @@
-// src/components/community/ShareButton.tsx
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import useCommunityStore from '../../store/useCommunityStore';
+import { createPost } from '@/src/apis/seoroApi';
+import { uploadToS3Seoro } from '@/src/apis/uploadToS3Seoro';
 
 interface ShareButtonProps {
   onClick?: () => void;
 }
 
 const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
-  const { selectedPhoto, memberId } = useCommunityStore();
+  const { selectedPhoto, comment } = useCommunityStore();
   const router = useRouter();
 
-  const handleShare = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('memberId', memberId || '');
-      formData.append('photo', selectedPhoto || '');
-      console.log(formData);
-      console.log(selectedPhoto);
-      // await axios.post('/api/community/post', formData);
-
-      // 라우팅 추가
-      router.push('/community');
+  const handleShare = async () => { 
+    try { 
+      console.log(comment, selectedPhoto); 
+      if (selectedPhoto && comment) { 
+        // 선택된 사진을 URL로 가져오고 blob으로 변환
+        const response = await fetch(selectedPhoto.toString()); 
+        const blob = await response.blob();
+        const file = new File([blob], 'photo.jpg', { type: blob.type });
+    
+        // 파일 유효성 검사
+        if (!file || !file.name || file.size === 0 || !file.type.startsWith('image/')) {
+          throw new Error("유효하지 않은 파일입니다. in sharebutton.tsx");
+        }
+    
+        // S3에 파일 업로드
+        const uploadedUrl = await uploadToS3Seoro(file); // File을 전달하여 S3에 업로드
+    
+        console.log('Uploaded URL:', uploadedUrl);
+    
+        // 게시글 생성 - URL과 comment를 사용하여 생성
+        await createPost(comment, uploadedUrl); // 이때, URL을 전달
+        console.log("보내지는지");
+        router.push('/community'); // 성공 시 라우팅
+      } else {
+        console.error("사진 또는 댓글이 누락되었습니다.");
+      }
     } catch (error) {
-      console.error("게시글 작성 오류:", error);
+      console.error("게시글 작성 오류///셰어버튼:", error);
     }
   };
+  
+  
 
   return (
     <ButtonContainer>

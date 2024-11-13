@@ -43,6 +43,13 @@ interface PostProps {
   resComments: CommentProps[];
 }
 
+// 게시글 타입 정의
+interface Post {
+    id: number;
+    photo: string;
+    comment: string;
+}
+
 const CommunityHome: React.FC = () => {
   const {
     selectedPhoto,
@@ -262,17 +269,16 @@ const PostList = styled.div`
 `;
 
 const Post = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 `;
 
 const Separator = styled.hr`
