@@ -34,7 +34,11 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@next/bundle-analyzer": "^15.0.3",
+=======
+    "@types/jquery": "^3.5.32",
+>>>>>>> origin/bmj
     "@types/next-seo": "^1.10.0",
     "@types/node": "^20",
     "@types/react": "^18",
