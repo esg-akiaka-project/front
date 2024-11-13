@@ -16,9 +16,9 @@ export const createPost = async (comment: string, photoUrl: string) => { // phot
     console.log("게시글 작성 요청\n내용:", comment, "이미지 URL:", photoUrl);
     
     // 백엔드로 게시글 데이터 전송
-    const response = await axiosInstance.post(`/api/posts/${memberId}`, {
+    const response = await axiosInstance.post(`/posts/${memberId}`, {
       shareContent: comment,
-      shareImageUrl: photoUrl,
+      shareImegeUrl: photoUrl,
     });
     console.log("백엔드로 게시글 데이터 전송");
 
@@ -33,7 +33,7 @@ export const createPost = async (comment: string, photoUrl: string) => { // phot
 // 도약하기 추가 API
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.post(`/api/posts/doyak/${memberId}/${shareDoyakId}`);
+    const response = await axiosInstance.post(`/posts/doyak/${memberId}/${shareDoyakId}`);
     return response.data;
   } catch (error) {
     console.error("도약하기 추가 실패:", error);
@@ -45,7 +45,7 @@ export const addDoyak = async (memberId: number, shareDoyakId: number) => {
 export const createComment = async (shareDoyakId: number, commentContent: string) => {
   const { memberId } = useCommunityStore.getState();
   try {
-    const response = await axiosInstance.post(`/api/posts/comments/${memberId}/${shareDoyakId}`, {
+    const response = await axiosInstance.post(`/posts/comments/${memberId}/${shareDoyakId}`, {
       commentContent,
     });
     return response.data;
@@ -58,7 +58,7 @@ export const createComment = async (shareDoyakId: number, commentContent: string
 // 댓글 목록 조회 API
 export const fetchComments = async (shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.get(`/api/posts/comments/list/${shareDoyakId}`);
+    const response = await axiosInstance.get(`/posts/comments/list/${shareDoyakId}`);
     return response.data;
   } catch (error) {
     console.error("댓글 목록 조회 실패:", error);
@@ -69,7 +69,7 @@ export const fetchComments = async (shareDoyakId: number) => {
 // 게시글 목록 조회 API
 export const fetchPosts = async () => {
   try {
-    const response = await axiosInstance.get(`/api/posts/list`);
+    const response = await axiosInstance.get(`/posts/list`);
     return response.data;
   } catch (error) {
     console.error("게시글 목록 조회 실패:", error);

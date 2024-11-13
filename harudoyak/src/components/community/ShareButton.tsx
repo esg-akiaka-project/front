@@ -35,6 +35,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
     
         // 게시글 생성 - URL과 comment를 사용하여 생성
         await createPost(comment, uploadedUrl); // 이때, URL을 전달
+        console.log("보내지는지");
         router.push('/community'); // 성공 시 라우팅
       } else {
         console.error("사진 또는 댓글이 누락되었습니다.");
