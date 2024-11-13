@@ -20,7 +20,7 @@ import Image from "next/image";
 import {
   fetchPosts, // 게시글 목록을 불러오는 함수
   createPost, // 게시글 생성 함수
-  fetchPostDetail, // 특정 게시글 세부 정보를 불러오는 함수
+ 
   createComment, // 댓글 생성 함수
   fetchComments, // 댓글 목록을 불러오는 함수
   addDoyak,
