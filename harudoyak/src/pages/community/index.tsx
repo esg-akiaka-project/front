@@ -62,73 +62,7 @@ const CommunityHome: React.FC = () => {
 
   const { memberId } = useUserStore();
 
-  const [posts, setPosts] = useState<PostProps[]>([
-    {
-      shareAuthorNickname: "지구",
-      goalName: "게임",
-      shareDoyakId: 3,
-      shareContent: "도약이의 편지 자랑할래요",
-      shareImageUrl:
-        "https://harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com/049a622d-784c-4cb5-b2c1-d61f45e60f70.png",
-      commentCount: 0,
-      doyakCount: 0,
-      resComments: [],
-    },
-    {
-      shareAuthorNickname: "소중해",
-      goalName: "돈 벌기",
-      shareDoyakId: 2,
-      shareContent: "도약이의 편지 자랑할래요",
-      shareImageUrl:
-        "https://harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com/a9b52471-83f8-4457-86f5-7f92c97456a1.png",
-      commentCount: 2,
-      doyakCount: 1,
-      resComments: [
-        {
-          commentShareDoyakId: 2,
-          commentId: 4,
-          commentContent: "commentContente",
-          commentAuthorNickname: "test",
-        },
-        {
-          commentShareDoyakId: 2,
-          commentId: 5,
-          commentContent: "commentContenteTest",
-          commentAuthorNickname: "test",
-        },
-      ],
-    },
-    {
-      shareAuthorNickname: "닉네임아무거나",
-      goalName: "취업",
-      shareDoyakId: 1,
-      shareContent: '{\r\n    "shareContent" : "업데이트"\r\n}',
-      shareImageUrl:
-        "https://harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com/15fecf2d-f191-45e4-bf20-b0629106c058.png",
-      commentCount: 3,
-      doyakCount: 0,
-      resComments: [
-        {
-          commentShareDoyakId: 1,
-          commentId: 1,
-          commentContent: "commentContente",
-          commentAuthorNickname: "nickname",
-        },
-        {
-          commentShareDoyakId: 1,
-          commentId: 2,
-          commentContent: "commentContente",
-          commentAuthorNickname: "nickname",
-        },
-        {
-          commentShareDoyakId: 1,
-          commentId: 3,
-          commentContent: "commentContente",
-          commentAuthorNickname: "test",
-        },
-      ],
-    },
-  ]);
+  const [posts, setPosts] = useState<PostProps[]>([]);
 
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
@@ -190,17 +124,39 @@ const CommunityHome: React.FC = () => {
     }
   };
 
-  const handleDoyakCount = async (shareDoyakId: number) => {
-    console.log("좋아요 체크");
-    if (memberId === null) {
-      return;
-    }
-    try {
-      const response = await addDoyak(memberId, shareDoyakId);
-    } catch (error) {
-      console.log(error);
-    }
+  const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 게시글별 좋아요 상태 저장
+
+  const handleDoyakCount = async (index: number, shareDoyakId: number) => {
+      console.log("좋아요 체크");
+      if (memberId === null) {
+          return;
+      }
+  
+      const isLiked = likedPosts[shareDoyakId] || false; // 해당 게시글의 좋아요 상태 확인
+  
+      try {
+          const response = await addDoyak(memberId, shareDoyakId);
+  
+          // 도약하기(좋아요) 숫자 업데이트
+          setPosts((prevPosts) =>
+              prevPosts.map((post, i) =>
+                  i === index
+                      ? { ...post, doyakCount: post.doyakCount + (isLiked ? -1 : 1) }
+                      : post
+              )
+          );
+  
+          // 좋아요 상태 반전
+          setLikedPosts((prevLikedPosts) => ({
+              ...prevLikedPosts,
+              [shareDoyakId]: !isLiked,
+          }));
+      } catch (error) {
+          console.log(error);
+      }
   };
+  
+
 
   const closeCommentSection = () => {
     setIsCommentOpen(false);
@@ -229,7 +185,7 @@ const CommunityHome: React.FC = () => {
                     alt="Doyak Icon"
                     width={25}
                     height={23}
-                    onClick={() => handleDoyakCount(post.shareDoyakId)}
+                    onClick={() => handleDoyakCount(index, post.shareDoyakId)}
                   />
                 </IconWrapper>
 

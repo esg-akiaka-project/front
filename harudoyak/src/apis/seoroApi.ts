@@ -34,9 +34,10 @@ export const createPost = async (comment: string, photoUrl: string) => { // phot
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {
   try {
     const response = await axiosInstance.post(`/posts/doyak/${memberId}/${shareDoyakId}`);
+    console.log("도약하기 성공");
     return response.data;
   } catch (error) {
-    console.error("도약하기 추가 실패:", error);
+    console.error("도약하기 실패:", error);
     throw error;
   }
 };
@@ -48,6 +49,7 @@ export const createComment = async (shareDoyakId: number, commentContent: string
     const response = await axiosInstance.post(`/posts/comments/${memberId}/${shareDoyakId}`, {
       commentContent,
     });
+    console.log("댓글 작성 선공");
     return response.data;
   } catch (error) {
     console.error("댓글 작성 실패:", error);
@@ -59,6 +61,7 @@ export const createComment = async (shareDoyakId: number, commentContent: string
 export const fetchComments = async (shareDoyakId: number) => {
   try {
     const response = await axiosInstance.get(`/posts/comments/list/${shareDoyakId}`);
+    console.log("댓글 목록 조회 성공");
     return response.data;
   } catch (error) {
     console.error("댓글 목록 조회 실패:", error);
@@ -70,6 +73,7 @@ export const fetchComments = async (shareDoyakId: number) => {
 export const fetchPosts = async () => {
   try {
     const response = await axiosInstance.get(`/posts/list`);
+    console.log("게시글 목록 조회 성공");
     return response.data;
   } catch (error) {
     console.error("게시글 목록 조회 실패:", error);
@@ -81,6 +85,7 @@ export const fetchPosts = async () => {
 export const fetchPostDetail = async (shareDoyakId: number) => {
   try {
     const response = await axiosInstance.get(`/posts/detail/${shareDoyakId}`);
+    console.log("게시글 세부 정보 불러오기 성공");
     return response.data;
   } catch (error) {
     console.error("게시글 세부 정보 불러오기 실패:", error);
