@@ -13,11 +13,15 @@ interface CommentProps {
 interface CommentSectionProps {
   onClose: () => void; // 닫기 함수 prop
   comments: CommentProps[];
+  shareDoyakId: number; // 추가
+  onCommentSubmitted: (newComment: any) => void; // 추가
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({
   onClose,
-  comments = [],
+  comments,
+  shareDoyakId,
+  onCommentSubmitted,
 }) => {
   return (
     <CommentSectionContainer>
@@ -31,7 +35,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           </CommentBox>
         ))}
       </CommentList>
-      {/* <WriteCommentBox shareId={} /> */}
+      <WriteCommentBox shareDoyakId={shareDoyakId} onCommentSubmitted={onCommentSubmitted} />
     </CommentSectionContainer>
   );
 };
@@ -51,6 +55,7 @@ const CommentAuthor = styled.div`
 const CommentContent = styled.div`
   font-size: 14px;
 `;
+
 const CommentSectionContainer = styled.div`
   position: fixed;
   bottom: 0;

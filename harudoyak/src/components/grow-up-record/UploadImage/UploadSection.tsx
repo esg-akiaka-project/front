@@ -8,23 +8,31 @@ import Preview from "./Preview";
 import cameraIcon from "../../../../public/assets/grow-up-record/icon_camera.svg";
 import imageIcon from "../../../../public/assets/grow-up-record/icon_image.svg";
 
-const UploadSection: React.FC = () => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+interface UploadSectionProps {
+  image: string | null;
+  updateImage: (image: string) => void;
+}
 
+const UploadSection: React.FC<UploadSectionProps> = ({
+  image,
+  updateImage,
+}) => {
   const handleDelete = () => {
-    setPreviewUrl(null); // 미리보기 이미지 삭제
+    updateImage(""); // 미리보기 이미지 삭제
   };
 
   return (
     <Wrapper>
       <Text>이미지 업로드(선택)</Text>
       <FlexWrapper>
-        <CameraUploadButton src={cameraIcon} setPreviewUrl={setPreviewUrl}>카메라 열기</CameraUploadButton>
-        <ImageUploadButton src={imageIcon} setPreviewUrl={setPreviewUrl}>
+        <CameraUploadButton src={cameraIcon} setImageUrl={updateImage}>
+          카메라 열기
+        </CameraUploadButton>
+        <ImageUploadButton src={imageIcon} setImageUrl={updateImage}>
           이미지 파일 추가
         </ImageUploadButton>
       </FlexWrapper>
-      {previewUrl && <Preview imageUrl={previewUrl} onDelete={handleDelete} />}
+      {image && <Preview imageUrl={image} onDelete={handleDelete} />}
     </Wrapper>
   );
 };

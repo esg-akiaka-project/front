@@ -2,7 +2,6 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
-import { uploadToS3 } from "./uploadToS3";
 
 export type RecordItem = {
   logId: number;
@@ -35,11 +34,11 @@ export const fetchRecordList = async (): Promise<RecordItem[]> => {
   }
 };
 
-// 도약기록 쓰기 API (image 파일로 받아서, 내부에서 uploadToS3 함수 호출(서버에 url로 전송))
+// 도약기록 쓰기 API
 export const createPost = async (
   text: string,
   emotion: string,
-  image: File | null,
+  photoUrl: string | null,
   tags: string[]
 ) => {
   const { memberId } = useUserStore.getState();
@@ -49,32 +48,24 @@ export const createPost = async (
   }
 
   try {
-    const photoUrl = image ? await uploadToS3(image) : null;
-    console.log(
-      "작성된 도약 기록\n text:",
-      text,
-      "emotion:",
-      emotion,
-      "imageUrl:",
-      photoUrl,
-      "tags:",
-      tags
-    );
-
+    //const photoUrl = image ? await uploadToS3(image) : null;
     const tagNameList = tags.map((tag) => ({ tagName: tag }));
-
-    const response = await axiosInstance.post(
-      `/logs/${memberId}`,
-      {
-        logContent: text,
-        tagNameList: tagNameList,
-        emotion: emotion,
-        logImageUrl: photoUrl,
-      },
-      {
-        params: { memberId: memberId },
-      }
+    console.log(
+      "logContent:",
+      text,
+      "\ntagNameList:",
+      tagNameList,
+      "\nemotion:",
+      emotion,
+      "\nlogImageUrl:",
+      photoUrl
     );
+    const response = await axiosInstance.post(`/logs/${memberId}`, {
+      logContent: text,
+      tagNameList: tagNameList,
+      emotion: emotion,
+      logImageUrl: photoUrl,
+    });
     return response.data;
   } catch (error) {
     throw error;

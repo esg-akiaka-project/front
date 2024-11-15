@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Image from "next/image";
-import modalBGImage from "../../../public/assets/grow-up-record/modal_background_image.svg";
 import doyakSticker from "../../../public/assets/grow-up-record/doyaksticker.svg";
 import CloseButton from "./CloseButton";
 
@@ -13,9 +12,11 @@ const DoneModal: React.FC = () => {
         <StyledImageWrapper>
           <Image src={doyakSticker} alt="doyakSticker +1" />
         </StyledImageWrapper>
-        <H3>10시간 후에 도약이의 메세지가 도착할 예정이에요.</H3>
-        <P>도약기록을 작성하면 도약이가 점점 더 크게 성장해요.</P>
-        <P>매일 하루를 도약이의 메세지와 함께 시작해 보세요.</P>
+        <H3>내일 오전 7시에 </H3>
+        <H3>도약이의 메세지가 도착할 예정이에요.</H3>
+        <Margin />
+        <P>오늘의 작은 기록이 큰 도약이 될 수 있도록</P>
+        <P>도약기록이 응원할게요.</P>
         <CloseButton />
       </ModalComponent>
     </ModalShadow>
@@ -43,7 +44,7 @@ const ModalComponent = styled.div`
   border: 0.3 solid var(--lightgray-from-grayscale);
   width: 85%;
   text-align: center;
-  padding: 60px 10px;
+  padding: 40px 10px;
 `;
 
 const Title = styled.h2`
@@ -55,12 +56,19 @@ const StyledImageWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 12px;
 `;
 
 const H3 = styled.h3`
   font-weight: bold;
   font-size: 15px;
   color: var(--darkgray-from-grayscale);
+  margin: 0;
+`;
+
+const Margin = styled.div`
+  height: 10px;
+  margin: 0;
 `;
 
 const P = styled.p`

@@ -186,17 +186,10 @@ const CommunityHome: React.FC = () => {
         <CommentSection
           onClose={closeCommentSection}
           comments={comments}
-          onSubmitComment={async (commentContent) => {
-            try {
-              const newComment = await createComment(
-                posts[selectedPostIndex].shareDoyakId,
-                commentContent
-              );
-              setComments([...comments, newComment]);
-            } catch (error) {
-              console.error("댓글 작성 중 오류 발생:", error);
-            }
-          }}
+          shareDoyakId={posts[selectedPostIndex].shareDoyakId}
+          onCommentSubmitted={(newComment) =>
+            setComments((prev) => [...prev, newComment])
+          }
         />
       )}
       <WriteButton />
