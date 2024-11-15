@@ -8,8 +8,9 @@ import checkBox from "../../../public/assets/home/checkBox.svg";
 import { useRouter } from "next/router";
 import Modal from "./Modal";
 import { useUserStore } from "@/src/store/useUserStore";
-
+import useLogsStore from "@/src/store/useLogStore";
 import { fetchRecordList, RecordItem } from "../../apis/logsApi";
+import { format } from "date-fns";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -21,13 +22,19 @@ const MonthlyCalendar: React.FC = () => {
   const [recordDayList, setRecordDayList] = useState<string[]>([]);
   const { memberId } = useUserStore();
 
-
   useEffect(() => {
     const fetchList = async () => {
       try {
         const response = await fetchRecordList();
         // creationDate 값들만 추출하여 recordDayList 배열에 값 업데이트
-        setRecordDayList(response.map((item: RecordItem) => item.creationDate.substring(0, 10)));
+        setRecordDayList(
+          response.map((item: RecordItem) => item.creationDate.substring(0, 10))
+        );
+        const logData = response.map((item: RecordItem) => ({
+          logId: item.logId,
+          creationDate: format(new Date(item.creationDate), "yyyy-MM-dd"),
+        }));
+        useLogsStore.getState().setLogs(logData);
       } catch (error) {
         console.error("Failed to fetch record list:", error);
         throw error;
@@ -39,7 +46,7 @@ const MonthlyCalendar: React.FC = () => {
     }
   }, [memberId]);
 
-  // console.log(recordDayList);
+  console.log(recordDayList);
 
   const formatDate = (date: Date) =>
     date
@@ -72,12 +79,14 @@ const MonthlyCalendar: React.FC = () => {
 
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
-        router.push({
-          pathname: "/grow-check",
-          query: {
-            dayToSelect: formattedValue
-          }},
-          `/grow-check/daily`, // query masking
+        router.push(
+          {
+            pathname: "/grow-check",
+            query: {
+              dayToSelect: formattedValue,
+            },
+          },
+          `/grow-check/` // query masking
         );
         break;
 
@@ -118,7 +127,9 @@ const MonthlyCalendar: React.FC = () => {
         }}
         tileContent={({ date }) => {
           const html = [];
-          if (recordDayList.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+          if (
+            recordDayList.find((x) => x === moment(date).format("YYYY-MM-DD"))
+          ) {
             html.push(
               <StyledCheckbox
                 className="checkbox"
@@ -133,7 +144,9 @@ const MonthlyCalendar: React.FC = () => {
       />
       {open && (
         <Modal open={open} onClose={() => setOpen(false)}>
-          <div>선택한 날짜에<br></br>작성된 기록이 없습니다</div>
+          <div>
+            선택한 날짜에<br></br>작성된 기록이 없습니다
+          </div>
         </Modal>
       )}
     </StyledCalendarWrapper>

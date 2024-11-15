@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Image from 'next/image';
+import Image from "next/image";
 import messageIcon from "../../Images/messageIcon.png";
 import Root from "../../style/Root";
+import { useRouter } from "next/router";
 
 interface AlarmData {
   id: string;
@@ -13,7 +14,7 @@ interface AlarmData {
 
 const AlarmHome: React.FC = () => {
   const router = useRouter();
-  
+
   const [activeTab, setActiveTab] = useState<string>("Record");
   const [isClicked, setIsClicked] = useState(false); // isClicked 상태 추가
 
@@ -34,7 +35,7 @@ const AlarmHome: React.FC = () => {
         "친애하는 친구에게, 당신의 성장 가능성을 믿습니다. 항상 새로운 도전과 배움을 통해 더 나은 자신을 만들어가길 응원합니다.힘든 순간에도 포기하지 말고, 당신의 꿈을 향해 한 걸음씩 나아가세요.",
       date: "2024-10-23",
     },
-  ]);
+  ];
   const [communityAlarmData, setCommunityAlarmData] = useState<AlarmData[]>([
     {
       id: "신규댓글",
@@ -45,13 +46,9 @@ const AlarmHome: React.FC = () => {
     },
   ]);
 
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-  };
-
   const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState<
     boolean[]
-  >(new Array(generalAlarmData.length).fill(false));
+  >(new Array(GeneralAlarmData.length).fill(false));
 
   const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState<
     boolean[]
@@ -243,12 +240,7 @@ const AlarmHome: React.FC = () => {
 
   const IconComponent = ({ isClicked }: { isClicked: boolean }) => (
     <div style={styles.Icon(isClicked)}>
-          <Image 
-            src={messageIcon} 
-            alt="message Icon" 
-            width={80} 
-            height={80}
-          />
+      <Image src={messageIcon} alt="message Icon" width={80} height={80} />
     </div>
   );
 
@@ -270,7 +262,7 @@ const AlarmHome: React.FC = () => {
       </div>
       <div style={styles.AlarmList}>
         {activeTab === "Record"
-          ? generalAlarmData.map((alarmCard, index) => (
+          ? GeneralAlarmData.map((alarmCard, index) => (
               <div
                 key={alarmCard.id}
                 onClick={() => handleCardClick(index)}

@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import styled from "styled-components";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
 import pot from "../../../public/assets/grow-up-record/pot.svg";
+import angry from "../../../public/assets/grow-up-record/angry.svg";
+import funny from "../../../public/assets/grow-up-record/funny.svg";
+import etc from "../../../public/assets/grow-up-record/etc.svg";
+import love from "../../../public/assets/grow-up-record/love.svg";
+import sad from "../../../public/assets/grow-up-record/sad.svg";
+import surprise from "../../../public/assets/grow-up-record/surprise.svg";
+
 import Image from "next/image";
 import useLogsStore from "@/src/store/useLogStore";
-
+import { DailyRecord } from "@/src/apis/logsApi";
+import { useUserStore } from "@/src/store/useUserStore";
 interface TodayProps {
   selectedDay: Date;
 }
@@ -20,41 +28,40 @@ interface MailProps {
 const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
   const formattedDate = selectedDay.toISOString().split("T")[0];
   const { getLogByDate } = useLogsStore();
+  const { aiName } = useUserStore();
   const logId = getLogByDate(formattedDate);
+
+  useEffect(() => {
+    const fetchDaily = async (logId: number) => {
+      const response = await DailyRecord(logId);
+      console.log(response);
+      console.log(response[0]["emotion"]);
+      setTodayDoyak({
+        content: response[0]["logContent"],
+        url: response[0]["logImageUrl"],
+      });
+      setWeeklyTags(
+        response[0]["tagNameList"].map(
+          (tag: { tagName: string }) => tag.tagName
+        ) || []
+      );
+      setEmotion({
+        [response[0]["emotion"]]: 1,
+      });
+    };
+
+    if (logId) {
+      fetchDaily(logId);
+    }
+  }, [logId]);
   // todo: logId가 없을 경우 기록이 없다는 표시를, 있으면 api 요청을 통해 데이터를 불러와야함
 
   const [todayDoyak, setTodayDoyak] = useState<Record<string, string>>({
-    content:
-      "성취 Github 가이드북을 직접 만들고 배포했다. 학교별 아카이브에도\
-        올렸는데 다른 학교 회장단 분들도 편하게 사용했으면 좋겠다! 오늘 친해지고\
-        싶었던 개발자분께 먼저 말을 걸었다! 역시 얘기해 보니깐 배울 점 많고 멋진\
-        분이셔서 앞으로도 더 친해지고 싶다! 개선 가이드북을 최대한 꼼꼼하게\
-        작성하려고 하다보니 너무 많은 시간을 쏟느라 다른 일을 많이 못했다. -\
-        새로운 문서 제작이 오래 걸리니깐 문서 작업하는 날 생각해서 작업 로드\
-        분배하기 프론트엔드 회의 일시와 장소를 이틀 전에는 공지해 주었어야\
-        하는데 미리 챙기지 못해서 급하게 진행이 되었다.. - 내가 참석하지 않는\
-        회의 일정도 캘린더에 적어두고 공지 했는지, 안 했는지 여부 꼼꼼히\
-        확인하기 학습 백엔드 개발자분과 대화하면서 WAS 개념에 대해 새로 배웠다.\
-        WAS와 웹 서버 구분 잘 하기!! 비즈니스 매너 중 이메일 작성법에 대해\
-        배웠다. 깃헙 가이드북을 작성하면서 스터디 리포지토리 만드는 방법에 대해\
-        찾아보고 고민할 수 있었다. 리포지토리 간 PR 요청도 먼저 해보니깐 이제\
-        익숙해졌다!",
-    url: "url",
+    content: "",
+    url: "",
   });
-  const [emotion, setEmotion] = useState<Record<string, number>>({
-    happy: 1,
-  });
-  const [weeklyTags, setWeeklyTags] = useState<string[]>([
-    "123",
-    "abc",
-    "배고파",
-    "커피",
-    "테스트",
-    "프로그래밍",
-    "React",
-    "CSS",
-    "비즈니스테크놀로지",
-  ]);
+  const [emotion, setEmotion] = useState<Record<string, number>>({});
+  const [weeklyTags, setWeeklyTags] = useState<string[]>([]);
 
   const [todayMail, setTodayMail] = useState<MailProps>({
     date: new Date("2024-10-17"),
@@ -76,7 +83,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
       <SectionTitle>오늘의 도약태그</SectionTitle>
       <Tags tags={weeklyTags} />
 
-      <SectionTitle>도약이의 편지</SectionTitle>
+      <SectionTitle>{aiName}의 편지</SectionTitle>
       <MailWrapper>
         {todayMail.content}
 

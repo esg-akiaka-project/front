@@ -37,43 +37,43 @@ const Emotions: React.FC<EmotionsProps> = ({ emotion, updateEmotion }) => {
   return (
     <Root>
       <StyledBtn
-        $isSelected={emotion === "love"}
+        $isSelected={emotion === "hearts"}
         onClick={() => handleClick("love")}
       >
         <Image src={love} alt="사랑" />
       </StyledBtn>
       <StyledBtn
-        $isSelected={emotion === "happy"}
+        $isSelected={emotion === "laughing"}
         onClick={() => handleClick("happy")}
       >
         <Image src={happy} alt="기쁨" />
       </StyledBtn>
       <StyledBtn
-        $isSelected={emotion === "sad"}
+        $isSelected={emotion === "tear"}
         onClick={() => handleClick("sad")}
       >
         <Image src={sad} alt="슬픔" />
       </StyledBtn>
       <StyledBtn
-        $isSelected={emotion === "angry"}
+        $isSelected={emotion === "rage"}
         onClick={() => handleClick("angry")}
       >
         <Image src={angry} alt="화남" />
       </StyledBtn>
       <StyledBtn
-        $isSelected={emotion === "surprised"}
-        onClick={() => handleClick("surprised")}
+        $isSelected={emotion === "hushed"}
+        onClick={() => handleClick("surprise")}
       >
         <Image src={surprise} alt="놀람" />
       </StyledBtn>
       <StyledBtn
-        $isSelected={emotion === "fun"}
+        $isSelected={emotion === "star"}
         onClick={() => handleClick("fun")}
       >
         <Image src={funny} alt="재밌음" />
       </StyledBtn>
       <StyledBtn
-        $isSelected={emotion === "etc"}
+        $isSelected={emotion === "question"}
         onClick={() => handleClick("etc")}
       >
         <Image src={etc} alt="기타" />

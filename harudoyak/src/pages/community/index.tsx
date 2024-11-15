@@ -93,7 +93,10 @@ const CommunityHome: React.FC = () => {
   }, [isCommentOpen]);
 
   // 댓글 열기 및 특정 게시글로 스크롤 이동
-  const handleCommentButtonClick = async (index: number, shareDoyakId: number) => {
+  const handleCommentButtonClick = async (
+    index: number,
+    shareDoyakId: number
+  ) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);
     try {
@@ -165,7 +168,11 @@ const CommunityHome: React.FC = () => {
                   />
                 </IconWrapper>
                 <NumberDoyak count={post.doyakCount} />
-                <CommentButton onClick={() => handleCommentButtonClick(index, post.shareDoyakId)} />
+                <CommentButton
+                  onClick={() =>
+                    handleCommentButtonClick(index, post.shareDoyakId)
+                  }
+                />
                 <NumberComment commentCnt={post.commentCount} />
               </ButtonContainer>
               <CommentText>{post.shareContent}</CommentText>
@@ -181,7 +188,10 @@ const CommunityHome: React.FC = () => {
           comments={comments}
           onSubmitComment={async (commentContent) => {
             try {
-              const newComment = await createComment(posts[selectedPostIndex].shareDoyakId, commentContent);
+              const newComment = await createComment(
+                posts[selectedPostIndex].shareDoyakId,
+                commentContent
+              );
               setComments([...comments, newComment]);
             } catch (error) {
               console.error("댓글 작성 중 오류 발생:", error);

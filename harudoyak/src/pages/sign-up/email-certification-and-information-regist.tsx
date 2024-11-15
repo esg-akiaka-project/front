@@ -30,6 +30,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
         if (updatedState.isVerified) {
           setEmailVerified(true);
           console.log("이메일 인증이 완료되었습니다. (스토리지 이벤트)");
+          localStorage.removeItem("emailVerification");
         }
       }
     };

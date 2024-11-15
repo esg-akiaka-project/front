@@ -14,28 +14,23 @@ import { addDays, startOfWeek } from "date-fns";
 import { useRouter } from "next/router";
 
 const GrowCheckHome: React.FC = () => {
+  const router = useRouter();
   const currentMonth = new Date().getMonth();
 
   const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
   const [selectedMode, setSelectedMode] = useState<"Month" | "Week">("Week");
-
-  // 페이지 라우팅 됐을때 선택된 날
-  // 네브바에서 선택했을 경우 당일이 디폴트
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
-  // 알림에 의해서 클릭되어 들어올 경우, router.push("주소", params)
   const [selectedDay, setSelectedDay] = useState<Date | null>(null); // weekly에서 선택한 날
 
   // router.query 이용해서 들어오면 가능함
-  const router = useRouter();
-  useEffect(() => {
-    // MonthlyCalendar의 router.query에서 dayToSelect를 가져옴
-    const dayToSelect = router.query.dayToSelect 
-    ? new Date(router.query.dayToSelect as string)
-    : addDays(new Date(), 0);
 
-    setSelectedDay(dayToSelect);
-    setSelectedMonth(dayToSelect.getMonth());
+  useEffect(() => {
+    if (router.query.dayToSelect) {
+      const dayToSelect = new Date(router.query.dayToSelect as string);
+      setSelectedDay(dayToSelect);
+      setSelectedMonth(dayToSelect.getMonth());
+      setSelectedDate(dayToSelect);
+    }
   }, [router.query.dayToSelect]); // dayToSelect 변경 시 effect 실행
 
   useEffect(() => {
@@ -46,6 +41,11 @@ const GrowCheckHome: React.FC = () => {
       setSelectedDate(newDate);
     }
   }, [selectedMonth, currentMonth]);
+  const handleMonthChange = (month: number) => {
+    setSelectedMonth(month);
+    setSelectedDay(null); // 월 변경 시 선택된 일자 초기화
+    setSelectedDate(new Date(new Date().getFullYear(), month, 1));
+  };
 
   const handleDayClick = (date: Date) => {
     if (selectedDay && selectedDay.getTime() === date.getTime()) {
@@ -72,7 +72,7 @@ const GrowCheckHome: React.FC = () => {
       <ControlContainer>
         <Dropdown
           selectedMonth={selectedMonth}
-          onMonthChange={setSelectedMonth}
+          onMonthChange={handleMonthChange}
         />
         <SelectMonWeek
           selectedMode={selectedMode}

@@ -1,9 +1,13 @@
-// logsStore.ts
 import { create } from "zustand";
 
+interface Log {
+  logId: number;
+  creationDate: string;
+}
+
 interface LogState {
-  logs: { logId: number; creationDate: string }[];
-  setLogs: (logs: { logId: number; creationDate: string }[]) => void;
+  logs: Log[];
+  setLogs: (logs: Log[]) => void;
   getLogByDate: (date: string) => number | null;
 }
 
