@@ -23,7 +23,7 @@ import {
 } from "../../components/grow-up-record";
 
 const GrowUpRecordHome: React.FC = () => {
-  const { text, image, emotion, tags, updateImage, updateEmotion} =
+  const { text, image, emotion, tags, updateImage, updateEmotion, updateTags } =
     usePostDataContext();
   // TODO: 도약기록 페이지 들어올 때마다 tags를 초기화하는 state 변수
 
@@ -63,8 +63,7 @@ const GrowUpRecordHome: React.FC = () => {
           </ReactMarkdown>
         </TextEntryButton>
       </Link>
-
-      <ImageUploadSection image={image} updateImage={updateImage}/>
+      {image && <ImageUploadSection image={image} updateImage={updateImage} />}
 
       <FlexWrapper>
         <Heading2 style={{ marginTop: "5px", marginBottom: "5px" }}>
@@ -83,7 +82,13 @@ const GrowUpRecordHome: React.FC = () => {
         ) : (
           <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <ReloadButton index={index} />
+        <ReloadButton
+          index={index}
+          text={text}
+          tags={tags}
+          updateTags={updateTags}
+        />
+        {/*태그가 업데이트 되면 자동으로 반영될 수 있도록 useEffect 사용하기*/}
       </FlexWrapper>
       {isReadyToSubmit && (
         <SubmitButton

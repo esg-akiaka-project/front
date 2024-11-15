@@ -4,7 +4,7 @@ import usePostData, { PostData } from "../hooks/usePostData";
 export interface PostDataContextType extends PostData {
   updateText: (newText: string) => void;
   updateEmotion: (newEmotion: string) => void;
-  updateImage: (newImage: File | null) => void;
+  updateImage: (newImage: string | null) => void;
   updateTags: (newTags: string[]) => void;
 }
 
