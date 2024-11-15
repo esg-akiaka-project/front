@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -25,7 +25,6 @@ import {
 const GrowUpRecordHome: React.FC = () => {
   const { text, image, emotion, tags, updateImage, updateEmotion, updateTags } =
     usePostDataContext();
-  // TODO: 도약기록 페이지 들어올 때마다 tags를 초기화하는 state 변수
 
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
 
@@ -38,7 +37,6 @@ const GrowUpRecordHome: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
   const isReadyToSubmit = text && emotion && tags && tags.length > 0;
-  const [index, setIndex] = useState(0);
 
   return (
     <Root>
@@ -63,10 +61,10 @@ const GrowUpRecordHome: React.FC = () => {
           </ReactMarkdown>
         </TextEntryButton>
       </Link>
-      {image && <ImageUploadSection image={image} updateImage={updateImage} />}
+      <ImageUploadSection image={image} updateImage={updateImage} />
 
       <FlexWrapper>
-        <Heading2 style={{ marginTop: "5px", marginBottom: "5px" }}>
+        <Heading2 style={{ marginTop: "7px", marginBottom: "5px" }}>
           오늘의 도약 태그
         </Heading2>
         <Tooltip
@@ -82,13 +80,7 @@ const GrowUpRecordHome: React.FC = () => {
         ) : (
           <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <ReloadButton
-          index={index}
-          text={text}
-          tags={tags}
-          updateTags={updateTags}
-        />
-        {/*태그가 업데이트 되면 자동으로 반영될 수 있도록 useEffect 사용하기*/}
+        <ReloadButton text={text} updateTags={updateTags} />
       </FlexWrapper>
       {isReadyToSubmit && (
         <SubmitButton

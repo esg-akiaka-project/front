@@ -32,49 +32,47 @@ const Emotions: React.FC<EmotionsProps> = ({ emotion, updateEmotion }) => {
 
   const [isOpened, setIsOpened] = useState<boolean>(true); // pop message open 여부
 
-  //const router = useRouter();
-
   return (
     <Root>
       <StyledBtn
         $isSelected={emotion === "love"}
-        onClick={() => handleClick("love")}
+        onClick={() => handleClick("hearts")}
       >
         <Image src={love} alt="사랑" />
       </StyledBtn>
       <StyledBtn
         $isSelected={emotion === "happy"}
-        onClick={() => handleClick("happy")}
+        onClick={() => handleClick("laughing")}
       >
         <Image src={happy} alt="기쁨" />
       </StyledBtn>
       <StyledBtn
         $isSelected={emotion === "sad"}
-        onClick={() => handleClick("sad")}
+        onClick={() => handleClick("tear")}
       >
         <Image src={sad} alt="슬픔" />
       </StyledBtn>
       <StyledBtn
         $isSelected={emotion === "angry"}
-        onClick={() => handleClick("angry")}
+        onClick={() => handleClick("rage")}
       >
         <Image src={angry} alt="화남" />
       </StyledBtn>
       <StyledBtn
         $isSelected={emotion === "surprised"}
-        onClick={() => handleClick("surprised")}
+        onClick={() => handleClick("hushed")}
       >
         <Image src={surprise} alt="놀람" />
       </StyledBtn>
       <StyledBtn
         $isSelected={emotion === "fun"}
-        onClick={() => handleClick("fun")}
+        onClick={() => handleClick("star")}
       >
         <Image src={funny} alt="재밌음" />
       </StyledBtn>
       <StyledBtn
         $isSelected={emotion === "etc"}
-        onClick={() => handleClick("etc")}
+        onClick={() => handleClick("question")}
       >
         <Image src={etc} alt="기타" />
       </StyledBtn>

@@ -6,15 +6,10 @@ import Image from "next/image";
 
 interface ReloadButtonProps {
   text: string;
-  tags: string[];
   updateTags: (Tags: string[]) => void;
 }
 
-const ReloadButton: React.FC<ReloadButtonProps> = ({
-  text,
-  tags,
-  updateTags,
-}) => {
+const ReloadButton: React.FC<ReloadButtonProps> = ({ text, updateTags }) => {
   const [index, setIndex] = useState(1);
 
   const handleSubmit = async () => {
@@ -52,4 +47,5 @@ const Button = styled.button`
   all: unset;
   cursor: pointer;
   top: 0;
+  min-width: 14px;
 `;
