@@ -68,7 +68,14 @@ const CommunityHome: React.FC = () => {
           goalName: post.goalName,
           resComments: post.resComments,
         }));
+
         setPosts(formattedData);
+        // LikedPosts 초기화
+        const initialLikedPosts = formattedData.reduce((acc: Record<number,boolean>,post: PostProps) => {
+          acc[post.shareDoyakId] = post.doyakCount > 0; // doyakCount가 0보다 크면 true로 설정
+          return acc;
+        }, {} as Record<number,boolean>);
+        setLikedPosts(initialLikedPosts); // LikedPosts 초기화
       } catch (error) {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
       }
@@ -116,11 +123,13 @@ const CommunityHome: React.FC = () => {
     const isLiked = likedPosts[shareDoyakId] || false;
 
     try {
-      await addDoyak(memberId, shareDoyakId);
+      const response = await addDoyak(memberId, shareDoyakId);
+      const updatedDoyakCount = response.doyakCount; // 서버에서 반환된 도약수
+
       setPosts((prevPosts) =>
         prevPosts.map((post, i) =>
           i === index
-            ? { ...post, doyakCount: post.doyakCount + (isLiked ? -1 : 1) }
+            ? { ...post, doyakCount: updatedDoyakCount }
             : post
         )
       );
@@ -142,13 +151,14 @@ const CommunityHome: React.FC = () => {
   const handleCommentSubmitted = (updatedComments: CommentProps[]) => {
     setComments(updatedComments);
     setPosts((prevPosts) =>
-    prevPosts.map((post,i) =>
-    i === selectedPostIndex
-      ? { ...post, commentCount: updatedComments.length}
-      : post
-    )
-  );
+      prevPosts.map((post, i) =>
+        i === selectedPostIndex
+          ? { ...post, commentCount: updatedComments.length }
+          : post
+      )
+    );
   };
+  
 
   return (
     <Root>
@@ -171,7 +181,7 @@ const CommunityHome: React.FC = () => {
                     src="/assets/community/doyak.svg"
                     alt="Doyak Icon"
                     width={25}
-                    height={23}
+                    height={25}
                     onClick={() => handleDoyakCount(index, post.shareDoyakId)}
                   />
                 </IconWrapper>

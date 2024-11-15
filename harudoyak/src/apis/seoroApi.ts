@@ -34,7 +34,7 @@ export const createPost = async (comment: string, photoUrl: string) => { // phot
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {
   try {
     const response = await axiosInstance.post(`/posts/doyak/${memberId}/${shareDoyakId}`);
-    console.log("도약하기 성공");
+    console.log("도약하기 성공", response.data);
     return response.data;
   } catch (error) {
     console.error("도약하기 실패:", error);

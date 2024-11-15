@@ -22,13 +22,22 @@ const CommentInput = styled.input`
 `;
 
 const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
+    z-index: 1; /* 아이콘이 앞으로 나오도록 설정 */
+    width: 20px;
+    height: 20px;
 `;
 
 const SubmitIcon = styled.div`
-  cursor: pointer;
-  z-index: 1; /* 아이콘이 앞으로 나오도록 설정 */
+ background-color: var(--sub-green3); 
+ width: 20px; 
+ height: 20px; 
+ border-radius: 24px;
+ cursor: pointer; 
+ z-index: 2; /* 아이콘이 앞으로 나오도록 설정 */
+ display: flex; 
+ align-items: center; 
+ justify-content: center;
+  
 `;
 
 interface WriteCommentBoxProps {
@@ -55,7 +64,7 @@ const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({ shareDoyakId, onComme
   return (
     <CommentInputContainer>
       <CommentInput
-        placeholder="댓글을 작성하세요..."
+        placeholder="이곳을 눌러 댓글을 작성하세요..."
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
@@ -64,10 +73,12 @@ const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({ shareDoyakId, onComme
           <Image
             src="/assets/community/sharebutton.svg"
             alt="Submit Icon"
-            width={24}
-            height={24}
+            width={20}
+            height={20}
+            onLoad={()=> console.log('이미지 업로드 성공')}
+            onError={() => console.error('이미지 업로드 실패')}
           />
-        </SubmitIcon>
+          </SubmitIcon>
       </IconWrapper>
     </CommentInputContainer>
   );
