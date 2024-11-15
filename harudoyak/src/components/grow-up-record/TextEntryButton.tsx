@@ -10,7 +10,6 @@ const TextEntryButton: React.FC<TextEntryButtonProps> = ({ children }) => {
     <Root>
       <EntryButton>
         {children}
-        {/*TODO : 도약 기록 작성 후에는 disabled로 바꿔서 수정 버튼을 통해 접근할 수 있도록 구현*/}
       </EntryButton>
     </Root>
   );
@@ -33,7 +32,7 @@ const EntryButton = styled.button`
   font-size: 0.94rem;
   align-items: flex-start;
   margin-right: 23px;
-
+  margin-bottom: 23px;
 `;
 
 const Span = styled.span`

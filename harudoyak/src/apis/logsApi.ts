@@ -2,7 +2,6 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
-import { uploadToS3 } from "./uploadToS3";
 
 export type RecordItem = {
   logId: number;
