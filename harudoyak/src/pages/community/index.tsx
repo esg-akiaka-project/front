@@ -18,14 +18,14 @@ import Image from "next/image";
 
 // seoroApi.ts에서 API 함수 임포트
 import {
-  fetchPosts, // 게시글 목록을 불러오는 함수
-  createPost, // 게시글 생성 함수
- 
-  createComment, // 댓글 생성 함수
-  fetchComments, // 댓글 목록을 불러오는 함수
+  fetchPosts,
+  createComment,
+  fetchComments,
   addDoyak,
 } from "@/src/apis/seoroApi";
+
 import { useUserStore } from "@/src/store/useUserStore";
+
 interface CommentProps {
   commentShareDoyakId: number;
   commentId: number;
@@ -43,30 +43,14 @@ interface PostProps {
   resComments: CommentProps[];
 }
 
-// 게시글 타입 정의
-interface Post {
-    id: number;
-    photo: string;
-    comment: string;
-}
-
 const CommunityHome: React.FC = () => {
-  const {
-    selectedPhoto,
-    setSelectedPhoto,
-    comment,
-    setComment,
-    // isCommentOpen,
-    toggleCommentSection,
-  } = useCommunityStore();
-
   const { memberId } = useUserStore();
-
   const [posts, setPosts] = useState<PostProps[]>([]);
-
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
+  const [comments, setComments] = useState<CommentProps[]>([]); // 댓글 데이터 상태 추가
   const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
+  const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 좋아요 상태 관리
 
   const postRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -74,18 +58,16 @@ const CommunityHome: React.FC = () => {
     const loadPosts = async () => {
       try {
         const data = await fetchPosts();
-        
         const formattedData = data.map((post: PostProps) => ({
           shareDoyakId: post.shareDoyakId,
-          shareImageUrl: post.shareImageUrl, // 이미지 URL 필드
-          shareContent: post.shareContent, // 게시글 내용
+          shareImageUrl: post.shareImageUrl,
+          shareContent: post.shareContent,
           doyakCount: post.doyakCount,
           commentCount: post.commentCount,
-          shareAuthorNickname: post.shareAuthorNickname, // 작성자 닉네임
+          shareAuthorNickname: post.shareAuthorNickname,
           goalName: post.goalName,
           resComments: post.resComments,
         }));
-        
         setPosts(formattedData);
       } catch (error) {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
@@ -93,79 +75,74 @@ const CommunityHome: React.FC = () => {
     };
     loadPosts();
   }, []);
-  
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowSideHeader(window.scrollY > 100); // 스크롤 위치가 100 이상이면 SideHeader를 표시
+      setShowSideHeader(window.scrollY > 100);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll); // 컴포넌트가 언마운트될 때 이벤트 제거
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     if (isCommentOpen) {
-      document.body.style.overflow = "hidden"; // 댓글 섹션이 열리면 스크롤 비활성화
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; // 댓글 섹션이 닫히면 스크롤 활성화
+      document.body.style.overflow = "auto";
     }
   }, [isCommentOpen]);
 
-  // 특정 게시글로 스크롤 이동 및 댓글 섹션 열기
-  const handleCommentButtonClick = (index: number) => {
+  // 댓글 열기 및 특정 게시글로 스크롤 이동
+  const handleCommentButtonClick = async (index: number, shareDoyakId: number) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);
-    // toggleCommentSection(); // 댓글 섹션 열림/닫힘 토글
+    try {
+      const commentsData = await fetchComments(shareDoyakId);
+      setComments(commentsData || []);
+    } catch (error) {
+      console.error("댓글 데이터를 불러오는 중 오류 발생:", error);
+    }
+
     if (postRefs.current[index]) {
       postRefs.current[index]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
-      }); // 해당 게시글로 스크롤
+      });
     }
   };
 
-  const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 게시글별 좋아요 상태 저장
-
   const handleDoyakCount = async (index: number, shareDoyakId: number) => {
-      console.log("좋아요 체크");
-      if (memberId === null) {
-          return;
-      }
-  
-      const isLiked = likedPosts[shareDoyakId] || false; // 해당 게시글의 좋아요 상태 확인
-  
-      try {
-          const response = await addDoyak(memberId, shareDoyakId);
-  
-          // 도약하기(좋아요) 숫자 업데이트
-          setPosts((prevPosts) =>
-              prevPosts.map((post, i) =>
-                  i === index
-                      ? { ...post, doyakCount: post.doyakCount + (isLiked ? -1 : 1) }
-                      : post
-              )
-          );
-  
-          // 좋아요 상태 반전
-          setLikedPosts((prevLikedPosts) => ({
-              ...prevLikedPosts,
-              [shareDoyakId]: !isLiked,
-          }));
-      } catch (error) {
-          console.log(error);
-      }
-  };
-  
+    if (memberId === null) return;
+    const isLiked = likedPosts[shareDoyakId] || false;
 
+    try {
+      await addDoyak(memberId, shareDoyakId);
+      setPosts((prevPosts) =>
+        prevPosts.map((post, i) =>
+          i === index
+            ? { ...post, doyakCount: post.doyakCount + (isLiked ? -1 : 1) }
+            : post
+        )
+      );
+      setLikedPosts((prevLikedPosts) => ({
+        ...prevLikedPosts,
+        [shareDoyakId]: !isLiked,
+      }));
+    } catch (error) {
+      console.error("좋아요 업데이트 중 오류 발생:", error);
+    }
+  };
 
   const closeCommentSection = () => {
     setIsCommentOpen(false);
     setSelectedPostIndex(0);
+    setComments([]); // 댓글 섹션을 닫을 때 댓글 상태 초기화
   };
+
   return (
     <Root>
       <MainHeader />
-      {showSideHeader && <SideHeader />}{" "}
+      {showSideHeader && <SideHeader />}
       <PostList>
         {posts.map((post, index) => (
           <React.Fragment key={post.shareDoyakId}>
@@ -176,7 +153,6 @@ const CommunityHome: React.FC = () => {
             >
               <NickName nickname={post.shareAuthorNickname} />
               <DoyakObject object={post.goalName} />
-
               <MainPhoto selectedPhoto={post.shareImageUrl} />
               <ButtonContainer>
                 <IconWrapper>
@@ -188,27 +164,32 @@ const CommunityHome: React.FC = () => {
                     onClick={() => handleDoyakCount(index, post.shareDoyakId)}
                   />
                 </IconWrapper>
-
                 <NumberDoyak count={post.doyakCount} />
-                <CommentButton
-                  onClick={() => handleCommentButtonClick(index)}
-                />
+                <CommentButton onClick={() => handleCommentButtonClick(index, post.shareDoyakId)} />
                 <NumberComment commentCnt={post.commentCount} />
               </ButtonContainer>
-              { <CommentText>{post.shareContent}</CommentText> }
+              <CommentText>{post.shareContent}</CommentText>
             </Post>
             {index < posts.length - 1 && <Separator />}
           </React.Fragment>
         ))}
       </PostList>
-      {/* 댓글 섹션 열림/닫힘 상태에 따라 렌더링 */}
+
       {isCommentOpen && (
         <CommentSection
           onClose={closeCommentSection}
-          comments={posts[selectedPostIndex].resComments}
+          comments={comments}
+          onSubmitComment={async (commentContent) => {
+            try {
+              const newComment = await createComment(posts[selectedPostIndex].shareDoyakId, commentContent);
+              setComments([...comments, newComment]);
+            } catch (error) {
+              console.error("댓글 작성 중 오류 발생:", error);
+            }
+          }}
         />
       )}
-      <WriteButton /> {/* 게시글 작성 버튼 */}
+      <WriteButton />
     </Root>
   );
 };
@@ -227,16 +208,16 @@ const PostList = styled.div`
 `;
 
 const Post = styled.div`
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 `;
 
 const Separator = styled.hr`

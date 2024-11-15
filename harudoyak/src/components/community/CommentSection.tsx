@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import WriteCommentBox from "./WriteCommentBox";
-// import WrittenCommentBox from "./WrittenCommentBox";
 import CancelCommentBar from "./CancelCommentBar";
-import useCommunityStore from "../../store/useCommunityStore";
 
 interface CommentProps {
   commentShareDoyakId: number;
@@ -19,7 +17,7 @@ interface CommentSectionProps {
 
 const CommentSection: React.FC<CommentSectionProps> = ({
   onClose,
-  comments,
+  comments = [],
 }) => {
   return (
     <CommentSectionContainer>

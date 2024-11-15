@@ -11,6 +11,7 @@ import MonthFeel from "@/src/components/growcheck/MonthFeel";
 // todo: 알람에서 주/월, 당일 피드백에 대해서 클릭을 하면 props로 해당하는 기간을 주고 그에따라 변수를 조정해
 //  도약 기록 페이지 일/주/월 에따른 페이지 모습이 나오게 해야함
 import { addDays, startOfWeek } from "date-fns";
+import { useRouter } from "next/router";
 
 const GrowCheckHome: React.FC = () => {
   const currentMonth = new Date().getMonth();
@@ -26,11 +27,16 @@ const GrowCheckHome: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<Date | null>(null); // weekly에서 선택한 날
 
   // router.query 이용해서 들어오면 가능함
+  const router = useRouter();
   useEffect(() => {
-    const dayToSelect = addDays(new Date(), 0);
+    // MonthlyCalendar의 router.query에서 dayToSelect를 가져옴
+    const dayToSelect = router.query.dayToSelect 
+    ? new Date(router.query.dayToSelect as string)
+    : addDays(new Date(), 0);
+
     setSelectedDay(dayToSelect);
     setSelectedMonth(dayToSelect.getMonth());
-  }, []);
+  }, [router.query.dayToSelect]); // dayToSelect 변경 시 effect 실행
 
   useEffect(() => {
     if (selectedMonth === currentMonth) {
