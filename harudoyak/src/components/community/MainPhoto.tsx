@@ -1,9 +1,8 @@
-// MainPhoto.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface MainPhotoProps {
-    selectedPhoto: string | null;
+    selectedPhoto: File | string | null;
 }
 
 const MainPhotoContainer = styled.div`
@@ -22,10 +21,34 @@ const Photo = styled.img`
 `;
 
 export const MainPhoto: React.FC<MainPhotoProps> = ({ selectedPhoto }) => {
+    const [photoSrc, setPhotoSrc] = useState<string | undefined>(undefined);
+
+    const getPhotoSrc = (photo: File | string | null): string | undefined => {
+        if (photo instanceof File) {
+            return URL.createObjectURL(photo);
+        } else if (typeof photo === 'string') {
+            return photo;
+        }
+        return undefined;
+    };
+
+    useEffect(() => {
+        // 선택된 사진이 바뀔 때마다 photoSrc를 새로 설정
+        const src = getPhotoSrc(selectedPhoto);
+        setPhotoSrc(src);
+
+        // 메모리 누수를 방지하기 위해 URL 해제
+        return () => {
+            if (src && selectedPhoto instanceof File) {
+                URL.revokeObjectURL(src);
+            }
+        };
+    }, [selectedPhoto]);
+
     return (
         <MainPhotoContainer>
-            {selectedPhoto ? (
-                <Photo src={selectedPhoto} alt="Selected" />
+            {photoSrc ? (
+                <Photo src={photoSrc} alt="Selected" />
             ) : (
                 <p>아래의 첨부된 사진에서 선택하면 표시됩니다.</p>
             )}

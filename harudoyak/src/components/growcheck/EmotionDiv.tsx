@@ -23,7 +23,7 @@ const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
           />
         </MainEmotion>
       )}
-      <EmotionList numEmotions={otherEmotions.length}>
+      <EmotionList $numEmotions={otherEmotions.length}>
         {otherEmotions.map(([emotion, count], index) => (
           <EmotionItem key={index}>
             <EmotionImageSmall
@@ -60,10 +60,10 @@ const EmotionImage = styled.img`
   height: 80px;
 `;
 
-const EmotionList = styled.div<{ numEmotions: number }>`
+const EmotionList = styled.div<{ $numEmotions: number }>`
   display: grid;
-  grid-template-columns: ${({ numEmotions }) =>
-    numEmotions <= 4 ? `repeat(1, auto)` : `repeat(2, auto)`};
+  grid-template-columns: ${({ $numEmotions }) =>
+    $numEmotions <= 4 ? `repeat(1, auto)` : `repeat(2, auto)`};
   gap: 0.5rem;
   justify-items: center;
   align-items: center;

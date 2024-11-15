@@ -18,14 +18,14 @@ import Image from "next/image";
 
 // seoroApi.ts에서 API 함수 임포트
 import {
-  fetchPosts, // 게시글 목록을 불러오는 함수
-  createPost, // 게시글 생성 함수
-  fetchPostDetail, // 특정 게시글 세부 정보를 불러오는 함수
-  createComment, // 댓글 생성 함수
-  fetchComments, // 댓글 목록을 불러오는 함수
+  fetchPosts,
+  createComment,
+  fetchComments,
   addDoyak,
 } from "@/src/apis/seoroApi";
+
 import { useUserStore } from "@/src/store/useUserStore";
+
 interface CommentProps {
   commentShareDoyakId: number;
   commentId: number;
@@ -44,88 +44,13 @@ interface PostProps {
 }
 
 const CommunityHome: React.FC = () => {
-  const {
-    selectedPhoto,
-    setSelectedPhoto,
-    comment,
-    setComment,
-    // isCommentOpen,
-    toggleCommentSection,
-  } = useCommunityStore();
-
   const { memberId } = useUserStore();
-
-  const [posts, setPosts] = useState<PostProps[]>([
-    {
-      shareAuthorNickname: "지구",
-      goalName: "게임",
-      shareDoyakId: 3,
-      shareContent: "도약이의 편지 자랑할래요",
-      shareImageUrl:
-        "https://harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com/049a622d-784c-4cb5-b2c1-d61f45e60f70.png",
-      commentCount: 0,
-      doyakCount: 0,
-      resComments: [],
-    },
-    {
-      shareAuthorNickname: "소중해",
-      goalName: "돈 벌기",
-      shareDoyakId: 2,
-      shareContent: "도약이의 편지 자랑할래요",
-      shareImageUrl:
-        "https://harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com/a9b52471-83f8-4457-86f5-7f92c97456a1.png",
-      commentCount: 2,
-      doyakCount: 1,
-      resComments: [
-        {
-          commentShareDoyakId: 2,
-          commentId: 4,
-          commentContent: "commentContente",
-          commentAuthorNickname: "test",
-        },
-        {
-          commentShareDoyakId: 2,
-          commentId: 5,
-          commentContent: "commentContenteTest",
-          commentAuthorNickname: "test",
-        },
-      ],
-    },
-    {
-      shareAuthorNickname: "닉네임아무거나",
-      goalName: "취업",
-      shareDoyakId: 1,
-      shareContent: '{\r\n    "shareContent" : "업데이트"\r\n}',
-      shareImageUrl:
-        "https://harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com/15fecf2d-f191-45e4-bf20-b0629106c058.png",
-      commentCount: 3,
-      doyakCount: 0,
-      resComments: [
-        {
-          commentShareDoyakId: 1,
-          commentId: 1,
-          commentContent: "commentContente",
-          commentAuthorNickname: "nickname",
-        },
-        {
-          commentShareDoyakId: 1,
-          commentId: 2,
-          commentContent: "commentContente",
-          commentAuthorNickname: "nickname",
-        },
-        {
-          commentShareDoyakId: 1,
-          commentId: 3,
-          commentContent: "commentContente",
-          commentAuthorNickname: "test",
-        },
-      ],
-    },
-  ]);
-
+  const [posts, setPosts] = useState<PostProps[]>([]);
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
+  const [comments, setComments] = useState<CommentProps[]>([]); // 댓글 데이터 상태 추가
   const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
+  const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 좋아요 상태 관리
 
   const postRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -133,18 +58,17 @@ const CommunityHome: React.FC = () => {
     const loadPosts = async () => {
       try {
         const data = await fetchPosts();
-
         const formattedData = data.map((post: PostProps) => ({
           shareDoyakId: post.shareDoyakId,
-          photo: post.shareImageUrl,
-          comment: post.shareContent,
+          shareImageUrl: post.shareImageUrl,
+          shareContent: post.shareContent,
           doyakCount: post.doyakCount,
           commentCount: post.commentCount,
-          nickname: post.shareAuthorNickname,
+          shareAuthorNickname: post.shareAuthorNickname,
           goalName: post.goalName,
+          resComments: post.resComments,
         }));
         setPosts(formattedData);
-        console.log("hi");
       } catch (error) {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
       }
@@ -154,53 +78,71 @@ const CommunityHome: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowSideHeader(window.scrollY > 100); // 스크롤 위치가 100 이상이면 SideHeader를 표시
+      setShowSideHeader(window.scrollY > 100);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll); // 컴포넌트가 언마운트될 때 이벤트 제거
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     if (isCommentOpen) {
-      document.body.style.overflow = "hidden"; // 댓글 섹션이 열리면 스크롤 비활성화
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; // 댓글 섹션이 닫히면 스크롤 활성화
+      document.body.style.overflow = "auto";
     }
   }, [isCommentOpen]);
 
-  // 특정 게시글로 스크롤 이동 및 댓글 섹션 열기
-  const handleCommentButtonClick = (index: number) => {
+  // 댓글 열기 및 특정 게시글로 스크롤 이동
+  const handleCommentButtonClick = async (index: number, shareDoyakId: number) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);
-    // toggleCommentSection(); // 댓글 섹션 열림/닫힘 토글
+    try {
+      const commentsData = await fetchComments(shareDoyakId);
+      setComments(commentsData || []);
+    } catch (error) {
+      console.error("댓글 데이터를 불러오는 중 오류 발생:", error);
+    }
+
     if (postRefs.current[index]) {
       postRefs.current[index]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
-      }); // 해당 게시글로 스크롤
+      });
     }
   };
 
-  const handleDoyakCount = async (shareDoyakId: number) => {
-    console.log("좋아요 체크");
-    if (memberId === null) {
-      return;
-    }
+  const handleDoyakCount = async (index: number, shareDoyakId: number) => {
+    if (memberId === null) return;
+    const isLiked = likedPosts[shareDoyakId] || false;
+
     try {
-      const response = await addDoyak(memberId, shareDoyakId);
+      await addDoyak(memberId, shareDoyakId);
+      setPosts((prevPosts) =>
+        prevPosts.map((post, i) =>
+          i === index
+            ? { ...post, doyakCount: post.doyakCount + (isLiked ? -1 : 1) }
+            : post
+        )
+      );
+      setLikedPosts((prevLikedPosts) => ({
+        ...prevLikedPosts,
+        [shareDoyakId]: !isLiked,
+      }));
     } catch (error) {
-      console.log(error);
+      console.error("좋아요 업데이트 중 오류 발생:", error);
     }
   };
 
   const closeCommentSection = () => {
     setIsCommentOpen(false);
     setSelectedPostIndex(0);
+    setComments([]); // 댓글 섹션을 닫을 때 댓글 상태 초기화
   };
+
   return (
     <Root>
       <MainHeader />
-      {showSideHeader && <SideHeader />}{" "}
+      {showSideHeader && <SideHeader />}
       <PostList>
         {posts.map((post, index) => (
           <React.Fragment key={post.shareDoyakId}>
@@ -211,7 +153,6 @@ const CommunityHome: React.FC = () => {
             >
               <NickName nickname={post.shareAuthorNickname} />
               <DoyakObject object={post.goalName} />
-
               <MainPhoto selectedPhoto={post.shareImageUrl} />
               <ButtonContainer>
                 <IconWrapper>
@@ -220,30 +161,35 @@ const CommunityHome: React.FC = () => {
                     alt="Doyak Icon"
                     width={25}
                     height={23}
-                    onClick={() => handleDoyakCount(post.shareDoyakId)}
+                    onClick={() => handleDoyakCount(index, post.shareDoyakId)}
                   />
                 </IconWrapper>
-
                 <NumberDoyak count={post.doyakCount} />
-                <CommentButton
-                  onClick={() => handleCommentButtonClick(index)}
-                />
+                <CommentButton onClick={() => handleCommentButtonClick(index, post.shareDoyakId)} />
                 <NumberComment commentCnt={post.commentCount} />
               </ButtonContainer>
-              {/* <CommentText>{post.commentContent}</CommentText> */}
+              <CommentText>{post.shareContent}</CommentText>
             </Post>
             {index < posts.length - 1 && <Separator />}
           </React.Fragment>
         ))}
       </PostList>
-      {/* 댓글 섹션 열림/닫힘 상태에 따라 렌더링 */}
+
       {isCommentOpen && (
         <CommentSection
           onClose={closeCommentSection}
-          comments={posts[selectedPostIndex].resComments}
+          comments={comments}
+          onSubmitComment={async (commentContent) => {
+            try {
+              const newComment = await createComment(posts[selectedPostIndex].shareDoyakId, commentContent);
+              setComments([...comments, newComment]);
+            } catch (error) {
+              console.error("댓글 작성 중 오류 발생:", error);
+            }
+          }}
         />
       )}
-      <WriteButton /> {/* 게시글 작성 버튼 */}
+      <WriteButton />
     </Root>
   );
 };
@@ -262,17 +208,16 @@ const PostList = styled.div`
 `;
 
 const Post = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  margin-top: 10px;
 `;
 
 const Separator = styled.hr`

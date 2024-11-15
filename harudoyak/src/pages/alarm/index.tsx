@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Image from "next/image";
+import Image from 'next/image';
 import messageIcon from "../../Images/messageIcon.png";
 import Root from "../../style/Root";
-import { useRouter } from "next/router";
 
 interface AlarmData {
   id: string;
@@ -13,12 +12,16 @@ interface AlarmData {
 }
 
 const AlarmHome: React.FC = () => {
+  const router = useRouter();
+  
   const [activeTab, setActiveTab] = useState<string>("Record");
   const [isClicked, setIsClicked] = useState(false); // isClicked 상태 추가
-  const router = useRouter();
 
-  // todo: 알람 데이터 api 연동
-  const [generalAlarmData, setGeneralAlarmData] = useState<AlarmData[]>([
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const GeneralAlarmData: AlarmData[] = [
     {
       id: "성장기록",
       content:
@@ -94,12 +97,14 @@ const AlarmHome: React.FC = () => {
     return (
       <Root>
         <div style={styles.Title}>
-          <IconComponent isClicked={isClicked} />
-
-          <div style={styles.Messenger}>{buttonLabel1}</div>
-          {buttonLabel2 && <div style={styles.Messenger}>{buttonLabel2}</div>}
-
-          <span>{titleText}</span>
+          <IconComponent isClicked={isClicked} /> {/* isClicked 값 전달 */}
+          <div style={styles.Messenger}>{buttonLabel1}</div>{" "}
+          {/* 첫 번째 버튼 */}
+          {buttonLabel2 && (
+            <div style={styles.Messenger}>{buttonLabel2}</div>
+          )}{" "}
+          {/* 두 번째 버튼 (신규댓글 경우에만) */}
+          <span>{titleText}</span> {/* 제목 텍스트 */}
         </div>
       </Root>
     );
@@ -238,7 +243,12 @@ const AlarmHome: React.FC = () => {
 
   const IconComponent = ({ isClicked }: { isClicked: boolean }) => (
     <div style={styles.Icon(isClicked)}>
-      <Image src={messageIcon} alt="message Icon" width={80} height={80} />
+          <Image 
+            src={messageIcon} 
+            alt="message Icon" 
+            width={80} 
+            height={80}
+          />
     </div>
   );
 

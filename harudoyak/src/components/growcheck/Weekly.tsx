@@ -26,8 +26,12 @@ const Weekly: React.FC<WeeklyProps> = ({
   );
 
   useEffect(() => {
-    setCurrentWeekStart(startOfWeek(selectedDate, { weekStartsOn: 1 }));
-  }, [selectedDate]);
+    if (selectedDay) {
+      setCurrentWeekStart(startOfWeek(selectedDay, { weekStartsOn: 1 }));
+    } else {
+      setCurrentWeekStart(startOfWeek(selectedDate, { weekStartsOn: 1 }));
+    }
+  }, [selectedDay, selectedDate]);
 
   const handleNextWeek = () => {
     if (!isLastWeekOfMonth()) {
@@ -70,8 +74,9 @@ const Weekly: React.FC<WeeklyProps> = ({
         <DayBox
           key={index}
           onClick={() => onDayClick(dayInfo.date)}
-          isSelected={
-            selectedDay && selectedDay.getTime() === dayInfo.date.getTime()
+          $isSelected={
+            selectedDay &&
+            selectedDay.toDateString() === dayInfo.date.toDateString()
           }
         >
           <Day>{dayInfo.day}</Day>
@@ -96,18 +101,20 @@ const WeekContainer = styled.div`
   border-radius: 8px;
 `;
 
-const DayBox = styled.div<{ isSelected: boolean | null }>`
+const DayBox = styled.div<{ $isSelected: boolean | null }>`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  ${({ isSelected }) =>
-    isSelected &&
-    `
+  ${({ $isSelected }) =>
+    $isSelected
+      ? `
     border-radius: 0.6rem;
     background-color: white; 
     // border: 1px solid #4caf50; 
     width: 8%
+    `
+      : `width: 8%
   
   `}
 `;

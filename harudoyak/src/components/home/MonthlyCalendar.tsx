@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styled from "styled-components";
@@ -17,37 +17,30 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 const MonthlyCalendar: React.FC = () => {
   const today: Date = new Date(); // 현재 날짜 및 시간
   const [date, setDate] = useState<Value>(today);
-  // 기록 작성된 일자 (테스트용으로 날짜 임시 지정)
-  const recordOn = [
-    "2022-12-25",
-    "2023-09-15",
-    "2024-09-15",
-    "2024-10-15",
-    "2024-10-20",
-    "2024-10-29",
-    "2024-10-31",
-  ];
 
-  // api에서 response 받아와서 recordDayList 로 만들어줄 예정
   const [recordDayList, setRecordDayList] = useState<string[]>([]);
   const { memberId } = useUserStore();
-  const fetchList = async () => {
-    try {
-      const response = await fetchRecordList();
-      // creationDate 값들만 추출하여 배열로 만들어줌
-      // response.data.map(item => item.creationDate)
-      setRecordDayList(response.map((item: RecordItem) => item.creationDate));
-    } catch (error) {
-      console.error("Failed to fetch record list:", error);
-      throw error;
-    }
-  };
 
-  if (memberId) {
-    fetchList();
-  }
-  console.log(recordDayList);
-  
+
+  useEffect(() => {
+    const fetchList = async () => {
+      try {
+        const response = await fetchRecordList();
+        // creationDate 값들만 추출하여 recordDayList 배열에 값 업데이트
+        setRecordDayList(response.map((item: RecordItem) => item.creationDate.substring(0, 10)));
+      } catch (error) {
+        console.error("Failed to fetch record list:", error);
+        throw error;
+      }
+    };
+
+    if (memberId) {
+      fetchList();
+    }
+  }, [memberId]);
+
+  // console.log(recordDayList);
+
   const formatDate = (date: Date) =>
     date
       .toLocaleDateString("ko-KR", {
@@ -72,14 +65,20 @@ const MonthlyCalendar: React.FC = () => {
     const formattedToday = formatDate(today);
 
     switch (true) {
-      // 로그인이 안되어 있을경우 ,
+      // 로그인이 안 한 상태 - 경고창 팝업
       case memberId === null:
         alert("로그인을 먼저 해주세요");
         break;
-      
+
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
-        router.push("/grow-check");
+        router.push({
+          pathname: "/grow-check",
+          query: {
+            dayToSelect: formattedValue
+          }},
+          `/grow-check/daily`, // query masking
+        );
         break;
 
       // 작성된 기록 없음 && 클릭한 날짜가 오늘 - 기록 작성 페이지로 이동
@@ -114,12 +113,12 @@ const MonthlyCalendar: React.FC = () => {
         prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
         minDetail="year" // 10년단위 년도 숨기기
         onClickDay={(value: Date) => {
-          console.log("Selected day:", value); // 선택한 날짜 출력
+          // console.log("Selected day:", value); // 선택한 날짜 출력
           handleDateClick(value); // 선택한 날짜에 대한 추가 처리
         }}
         tileContent={({ date }) => {
           const html = [];
-          if (recordOn.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+          if (recordDayList.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
             html.push(
               <StyledCheckbox
                 className="checkbox"
@@ -134,7 +133,7 @@ const MonthlyCalendar: React.FC = () => {
       />
       {open && (
         <Modal open={open} onClose={() => setOpen(false)}>
-          <div>선택한 날짜에 작성된 기록이 없습니다</div>
+          <div>선택한 날짜에<br></br>작성된 기록이 없습니다</div>
         </Modal>
       )}
     </StyledCalendarWrapper>

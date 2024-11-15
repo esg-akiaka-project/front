@@ -9,7 +9,7 @@ interface UserState {
   accessToken: string | null;
   setAccessToken: (token: string | null) => void;
 
-  aiName: string | null;
+  aiName: string;
   setAiName: (name: string) => void;
 
   memberId: number | null;
@@ -66,7 +66,7 @@ export const useUserStore = create<UserState>()(
       memberId: null,
       setMemberId: (memberId) => set({ memberId }),
 
-      aiName: null,
+      aiName: "도약이",
       setAiName: (name) => set({ aiName: name }),
 
       exp: 0,
@@ -86,7 +86,7 @@ export const useUserStore = create<UserState>()(
           isSociallogin: false,
           accessToken: null,
           memberId: null,
-          aiName: null,
+          aiName: "도약이",
           exp: 0,
           goalName: null,
           nickname: null,
@@ -101,13 +101,12 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: "userInfoStorage",
-      partialize: (state) => {
+      partialize: (state) =>
         Object.fromEntries(
           Object.entries(state).filter(
             ([key]) => key !== "accessToken" && !key.startsWith("set")
           )
-        );
-      },
+        ),
     }
   )
 );

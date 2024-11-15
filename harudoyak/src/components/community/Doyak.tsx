@@ -1,24 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import useCommunityStore from '../../store/useCommunityStore';
 
-const Doyak: React.FC = () => {
-    const { doyakCount, incrementDoyakCount, decrementDoyakCount } = useCommunityStore();
+interface DoyakProps {
+    doyakCount: number;
+    onDoyakClick: () => void;
+}
 
-    const handleClick = () => {
-        if (doyakCount === 0) {
-            incrementDoyakCount();
-        } else {
-            decrementDoyakCount();
-        }
-    };
-
+const Doyak: React.FC<DoyakProps> = ({ doyakCount, onDoyakClick }) => {
     return (
-        <Button onClick={handleClick}>
+        <Button onClick={onDoyakClick}>
             <IconWrapper>
                 <Image src="/assets/community/doyak.svg" alt="Doyak Icon" width={25} height={23} />
             </IconWrapper>
+            <div>{doyakCount}</div>
         </Button>
     );
 };

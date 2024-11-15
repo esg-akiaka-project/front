@@ -1,86 +1,58 @@
 import axiosInstance from "./axiosInstance";
-import axios from "axios";
-// import { useCommunityStore } from '../store/useCommunityStore';
-import useCommunityStore from "../store/useCommunityStore";
 import { useUserStore } from "../store/useUserStore";
+import useCommunityStore from "../store/useCommunityStore";
+import { uploadToS3Seoro } from "./uploadToS3Seoro";
 
-// S3에 파일 업로드 함수
-export const uploadToS3 = async (photo: File) => {
-  const timestamp = Date.now();
-  const extension = photo.name.split(".").pop();
-  const fileName = `${timestamp}.${extension}`;
-
-  try {
-    const { data: uploadUrl } = await axiosInstance.get(
-      `s3/upload-url?fileName=${fileName}`
-    );
-    const formData = new FormData();
-    formData.append("file", photo);
-
-    await axios.put(uploadUrl, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    return uploadUrl.split("?")[0];
-  } catch (error) {
-    throw new Error("S3 업로드 실패: " + error);
-  }
-};
-
-// 게시글 작성 API (S3 URL 사용)
-export const createPost = async (photo: File, comment: string) => {
+// 게시글 작성 API
+export const createPost = async (comment: string, photoUrl: string) => { // photoUrl을 string으로 받음
   const { memberId } = useUserStore.getState();
+  
+  if (!memberId) {
+    throw new Error("memberId가 유효하지 않습니다.");
+  }  
+
 
   try {
-    const photoUrl = await uploadToS3(photo);
-
-    const response = await axiosInstance.post(`posts/${memberId}`, {
+    console.log("게시글 작성 요청\n내용:", comment, "이미지 URL:", photoUrl);
+    
+    // 백엔드로 게시글 데이터 전송
+    const response = await axiosInstance.post(`/posts/${memberId}`, {
       shareContent: comment,
-      shareImageUrl: photoUrl,
+      shareImegeUrl: photoUrl,
     });
+    console.log("백엔드로 게시글 데이터 전송");
+
     return response.data;
   } catch (error) {
+    console.error("게시글 작성 실패///서로Api.ts:", error);
     throw error;
   }
 };
 
-// 게시글 목록 조회 API
-export const fetchPosts = async () => {
-  try {
-    const response = await axiosInstance.get(`posts/list`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
-// 특정 게시글 조회 API (닉네임, 도약목표, 댓글 포함)
-export const fetchPostDetail = async (shareDoyakId: number) => {
+// 도약하기 추가 API
+export const addDoyak = async (memberId: number, shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.get(`posts/${shareDoyakId}`);
+    const response = await axiosInstance.post(`/posts/doyak/${memberId}/${shareDoyakId}`);
+    console.log("도약하기 성공");
     return response.data;
   } catch (error) {
+    console.error("도약하기 실패:", error);
     throw error;
   }
 };
 
 // 댓글 작성 API
-export const createComment = async (
-  shareDoyakId: number,
-  commentContent: string
-) => {
+export const createComment = async (shareDoyakId: number, commentContent: string) => {
   const { memberId } = useCommunityStore.getState();
   try {
-    const response = await axiosInstance.post(
-      `posts/comments/${memberId}/${shareDoyakId}`,
-      {
-        commentContent,
-      }
-    );
+    const response = await axiosInstance.post(`/posts/comments/${memberId}/${shareDoyakId}`, {
+      commentContent,
+    });
+    console.log("댓글 작성 선공");
     return response.data;
   } catch (error) {
+    console.error("댓글 작성 실패:", error);
     throw error;
   }
 };
@@ -88,23 +60,36 @@ export const createComment = async (
 // 댓글 목록 조회 API
 export const fetchComments = async (shareDoyakId: number) => {
   try {
-    const response = await axiosInstance.get(
-      `posts/comments/list/${shareDoyakId}`
-    );
+    const response = await axiosInstance.get(`/posts/comments/list/${shareDoyakId}`);
+    console.log("댓글 목록 조회 성공");
     return response.data;
   } catch (error) {
+    console.error("댓글 목록 조회 실패:", error);
     throw error;
   }
 };
 
-// 도약하기 추가 API
-export const addDoyak = async (memberId: number, shareDoyakId: number) => {
+// 게시글 목록 조회 API
+export const fetchPosts = async () => {
   try {
-    const response = await axiosInstance.post(
-      `posts/doyak/${memberId}/${shareDoyakId}`
-    );
+    const response = await axiosInstance.get(`/posts/list`);
+    console.log("게시글 목록 조회 성공");
     return response.data;
   } catch (error) {
+    console.error("게시글 목록 조회 실패:", error);
     throw error;
   }
 };
+
+// 특정 게시글 세부 정보를 가져오는 API
+export const fetchPostDetail = async (shareDoyakId: number) => {
+  try {
+    const response = await axiosInstance.get(`/posts/detail/${shareDoyakId}`);
+    console.log("게시글 세부 정보 불러오기 성공");
+    return response.data;
+  } catch (error) {
+    console.error("게시글 세부 정보 불러오기 실패:", error);
+    throw error;
+  }
+};
+

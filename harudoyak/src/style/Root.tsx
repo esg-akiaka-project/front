@@ -1,5 +1,5 @@
 import React from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Root: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <Layout>{children}</Layout>;
@@ -23,4 +23,3 @@ const Layout = styled.div`
     margin-right: 1.44rem;
   }
 `;
-

@@ -40,9 +40,11 @@ const AvatarWrapper = styled.div`
 const Namediv = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 0.2;
+  line-height: 0.4;
+  width: 35%;
 `;
 
 const MyLevelWrapper = styled.div`
-  margin-left: 2rem;
+  margin-left: 3rem;
+  font-weight: bold;
 `;

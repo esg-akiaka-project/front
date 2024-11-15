@@ -1,32 +1,44 @@
-import React from "react";
-import { AlarmData } from "./types";
-import IconComponent from "./IconComponent";
-import { AlarmCardContainer, Title, Content, DateDisplay } from "./AlarmCardStyles";
+import React from 'react';
+import styled from 'styled-components';
+import Root from "../../style/Root";
+import AlarmTitleContainer from './AlarmTitleContainer';
+import { AlarmData } from './AlarmDataTypes';
+import AlarmContent from './AlarmContent';
+import AlarmDate from './AlarmDate';
 
-interface AlarmCardProps {
-  alarmCard: AlarmData;
-  isClicked: boolean;
-  onClick: () => void;
-}
+const CardContainer = styled.div<{ isClicked: boolean }>`
+  width: 353px;
+  height: 143px;
+  padding: 0px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: ${(props) =>
+    props.isClicked
+      ? "rgba(121, 116, 126, 0.08)"
+      : "rgba(110, 173, 107, 0.3)"};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Inter", sans-serif;
+`;
 
-const AlarmCard: React.FC<AlarmCardProps> = ({ alarmCard, isClicked, onClick }) => {
-  const truncatedContent = (content: string) => {
-    const MAX_CONTENT_LENGTH = 60;
-    return content.length > MAX_CONTENT_LENGTH
-      ? content.substring(0, MAX_CONTENT_LENGTH) + "..."
-      : content;
-  };
-
+const AlarmCard: React.FC<{ alarmCard: AlarmData; isClicked: boolean; onClick: () => void }> = ({
+  alarmCard,
+  isClicked,
+  onClick,
+}) => {
   return (
-    <AlarmCardContainer onClick={onClick} isClicked={isClicked}>
-      <Title>
-        <IconComponent isClicked={isClicked} />
-        <div>{alarmCard.id}</div>
-        <span>새로운 알림이 있습니다</span>
-      </Title>
-      <Content>{truncatedContent(alarmCard.content)}</Content>
-      <DateDisplay>{new Date(alarmCard.date).toLocaleDateString("ko-KR")}</DateDisplay>
-    </AlarmCardContainer>
+    <Root>
+      <CardContainer isClicked={isClicked} onClick={onClick}>
+        <AlarmTitleContainer alarmCard={alarmCard} isClicked={isClicked} />
+        <AlarmContent content={alarmCard.content} />
+        <AlarmDate date={alarmCard.date} />
+      </CardContainer>
+    </Root>
   );
 };
 
