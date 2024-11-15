@@ -9,7 +9,7 @@ const CloseButton: React.FC = () => {
       <Button
         type="button"
         onClick={() => {
-          router.back();
+          router.push("./grow-check");
         }}
       >
         닫기
@@ -22,10 +22,10 @@ export default CloseButton;
 
 const Button = styled.button`
   background: var(--main-green);
-  border-radius: 15px;
+  border-radius: 20px;
   font:weight: bold;
   color: #ffffff;
   margin-top: 40px;
   width: 90%;
-  height: 36px;
+  height: 40px;
 `;

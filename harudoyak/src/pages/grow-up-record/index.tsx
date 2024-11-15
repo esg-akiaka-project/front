@@ -23,7 +23,7 @@ import {
 } from "../../components/grow-up-record";
 
 const GrowUpRecordHome: React.FC = () => {
-  const { text, image, emotion, tags, updateEmotion, updateTags } =
+  const { text, image, emotion, tags, updateImage, updateEmotion} =
     usePostDataContext();
   // TODO: 도약기록 페이지 들어올 때마다 tags를 초기화하는 state 변수
 
@@ -37,9 +37,7 @@ const GrowUpRecordHome: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
-
   const isReadyToSubmit = text && emotion && tags && tags.length > 0;
-
   const [index, setIndex] = useState(0);
 
   return (
@@ -66,14 +64,14 @@ const GrowUpRecordHome: React.FC = () => {
         </TextEntryButton>
       </Link>
 
-      <ImageUploadSection />
+      <ImageUploadSection image={image} updateImage={updateImage}/>
 
       <FlexWrapper>
         <Heading2 style={{ marginTop: "5px", marginBottom: "5px" }}>
           오늘의 도약 태그
         </Heading2>
         <Tooltip
-          message="하루도약의 AI가 작성된 성장 기록을 보고 도약태그 3~5개를 출력합니다. 출력된 결과가 마음에 안 드신다면 (reload) 버튼을 눌러 태그 분석 결과를 다시 받아보세요. 태그 분석은 2회까지 다시 요청할 수 있어요."
+          message="하루도약의 AI가 작성된 성장 기록을 보고 도약태그 3~7개를 출력합니다. 출력된 결과가 마음에 안 드신다면 (reload) 버튼을 눌러 태그 분석 결과를 다시 받아보세요. 태그 분석은 2회까지 다시 요청할 수 있어요."
           direction="top"
         >
           <Image src={iconTooltip} alt="Tip" onClick={handleTooltip} />
@@ -85,7 +83,7 @@ const GrowUpRecordHome: React.FC = () => {
         ) : (
           <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <ReloadButton index={index}/>
+        <ReloadButton index={index} />
       </FlexWrapper>
       {isReadyToSubmit && (
         <SubmitButton

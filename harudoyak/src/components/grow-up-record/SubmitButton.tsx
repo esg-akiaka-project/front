@@ -10,7 +10,7 @@ import { createPost, saveLetter } from "@/src/apis/logsApi";
 
 interface SubmitButtonProps {
   text: string;
-  image: File | null;
+  image: string | null;
   emotion: string;
   tags: string[];
   onSuccess: () => void;
@@ -38,11 +38,11 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     );
     try {
       const createPostResponse = await createPost(text, emotion, image, tags);
-      console.log("기록 작성 성공:", createPostResponse.content);
+      console.log("기록 작성 성공, 서버 응답:", createPostResponse.data);
 
       const logId = createPostResponse.logId;
 
-      const letterResponse = await axios.post("/api/openai/letter", {
+      const letterResponse = await axios.post("api/openai/letter", {
         text: `${emotion}, ${text}`,
       });
 
@@ -54,7 +54,6 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         console.log("도약이 편지 저장 성공!");
 
         onSuccess();
-        router.push(`/`);
       } else {
         console.error("도약이 편지 생성에 실패했습니다.");
       }
