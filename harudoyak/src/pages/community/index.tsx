@@ -139,6 +139,17 @@ const CommunityHome: React.FC = () => {
     setComments([]); // 댓글 섹션을 닫을 때 댓글 상태 초기화
   };
 
+  const handleCommentSubmitted = (updatedComments: CommentProps[]) => {
+    setComments(updatedComments);
+    setPosts((prevPosts) =>
+    prevPosts.map((post,i) =>
+    i === selectedPostIndex
+      ? { ...post, commentCount: updatedComments.length}
+      : post
+    )
+  );
+  };
+
   return (
     <Root>
       <MainHeader />
@@ -180,7 +191,7 @@ const CommunityHome: React.FC = () => {
           onClose={closeCommentSection}
           comments={comments}
           shareDoyakId={posts[selectedPostIndex].shareDoyakId}
-          onCommentSubmitted={(newComment) => setComments((prev) => [...prev, newComment])}
+          onCommentSubmitted={handleCommentSubmitted}
         />
       )}
       <WriteButton />

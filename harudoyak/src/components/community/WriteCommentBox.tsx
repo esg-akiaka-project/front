@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import { createComment } from "@/src/apis/seoroApi";
+import { createComment, fetchComments } from "@/src/apis/seoroApi";
 
 const CommentInputContainer = styled.div`
   position: sticky;
@@ -33,7 +33,7 @@ const SubmitIcon = styled.div`
 
 interface WriteCommentBoxProps {
   shareDoyakId: number; // 추가
-  onCommentSubmitted: (newComment: any) => void; // 추가
+  onCommentSubmitted: (newComment: string) => void; // 추가
 }
 
 const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({ shareDoyakId, onCommentSubmitted }) => {
@@ -42,8 +42,9 @@ const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({ shareDoyakId, onComme
   const handleSubmit = async () => {
     if (comment.trim()) {
       try {
-        const newComment = await createComment(shareDoyakId, comment);
-        onCommentSubmitted(newComment); // 새로운 댓글을 부모 컴포넌트에 전달
+        await createComment(shareDoyakId, comment);
+        const updatedComments = await fetchComments(shareDoyakId); // 
+        onCommentSubmitted(updatedComments); // 새로운 댓글을 부모 컴포넌트에 전달
         setComment(''); // 입력 필드 초기화
       } catch (error) {
         console.error("댓글 작성 중 오류 발생:", error);
