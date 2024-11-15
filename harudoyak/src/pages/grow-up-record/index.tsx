@@ -43,7 +43,7 @@ const GrowUpRecordHome: React.FC = () => {
       <div
         style={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}
       >
-        <UndoXButton icon={iconX} />
+        <UndoXButton icon={iconX} path="/grow-check" />
       </div>
       <Heading3>오늘의 도약을 기록해 주세요.</Heading3>
 
