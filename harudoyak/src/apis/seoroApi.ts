@@ -44,7 +44,11 @@ export const addDoyak = async (memberId: number, shareDoyakId: number) => {
 
 // 댓글 작성 API
 export const createComment = async (shareDoyakId: number, commentContent: string) => {
-  const { memberId } = useCommunityStore.getState();
+  const { memberId } = useUserStore.getState();
+  if (!memberId) { 
+    console.error("memberId가 없습니다. 로그인을 확인해주세요.");
+    throw new Error("로그인이 필요합니다.");
+  }
   try {
     const response = await axiosInstance.post(`/posts/comments/${memberId}/${shareDoyakId}`, {
       commentContent,
