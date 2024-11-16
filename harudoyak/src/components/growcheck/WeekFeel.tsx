@@ -17,17 +17,7 @@ interface MailProps {
 }
 // dummyData todo: api연동으로 불러와야함
 const WeekFeel: React.FC<WeekProps> = ({ onDayClick }) => {
-  const [weeklyTags, setWeeklyTags] = useState<string[]>([
-    "123",
-    "abc",
-    "배고파",
-    "커피",
-    "테스트",
-    "프로그래밍",
-    "React",
-    "CSS",
-    "비즈니스테크놀로지",
-  ]);
+  const [weeklyTags, setWeeklyTags] = useState<string[]>([]);
 
   const [emotion, setEmotion] = useState<Record<string, number>>({
     happy: 3,

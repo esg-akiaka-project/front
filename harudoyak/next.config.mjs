@@ -11,6 +11,17 @@ const nextConfig = {
     styledComponents: true,
   },
   output: "standalone",
+  images: {
+    domains: ["harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com"], // 여기에 외부 이미지를 허용할 도메인 추가
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "harudoyak-s3bucket.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/**",
+      },
+    ],
+    unoptimized: false,
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);

@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
+import { format, addDays } from "date-fns";
 import styled from "styled-components";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
 import pot from "../../../public/assets/grow-up-record/pot.svg";
-import angry from "../../../public/assets/grow-up-record/angry.svg";
-import funny from "../../../public/assets/grow-up-record/funny.svg";
-import etc from "../../../public/assets/grow-up-record/etc.svg";
-import love from "../../../public/assets/grow-up-record/love.svg";
-import sad from "../../../public/assets/grow-up-record/sad.svg";
-import surprise from "../../../public/assets/grow-up-record/surprise.svg";
 
 import Image from "next/image";
 import useLogsStore from "@/src/store/useLogStore";
@@ -24,18 +18,26 @@ interface MailProps {
   day?: string;
   content?: string;
 }
-// dummyData todo: api 연동후 적용
+
 const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
-  const formattedDate = selectedDay.toISOString().split("T")[0];
+  const formattedDate = addDays(selectedDay, 1).toISOString().split("T")[0];
+
   const { getLogByDate } = useLogsStore();
   const { aiName } = useUserStore();
   const logId = getLogByDate(formattedDate);
+  const [todayDoyak, setTodayDoyak] = useState<Record<string, string>>({
+    content: "",
+    url: "",
+  });
+  const [emotion, setEmotion] = useState<Record<string, number>>({});
+  const [weeklyTags, setWeeklyTags] = useState<string[]>([]);
+
+  const [todayMail, setTodayMail] = useState<MailProps>({});
 
   useEffect(() => {
     const fetchDaily = async (logId: number) => {
       const response = await DailyRecord(logId);
-      console.log(response);
-      console.log(response[0]["emotion"]);
+
       setTodayDoyak({
         content: response[0]["logContent"],
         url: response[0]["logImageUrl"],
@@ -48,31 +50,36 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
       setEmotion({
         [response[0]["emotion"]]: 1,
       });
+      setTodayMail({
+        date: response[0]["letterCreationDate"]
+          ? new Date(response[0]["letterCreationDate"])
+          : new Date(),
+        day: response[0]["letterCreationDate"]
+          ? format(
+              new Date(response[0]["letterCreationDate"]),
+              "EEE"
+            ).toUpperCase()
+          : undefined,
+        content:
+          response[0]["letterContent"] ?? "도약이의 편지가 아직 없습니다.",
+      });
     };
 
     if (logId) {
       fetchDaily(logId);
+    } else {
+      setTodayDoyak({
+        content: "데이터가 없어요",
+        url: "",
+      });
+      setWeeklyTags([]);
+      setEmotion({});
+      setTodayMail({
+        content: "도약이의 편지가 아직 없습니다.",
+      });
     }
-  }, [logId]);
-  // todo: logId가 없을 경우 기록이 없다는 표시를, 있으면 api 요청을 통해 데이터를 불러와야함
+  }, [logId, selectedDay]);
 
-  const [todayDoyak, setTodayDoyak] = useState<Record<string, string>>({
-    content: "",
-    url: "",
-  });
-  const [emotion, setEmotion] = useState<Record<string, number>>({});
-  const [weeklyTags, setWeeklyTags] = useState<string[]>([]);
-
-  const [todayMail, setTodayMail] = useState<MailProps>({
-    date: new Date("2024-10-17"),
-    day: "TUE",
-    content:
-      "가이드북을 잘 작성한 건 훌륭하지만, 다른 업무에 충분히 시간을 할애하지 못한 점은 아쉬웠을 거야.  \
-            앞으로는 문서 작업 시간을 미리 계획하고 균형 있게 배분하면 더 효율적일 것 같아. \
-            회의 공지도 미리 챙기지 못한 부분은 일정 관리를 더 꼼꼼히 해서 놓치지 않도록 캘린더로 관리하는 게 좋겠어.\
-    WAS 개념과 이메일 작성법을 배운 건 실무에 큰 도움이 될 테니, 바로 적용해보면 좋을 것 같아. \
-    GitHub 리포지토리 작업도 익숙해졌으니 더 많은 프로젝트에서 자신 있게 활용해봐! ",
-  });
   return (
     <Container>
       <SectionTitle>{format(selectedDay, "MMMM dd")}</SectionTitle>

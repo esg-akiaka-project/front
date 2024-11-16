@@ -35,6 +35,7 @@ const MonthlyCalendar: React.FC = () => {
           creationDate: format(new Date(item.creationDate), "yyyy-MM-dd"),
         }));
         useLogsStore.getState().setLogs(logData);
+        console.log(logData);
       } catch (error) {
         console.error("Failed to fetch record list:", error);
         throw error;
