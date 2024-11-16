@@ -9,6 +9,7 @@ import Image from "next/image";
 import useLogsStore from "@/src/store/useLogStore";
 import { DailyRecord } from "@/src/apis/logsApi";
 import { useUserStore } from "@/src/store/useUserStore";
+
 interface TodayProps {
   selectedDay: Date;
 }
@@ -20,52 +21,64 @@ interface MailProps {
 }
 
 const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
-  const formattedDate = addDays(selectedDay, 1).toISOString().split("T")[0];
-
   const { getLogByDate } = useLogsStore();
   const { aiName } = useUserStore();
-  const logId = getLogByDate(formattedDate);
+
   const [todayDoyak, setTodayDoyak] = useState<Record<string, string>>({
     content: "",
     url: "",
   });
   const [emotion, setEmotion] = useState<Record<string, number>>({});
   const [weeklyTags, setWeeklyTags] = useState<string[]>([]);
-
   const [todayMail, setTodayMail] = useState<MailProps>({});
+  const [logId, setLogId] = useState<number | null>(null);
 
   useEffect(() => {
-    const fetchDaily = async (logId: number) => {
-      const response = await DailyRecord(logId);
+    if (selectedDay) {
+      console.log("Selected Day:", selectedDay);
+      const formattedDate = addDays(selectedDay, 0).toISOString().split("T")[0];
+      const fetchedLogId = getLogByDate(formattedDate);
+      setLogId(fetchedLogId);
+    }
+  }, [selectedDay]);
 
-      setTodayDoyak({
-        content: response[0]["logContent"],
-        url: response[0]["logImageUrl"],
-      });
-      setWeeklyTags(
-        response[0]["tagNameList"].map(
-          (tag: { tagName: string }) => tag.tagName
-        ) || []
-      );
-      setEmotion({
-        [response[0]["emotion"]]: 1,
-      });
-      setTodayMail({
-        date: response[0]["letterCreationDate"]
-          ? new Date(response[0]["letterCreationDate"])
-          : new Date(),
-        day: response[0]["letterCreationDate"]
-          ? format(
-              new Date(response[0]["letterCreationDate"]),
-              "EEE"
-            ).toUpperCase()
-          : undefined,
-        content:
-          response[0]["letterContent"] ?? "도약이의 편지가 아직 없습니다.",
-      });
+  useEffect(() => {
+    console.log(logId);
+    const fetchDaily = async (logId: number) => {
+      try {
+        const response = await DailyRecord(logId);
+        console.log(response);
+        setTodayDoyak({
+          content: response[0]["logContent"],
+          url: response[0]["logImageUrl"],
+        });
+        setWeeklyTags(
+          response[0]["tagNameList"].map(
+            (tag: { tagName: string }) => tag.tagName
+          ) || []
+        );
+        setEmotion({
+          [response[0]["emotion"]]: 1,
+        });
+        setTodayMail({
+          date: response[0]["letterCreationDate"]
+            ? new Date(response[0]["letterCreationDate"])
+            : new Date(),
+          day: response[0]["letterCreationDate"]
+            ? format(
+                new Date(response[0]["letterCreationDate"]),
+                "EEE"
+              ).toUpperCase()
+            : undefined,
+          content:
+            response[0]["letterContent"] ?? "도약이의 편지가 아직 없습니다.",
+        });
+      } catch (error) {
+        console.error("Error fetching daily record:", error);
+      }
     };
 
-    if (logId) {
+    if (logId !== null) {
       fetchDaily(logId);
     } else {
       setTodayDoyak({
@@ -78,7 +91,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
         content: "도약이의 편지가 아직 없습니다.",
       });
     }
-  }, [logId, selectedDay]);
+  }, [logId]);
 
   return (
     <Container>
@@ -93,7 +106,6 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
       <SectionTitle>{aiName}의 편지</SectionTitle>
       <MailWrapper>
         {todayMail.content}
-
         <p></p>
         {todayMail.date ? format(todayMail.date, "yyyy-MM-dd") : ""}
         <PotImageWrapper>
@@ -106,6 +118,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
 
 export default TodayFeel;
 
+// 스타일 컴포넌트들
 const DoyakContent = styled.div`
   border-radius: 2rem;
   background-color: white;
@@ -115,11 +128,13 @@ const DoyakContent = styled.div`
   height: 100%;
   width: 100%;
 `;
+
 const SectionTitle = styled.h2`
   font-size: 1.6rem;
   color: #3c7960;
   margin-bottom: 1rem;
 `;
+
 const Container = styled.div`
   background-color: #f2f6f3;
   border-radius: 2rem 2rem 0 0;
@@ -130,7 +145,7 @@ const Container = styled.div`
 `;
 
 const MailWrapper = styled.div`
-  position: relative; /* 자식 요소의 absolute 포지셔닝 기준 */
+  position: relative;
   background-color: #e6efe5;
   border-radius: 2rem;
   padding: 1rem;

@@ -35,7 +35,6 @@ const MonthlyCalendar: React.FC = () => {
           creationDate: format(new Date(item.creationDate), "yyyy-MM-dd"),
         }));
         useLogsStore.getState().setLogs(logData);
-        console.log(logData);
       } catch (error) {
         console.error("Failed to fetch record list:", error);
         throw error;
@@ -46,8 +45,6 @@ const MonthlyCalendar: React.FC = () => {
       fetchList();
     }
   }, [memberId]);
-
-  console.log(recordDayList);
 
   const formatDate = (date: Date) =>
     date
@@ -80,6 +77,8 @@ const MonthlyCalendar: React.FC = () => {
 
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
+        console.log("doyak push");
+        console.log(formattedValue);
         router.push(
           {
             pathname: "/grow-check",

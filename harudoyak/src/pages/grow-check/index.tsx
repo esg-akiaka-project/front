@@ -25,13 +25,14 @@ const GrowCheckHome: React.FC = () => {
   // router.query 이용해서 들어오면 가능함
 
   useEffect(() => {
-    if (router.query.dayToSelect) {
+    if (router.isReady && router.query.dayToSelect) {
       const dayToSelect = new Date(router.query.dayToSelect as string);
       setSelectedDay(dayToSelect);
       setSelectedMonth(dayToSelect.getMonth());
       setSelectedDate(dayToSelect);
+      console.log("Updated selectedDay from router query:", dayToSelect);
     }
-  }, [router.query.dayToSelect]); // dayToSelect 변경 시 effect 실행
+  }, [router.isReady, router.query.dayToSelect]);
 
   useEffect(() => {
     if (selectedMonth === currentMonth) {
