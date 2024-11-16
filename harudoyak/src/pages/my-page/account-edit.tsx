@@ -9,13 +9,15 @@ import InputField from "@/src/components/mypage/InputField";
 import { changeNickname, changePassword } from "@/src/apis/authApi";
 import { useUserStore } from "@/src/store/useUserStore";
 import { useRouter } from "next/router";
+import { uploadToS3 } from "@/src/apis/uploadToS3";
+import { changeProfileImg } from "@/src/apis/authApi";
 
 const AccountEdit: React.FC = () => {
   const router = useRouter();
   const [oldnickname, setOldNickname] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [oldPassword, setOldpassword] = useState<string>("");
-  const { nickname, setNickname, clearToken } = useUserStore();
+  const { nickname, setNickname, clearToken, setProfileImage } = useUserStore();
 
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -55,17 +57,44 @@ const AccountEdit: React.FC = () => {
       console.log(error);
     }
   };
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event?.target.files?.[0];
+    if (file) {
+      try {
+        const photoUrl = await uploadToS3(file);
+        console.log("Photo Url:", photoUrl);
+        setProfileImage(photoUrl);
+        const response = await changeProfileImg(photoUrl);
+      } catch (error) {
+        console.error("이미지 파일 업로드 중 에러 발생:", error);
+        alert("이미지 파일 업로드에 실패했습니다. 서버 상태를 확인해 주세요.");
+      }
+    }
+  };
+
   return (
     <Root>
-      <UndoAndPageName pageName={"계정관리"} />
+      <HeaderWrapper>
+        <UndoAndPageName pageName={"계정관리"} />
+        <LogoutButton onClick={logout}>로그아웃</LogoutButton>
+      </HeaderWrapper>
+
       <AvatarWrapper>
         <AvatarContainer>
           <Avatar />
           <CameraIconWrapper>
-            <Image src={Camera} alt="카메라" width={25} height={25} />
+            <CameraIconLabel>
+              <Image src={Camera} alt="카메라" width={25} height={25} />
+              <HiddenInput
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+              />
+            </CameraIconLabel>
           </CameraIconWrapper>
         </AvatarContainer>
-        <LogoutButton onClick={logout}>로그아웃</LogoutButton>
       </AvatarWrapper>
       <InfoSection>
         <div>
@@ -112,6 +141,14 @@ const AccountEdit: React.FC = () => {
 
 export default AccountEdit;
 
+const CameraIconLabel = styled.label`
+  cursor: pointer;
+`;
+
+const HiddenInput = styled.input`
+  display: none;
+`;
+
 const AvatarWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -121,12 +158,15 @@ const AvatarWrapper = styled.div`
 const AvatarContainer = styled.div`
   position: relative;
   display: inline-block;
+  width: 10rem;
+  height: 10rem;
 `;
 
 const CameraIconWrapper = styled.div`
   position: absolute;
-  right: 0.1rem;
-  top: 5rem;
+  right: 0rem;
+  bottom: 0rem;
+  transform: translate(50%, 50%);
 `;
 
 const Label = styled.p`
@@ -181,8 +221,18 @@ const SavePasswordButton = styled.button`
 `;
 
 const LogoutButton = styled.button`
-  display: flex;
-  margin-left: 1rem;
-  align-items: end;
   font-weight: bold;
+  margin-left: auto;
+  margin-right: 2rem;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+`;
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
 `;

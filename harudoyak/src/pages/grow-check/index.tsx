@@ -10,7 +10,6 @@ import WeekFeel from "@/src/components/growcheck/WeekFeel";
 import MonthFeel from "@/src/components/growcheck/MonthFeel";
 // todo: 알람에서 주/월, 당일 피드백에 대해서 클릭을 하면 props로 해당하는 기간을 주고 그에따라 변수를 조정해
 //  도약 기록 페이지 일/주/월 에따른 페이지 모습이 나오게 해야함
-import { addDays, startOfWeek } from "date-fns";
 import { useRouter } from "next/router";
 
 const GrowCheckHome: React.FC = () => {
@@ -44,7 +43,7 @@ const GrowCheckHome: React.FC = () => {
   }, [selectedMonth, currentMonth]);
   const handleMonthChange = (month: number) => {
     setSelectedMonth(month);
-    setSelectedDay(null); // 월 변경 시 선택된 일자 초기화
+    setSelectedDay(null);
     setSelectedDate(new Date(new Date().getFullYear(), month, 1));
   };
 

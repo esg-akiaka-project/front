@@ -77,8 +77,6 @@ const MonthlyCalendar: React.FC = () => {
 
       // 작성된 기록 있음 - 일간 기록 확인 페이지로 이동
       case recordDayList.includes(formattedValue):
-        console.log("doyak push");
-        console.log(formattedValue);
         router.push(
           {
             pathname: "/grow-check",

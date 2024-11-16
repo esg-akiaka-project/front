@@ -9,6 +9,7 @@ import Layout from "../components/Layout";
 import { PostDataProvider } from "../context/PostDataContext";
 import defaultSEOConfig from "../../next-seo.config";
 import { DefaultSeo } from "next-seo";
+import SSEProvider from "../components/SSEProvider";
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,9 +17,11 @@ function App({ Component, pageProps }: AppProps) {
       <DefaultSeo {...defaultSEOConfig} />
       <GlobalStyle />
       <Layout>
-        <PostDataProvider>
-          <Component {...pageProps} />
-        </PostDataProvider>
+        <SSEProvider>
+          <PostDataProvider>
+            <Component {...pageProps} />
+          </PostDataProvider>
+        </SSEProvider>
       </Layout>
     </>
   );

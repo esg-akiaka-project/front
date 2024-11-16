@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { format, addDays } from "date-fns";
+import { format } from "date-fns";
 import styled from "styled-components";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
@@ -35,19 +35,16 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
 
   useEffect(() => {
     if (selectedDay) {
-      console.log("Selected Day:", selectedDay);
-      const formattedDate = addDays(selectedDay, 0).toISOString().split("T")[0];
+      const formattedDate = selectedDay.toISOString().split("T")[0];
       const fetchedLogId = getLogByDate(formattedDate);
       setLogId(fetchedLogId);
     }
-  }, [selectedDay]);
+  }, [selectedDay, getLogByDate]);
 
   useEffect(() => {
-    console.log(logId);
     const fetchDaily = async (logId: number) => {
       try {
         const response = await DailyRecord(logId);
-        console.log(response);
         setTodayDoyak({
           content: response[0]["logContent"],
           url: response[0]["logImageUrl"],
@@ -118,7 +115,6 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
 
 export default TodayFeel;
 
-// 스타일 컴포넌트들
 const DoyakContent = styled.div`
   border-radius: 2rem;
   background-color: white;
