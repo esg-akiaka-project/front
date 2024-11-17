@@ -29,7 +29,6 @@ const GrowCheckHome: React.FC = () => {
       setSelectedDay(dayToSelect);
       setSelectedMonth(dayToSelect.getMonth());
       setSelectedDate(dayToSelect);
-      console.log("Updated selectedDay from router query:", dayToSelect);
     }
   }, [router.isReady, router.query.dayToSelect]);
 

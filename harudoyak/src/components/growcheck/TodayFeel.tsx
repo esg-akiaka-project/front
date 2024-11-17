@@ -21,6 +21,7 @@ interface MailProps {
 }
 
 const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
+  console.log(selectedDay);
   const { getLogByDate } = useLogsStore();
   const { aiName } = useUserStore();
 
@@ -88,7 +89,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
         content: "도약이의 편지가 아직 없습니다.",
       });
     }
-  }, [logId]);
+  }, [logId, selectedDay]);
 
   return (
     <Container>
