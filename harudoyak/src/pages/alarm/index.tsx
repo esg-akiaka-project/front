@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import messageIcon from "../../Images/messageIcon.png";
 import Root from "../../style/Root";
 import { useRouter } from "next/router";
-
-interface AlarmData {
-  id: string;
-  title?: string; // 게시글의 제목
-  nickname?: string; // 유저 닉네임
-  content: string;
-  date: string;
-}
+import ExternalContainerSet from "../../components/alarm/ExternalContainerSet";
+import TapButtonContainer from "../../components/alarm/TabButtonContainer";
+import AlarmListContainer from "../../components/alarm/AlarmListContainer";
+import { AlarmData } from "../../components/alarm/AlarmDataTypes";
+import AlarmImportData from "../../components/alarm/AlarmImportData";
+import AlarmCard from "../../components/alarm/AlarmCard";
 
 const AlarmHome: React.FC = () => {
   const router = useRouter();
-
+  
   const [activeTab, setActiveTab] = useState<string>("Record");
   const [isClicked, setIsClicked] = useState(false); // isClicked 상태 추가
+  
+  useEffect(() => {
+    router.push({
+      pathname: '/grow-check',  // 이동할 경로
+      query: { key1: 'value1', key2: 'value2' }
+    });
+  }, []);
 
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-  };
 
-  const GeneralAlarmData: AlarmData[] = [
+  // todo: 알람 데이터 api 연동
+  const [generalAlarmData, setGeneralAlarmData] = useState<AlarmData[]>([
     {
       id: "성장기록",
       content:
@@ -35,7 +37,7 @@ const AlarmHome: React.FC = () => {
         "친애하는 친구에게, 당신의 성장 가능성을 믿습니다. 항상 새로운 도전과 배움을 통해 더 나은 자신을 만들어가길 응원합니다.힘든 순간에도 포기하지 말고, 당신의 꿈을 향해 한 걸음씩 나아가세요.",
       date: "2024-10-23",
     },
-  ];
+  ]);
   const [communityAlarmData, setCommunityAlarmData] = useState<AlarmData[]>([
     {
       id: "신규댓글",
@@ -46,22 +48,26 @@ const AlarmHome: React.FC = () => {
     },
   ]);
 
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  };
+
   const [clickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState<
     boolean[]
-  >(new Array(GeneralAlarmData.length).fill(false));
+  >(new Array(generalAlarmData.length).fill(false));
 
   const [clickedCommunityAlarmCard, setClickedCommunityAlarmCard] = useState<
     boolean[]
   >(new Array(communityAlarmData.length).fill(false));
 
   const handleCardClick = (index: number) => {
-    if (activeTab === "Record") {
-      const updatedClickedGeneralAlarmCard = [...clickedGeneralAlarmCard];
-      updatedClickedGeneralAlarmCard[index] = true;
+    if (ActiveTab === "Record") {
+      const updatedClickedGeneralAlarmCard = [...ClickedGeneralAlarmCard];
+      updatedClickedGeneralAlarmCard[index] = !updatedClickedGeneralAlarmCard[index];
       setClickedGeneralAlarmCard(updatedClickedGeneralAlarmCard);
     } else {
-      const updatedClickedCommunityAlarmCard = [...clickedCommunityAlarmCard];
-      updatedClickedCommunityAlarmCard[index] = true;
+      const updatedClickedCommunityAlarmCard = [...ClickedCommunityAlarmCard];
+      updatedClickedCommunityAlarmCard[index] = !updatedClickedCommunityAlarmCard[index];
       setClickedCommunityAlarmCard(updatedClickedCommunityAlarmCard);
     }
     setIsClicked(!isClicked); // isClicked 상태 토글
@@ -94,14 +100,11 @@ const AlarmHome: React.FC = () => {
     return (
       <Root>
         <div style={styles.Title}>
-          <IconComponent isClicked={isClicked} /> {/* isClicked 값 전달 */}
-          <div style={styles.Messenger}>{buttonLabel1}</div>{" "}
-          {/* 첫 번째 버튼 */}
-          {buttonLabel2 && (
-            <div style={styles.Messenger}>{buttonLabel2}</div>
-          )}{" "}
-          {/* 두 번째 버튼 (신규댓글 경우에만) */}
-          <span>{titleText}</span> {/* 제목 텍스트 */}
+
+          <div style={styles.Messenger}>{buttonLabel1}</div>
+          {buttonLabel2 && <div style={styles.Messenger}>{buttonLabel2}</div>}
+
+          <span>{titleText}</span>
         </div>
       </Root>
     );
@@ -262,7 +265,7 @@ const AlarmHome: React.FC = () => {
       </div>
       <div style={styles.AlarmList}>
         {activeTab === "Record"
-          ? GeneralAlarmData.map((alarmCard, index) => (
+          ? generalAlarmData.map((alarmCard, index) => (
               <div
                 key={alarmCard.id}
                 onClick={() => handleCardClick(index)}
