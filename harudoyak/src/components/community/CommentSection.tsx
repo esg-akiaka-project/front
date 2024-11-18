@@ -105,13 +105,14 @@ const ReplyButton = styled.button`
 
 const ReplyBox = styled.div`
   margin-left: 20px;
-  padding: 8px 0;
   border-top: 1px dashed #e0e0e0;
 `;
 
 const ReplyAuthor = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
+  &::before {
+  content: "ㄴ"}
 `;
 
 const ReplyContent = styled.div`

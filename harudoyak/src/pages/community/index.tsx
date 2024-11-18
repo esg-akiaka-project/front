@@ -42,6 +42,7 @@ interface PostProps {
   shareAuthorNickname: string;
   goalName: string;
   resComments: CommentProps[];
+  authorId: number; // 게시글 작성자의 ID 추가
 }
 
 const CommunityHome: React.FC = () => {
@@ -68,6 +69,7 @@ const CommunityHome: React.FC = () => {
           shareAuthorNickname: post.shareAuthorNickname,
           goalName: post.goalName,
           resComments: post.resComments,
+          authorId: post.authorId, // 게시글 작성자의 ID 추가
         }));
 
         setPosts(formattedData);
@@ -190,24 +192,27 @@ const handleDeletePost = async (index: number, shareDoyakId: number) => {
   <DoyakObject object={post.goalName} />
   <MainPhoto selectedPhoto={post.shareImageUrl} />
   <ButtonContainer>
-    <IconWrapper>
-      <Image
-        src="/assets/community/doyak.svg"
-        alt="Doyak Icon"
-        width={25}
-        height={25}
-        onClick={() => handleDoyakCount(index, post.shareDoyakId)}
-      />
-    </IconWrapper>
-    <NumberDoyak count={post.doyakCount} />
-    <CommentButton
-      onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
+  <IconWrapper>
+    <Image
+      src="/assets/community/doyak.svg"
+      alt="Doyak Icon"
+      width={25}
+      height={25}
+      onClick={() => handleDoyakCount(index, post.shareDoyakId)}
     />
-    <NumberComment commentCnt={post.commentCount} />
+  </IconWrapper>
+  <NumberDoyak count={post.doyakCount} />
+  <CommentButton
+    onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
+  />
+  <NumberComment commentCnt={post.commentCount} />
+  {post.authorId === memberId && 
     <DeleteButton onClick={() => handleDeletePost(index, post.shareDoyakId)}>
       삭제
     </DeleteButton>
-  </ButtonContainer>
+  }
+</ButtonContainer>
+
   <CommentText>{post.shareContent}</CommentText>
 </Post>
 
