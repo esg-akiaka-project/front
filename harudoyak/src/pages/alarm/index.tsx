@@ -97,220 +97,27 @@ const AlarmHome: React.FC = () => {
         titleText = "새로운 알림이 있습니다";
     }
 
-    return (
-      <Root>
-        <div style={styles.Title}>
-
-          <div style={styles.Messenger}>{buttonLabel1}</div>
-          {buttonLabel2 && <div style={styles.Messenger}>{buttonLabel2}</div>}
-
-          <span>{titleText}</span>
-        </div>
-      </Root>
-    );
-  };
-
-  const styles = {
-    container: {
-      maxWidth: "390px",
-      height: "844px",
-      margin: "0 auto",
-      padding: "15px",
-      backgroundColor: "#F2F6F3",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      fontFamily: "Inter, sans-serif",
-      letterSpacing: "-1px",
-    } as React.CSSProperties,
-    ButtonContainer: {
-      display: "flex",
-      justifyContent: "space-between",
-      marginBottom: "30px",
-      marginTop: "50px",
-      fontFamily: "Inter, sans-serif",
-    } as React.CSSProperties,
-    TabButton: (isActive: boolean): React.CSSProperties => ({
-      flex: "1",
-      width: "174px",
-      height: "59px",
-      padding: "5px 3px",
-      backgroundColor: isActive ? "#3C7960" : "#A5CBBC",
-      color: "#ffffff",
-      border: "none",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      textAlign: "center",
-      borderRadius: "20px",
-      marginRight: "10px",
-      fontWeight: 900,
-      fontSize: "18px",
-      fontFamily: "Inter, sans-serif",
-    }),
-    AlarmCard: (isClicked: boolean): React.CSSProperties => ({
-      width: "353px",
-      height: "143px",
-      padding: "0px",
-      marginBottom: "30px",
-      borderRadius: "10px",
-      cursor: "pointer",
-      backgroundColor: isClicked
-        ? "rgba(121, 116, 126, 0.08)"
-        : "rgba(110, 173, 107, 0.3)",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      overflow: "hidden",
-      position: "relative",
-      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-      fontFamily: "Inter, sans-serif",
-    }),
-    Title: {
-      display: "flex",
-      alignItems: "center",
-      gap: "6px",
-      fontSize: "18px",
-      fontWeight: 900,
-      textShadow: "0.5px 0 0 #333",
-      fontFamily: "Inter, sans-serif",
-    } as React.CSSProperties,
-    Icon: (isClicked: boolean): React.CSSProperties => ({
-      width: "20px",
-      height: "20px",
-      borderRadius: "50%",
-      display: "inline-block",
-      opacity: isClicked ? 0.3 : 0.8, // Alarm Card의 투명도 따라감
-    }),
-    Messenger: {
-      width: "90px",
-      height: "33px",
-      padding: "5px 10px",
-      backgroundColor: "#ffffff",
-      color: "#3C7960",
-      borderRadius: "15px",
-      fontSize: "12px",
-      fontWeight: "Regular",
-      textShadow: "none",
-      justifyContent: "center",
-      alignItems: "center",
-      maxWidth: "85px",
-      display: "inline-block",
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-      fontFamily: "Inter, sans-serif",
-      textAlign: "center",
-    } as React.CSSProperties,
-    Content: {
-      fontSize: "15px",
-      lineHeight: "1.4",
-      fontWeight: 700,
-      margin: "10px 0",
-      color: "#333",
-      width: "100%",
-      height: "100%",
-      display: "-webkit-box",
-      whiteSpace: "normal",
-      overflowWrap: "break-word",
-      wordBreak: "break-word",
-      alignItems: "center",
-    } as React.CSSProperties,
-    Date: {
-      fontSize: "12px",
-      color: "#666",
-      position: "absolute",
-      fontWeight: "Regular",
-      bottom: "10px",
-      right: "10px",
-      fontFamily: "Inter, sans-serif",
-    } as React.CSSProperties,
-    AlarmList: {
-      flex: "1",
-      overflowY: "auto",
-      overflowX: "hidden",
-    } as React.CSSProperties,
-  };
-
-  const MAX_CONTENT_LENGTH = 60; // 최대 글자 수
-
-  const truncatedContent = (content: string) => {
-    return content.length > MAX_CONTENT_LENGTH
-      ? content.substring(0, MAX_CONTENT_LENGTH) + "..."
-      : content;
-  };
-
-  const IconComponent = ({ isClicked }: { isClicked: boolean }) => (
-    <div style={styles.Icon(isClicked)}>
-      <Image src={messageIcon} alt="message Icon" width={80} height={80} />
-    </div>
-  );
-
   return (
-    <div style={styles.container}>
-      <div style={styles.ButtonContainer}>
-        <button
-          style={styles.TabButton(activeTab === "Record")}
-          onClick={() => handleTabClick("Record")}
-        >
-          도약 기록
-        </button>
-        <button
-          style={styles.TabButton(activeTab === "Community")}
-          onClick={() => handleTabClick("Community")}
-        >
-          서로 도약
-        </button>
-      </div>
-      <div style={styles.AlarmList}>
-        {activeTab === "Record"
-          ? generalAlarmData.map((alarmCard, index) => (
-              <div
-                key={alarmCard.id}
-                onClick={() => handleCardClick(index)}
-                style={styles.AlarmCard(clickedGeneralAlarmCard[index])}
-              >
-                {renderTitle(alarmCard, clickedGeneralAlarmCard[index])}
-                <div style={styles.Content}>
-                  {truncatedContent(alarmCard.content)}
-                </div>
-                <div style={styles.Date}>
-                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                  })} 
-                  ${new Date(alarmCard.date)
-                    .toLocaleDateString("en-US", { weekday: "short" })
-                    .toUpperCase()}`}
-                </div>
-              </div>
-            ))
-          : communityAlarmData.map((alarmCard, index) => (
-              <div
-                key={alarmCard.id}
-                onClick={() => handleCardClick(index)}
-                style={styles.AlarmCard(clickedCommunityAlarmCard[index])}
-              >
-                {renderTitle(alarmCard, clickedCommunityAlarmCard[index])}
-                <div style={styles.Content}>
-                  {truncatedContent(alarmCard.content)}
-                </div>
-                <div style={styles.Date}>
-                  {`${new Date(alarmCard.date).toLocaleDateString("ko-KR", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                  })} 
-                  ${new Date(alarmCard.date)
-                    .toLocaleDateString("en-US", { weekday: "short" })
-                    .toUpperCase()}`}
-                </div>
-              </div>
-            ))}
-      </div>
-    </div>
+    <Root>
+      <ExternalContainerSet>
+        <TapButtonContainer activeTab={ActiveTab} handleTabClick={handleTabClick} />
+        <AlarmImportData
+          activeTab={ActiveTab}
+          handleDataFetch={handleDataFetch}
+          handleCardClick={handleCardClick}
+          clickedGeneralAlarmCard={ClickedGeneralAlarmCard}
+          clickedCommunityAlarmCard={ClickedCommunityAlarmCard}
+        />
+        <AlarmListContainer
+          activeTab={ActiveTab}
+          generalAlarmData={GeneralAlarmData}
+          communityAlarmData={CommunityAlarmData}
+          clickedGeneralAlarmCard={ClickedGeneralAlarmCard}
+          clickedCommunityAlarmCard={ClickedCommunityAlarmCard}
+          handleCardClick={handleCardClick}
+        />
+      </ExternalContainerSet>
+    </Root>
   );
 };
 
