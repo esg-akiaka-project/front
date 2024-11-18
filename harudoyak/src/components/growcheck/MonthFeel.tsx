@@ -4,8 +4,12 @@ import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
 import Circle from "./Circle";
 
-const MonthFeel: React.FC = () => {
+interface MonthProps {
+  selectedDate: Date;
+}
+const MonthFeel: React.FC<MonthProps> = (selectedDate) => {
   // dummyData todo: api 연동 후 적용
+  console.log(selectedDate);
   const [monthTags, setMonthTags] = useState<string[]>([
     "123",
     "abc",

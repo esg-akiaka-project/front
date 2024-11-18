@@ -2,6 +2,7 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
+import { use } from "react";
 
 export type RecordItem = {
   logId: number;
@@ -99,5 +100,11 @@ export const saveLetter = async (letter: string, logId: string) => {
 export const DailyRecord = async (logId: number) => {
   const { memberId } = useUserStore.getState();
   const response = await axiosInstance.get(`/logs/daily/${memberId}/${logId}`);
+  return response.data;
+};
+
+export const WeeklyRecord = async (date: Date) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.get(`/logs/weekly/${memberId}/${date}`);
   return response.data;
 };

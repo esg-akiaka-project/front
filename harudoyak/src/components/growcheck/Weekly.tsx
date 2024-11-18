@@ -8,6 +8,7 @@ import {
   subWeeks,
   isSameMonth,
   endOfMonth,
+  isAfter,
 } from "date-fns";
 
 interface WeeklyProps {
@@ -34,9 +35,7 @@ const Weekly: React.FC<WeeklyProps> = ({
   }, [selectedDay, selectedDate]);
 
   const handleNextWeek = () => {
-    if (!isLastWeekOfMonth()) {
-      setCurrentWeekStart(addWeeks(currentWeekStart, 1));
-    }
+    setCurrentWeekStart((prevWeekStart) => addWeeks(prevWeekStart, 1));
   };
 
   const handlePrevWeek = () => {
@@ -46,13 +45,14 @@ const Weekly: React.FC<WeeklyProps> = ({
   };
 
   const isFirstWeekOfMonth = () => {
-    return !isSameMonth(currentWeekStart, subWeeks(currentWeekStart, 1));
+    const startOfPreviousWeek = subWeeks(currentWeekStart, 1);
+    return !isSameMonth(currentWeekStart, startOfPreviousWeek);
   };
 
   const isLastWeekOfMonth = () => {
-    const endOfCurrentMonth = endOfMonth(currentWeekStart);
     const startOfNextWeek = addWeeks(currentWeekStart, 1);
-    return !isSameMonth(endOfCurrentMonth, startOfNextWeek);
+    const endOfCurrentMonth = endOfMonth(currentWeekStart);
+    return isAfter(startOfNextWeek, endOfCurrentMonth);
   };
 
   const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];

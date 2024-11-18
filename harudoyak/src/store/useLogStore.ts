@@ -19,8 +19,9 @@ export const useLogsStore = create<LogState>()(
       logs: [],
       setLogs: (logs) => set({ logs }),
       getLogByDate: (date) => {
-        const foundLog = get().logs.find((log) =>
-          log.creationDate.startsWith(date)
+        const formattedDate = date.split("T")[0];
+        const foundLog = get().logs.find(
+          (log) => log.creationDate.split("T")[0] === formattedDate
         );
         return foundLog ? foundLog.logId : null;
       },
