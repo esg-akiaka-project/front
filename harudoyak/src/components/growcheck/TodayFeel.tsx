@@ -6,7 +6,7 @@ import Tags from "./Tags";
 import pot from "../../../public/assets/grow-up-record/pot.svg";
 
 import Image from "next/image";
-import useLogsStore from "@/src/store/useLogStore";
+import { useLogsStore } from "@/src/store/useLogStore";
 import { DailyRecord } from "@/src/apis/logsApi";
 import { useUserStore } from "@/src/store/useUserStore";
 
@@ -21,8 +21,8 @@ interface MailProps {
 }
 
 const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
-  console.log(selectedDay);
   const { getLogByDate } = useLogsStore();
+
   const { aiName } = useUserStore();
 
   const [todayDoyak, setTodayDoyak] = useState<Record<string, string>>({
@@ -36,60 +36,67 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
 
   useEffect(() => {
     if (selectedDay) {
-      const formattedDate = selectedDay.toISOString().split("T")[0];
+      const formattedDate = selectedDay.toLocaleDateString("en-CA");
       const fetchedLogId = getLogByDate(formattedDate);
       setLogId(fetchedLogId);
     }
   }, [selectedDay, getLogByDate]);
 
   useEffect(() => {
-    const fetchDaily = async (logId: number) => {
-      try {
-        const response = await DailyRecord(logId);
-        setTodayDoyak({
-          content: response[0]["logContent"],
-          url: response[0]["logImageUrl"],
-        });
-        setWeeklyTags(
-          response[0]["tagNameList"].map(
-            (tag: { tagName: string }) => tag.tagName
-          ) || []
-        );
-        setEmotion({
-          [response[0]["emotion"]]: 1,
-        });
-        setTodayMail({
-          date: response[0]["letterCreationDate"]
-            ? new Date(response[0]["letterCreationDate"])
-            : new Date(),
-          day: response[0]["letterCreationDate"]
-            ? format(
-                new Date(response[0]["letterCreationDate"]),
-                "EEE"
-              ).toUpperCase()
-            : undefined,
-          content:
-            response[0]["letterContent"] ?? "도약이의 편지가 아직 없습니다.",
-        });
-      } catch (error) {
-        console.error("Error fetching daily record:", error);
-      }
-    };
-
     if (logId !== null) {
+      const fetchDaily = async (logId: number) => {
+        try {
+          const response = await DailyRecord(logId);
+          if (response && response.length > 0) {
+            const record = response[0];
+            setTodayDoyak({
+              content: record["logContent"] || "기록이 없습니다.",
+              url: record["logImageUrl"] || "",
+            });
+            setWeeklyTags(
+              record["tagNameList"]?.map(
+                (tag: { tagName: string }) => tag.tagName
+              ) || []
+            );
+            setEmotion({
+              [record["emotion"]]: 1,
+            });
+            setTodayMail({
+              date: record["letterCreationDate"]
+                ? new Date(record["letterCreationDate"])
+                : undefined,
+              day: record["letterCreationDate"]
+                ? format(
+                    new Date(record["letterCreationDate"]),
+                    "EEE"
+                  ).toUpperCase()
+                : undefined,
+              content:
+                record["letterContent"] ?? "도약이의 편지가 아직 없습니다.",
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching daily record:", error);
+        }
+      };
+
       fetchDaily(logId);
     } else {
-      setTodayDoyak({
-        content: "데이터가 없어요",
-        url: "",
-      });
-      setWeeklyTags([]);
-      setEmotion({});
-      setTodayMail({
-        content: "도약이의 편지가 아직 없습니다.",
-      });
+      resetData();
     }
-  }, [logId, selectedDay]);
+  }, [logId]);
+
+  const resetData = () => {
+    setTodayDoyak({
+      content: "데이터가 없어요",
+      url: "",
+    });
+    setWeeklyTags([]);
+    setEmotion({});
+    setTodayMail({
+      content: "도약이의 편지가 아직 없습니다.",
+    });
+  };
 
   return (
     <Container>

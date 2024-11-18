@@ -21,7 +21,7 @@ const MonthlyCalendar: React.FC = () => {
 
   const [recordDayList, setRecordDayList] = useState<string[]>([]);
   const { memberId } = useUserStore();
-
+  const { logs, setLogs } = useLogsStore();
   useEffect(() => {
     const fetchList = async () => {
       try {
@@ -34,7 +34,7 @@ const MonthlyCalendar: React.FC = () => {
           logId: item.logId,
           creationDate: format(new Date(item.creationDate), "yyyy-MM-dd"),
         }));
-        useLogsStore.getState().setLogs(logData);
+        setLogs(logData);
       } catch (error) {
         console.error("Failed to fetch record list:", error);
         throw error;

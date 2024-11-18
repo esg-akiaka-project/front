@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
 import Tags from "./Tags";
 import EmotionDiv from "./EmotionDiv";
 import Mailbox from "./Mailbox";
 import Circle from "./Circle";
+import { WeeklyRecord } from "@/src/apis/logsApi";
 
 interface WeekProps {
-  onDayClick: (date: Date) => void;
+  selectedDate: Date;
 }
 
 interface MailProps {
@@ -16,9 +17,8 @@ interface MailProps {
   content?: string;
 }
 // dummyData todo: api연동으로 불러와야함
-const WeekFeel: React.FC<WeekProps> = ({ onDayClick }) => {
+const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
   const [weeklyTags, setWeeklyTags] = useState<string[]>([]);
-
   const [emotion, setEmotion] = useState<Record<string, number>>({
     happy: 3,
     sad: 2,
@@ -48,6 +48,8 @@ const WeekFeel: React.FC<WeekProps> = ({ onDayClick }) => {
           이제 GitHub 리포지토리 작업도 익숙해졌으니, 앞으로 더 많은 프로젝트에서 적용하면서 자신감을 키우면 좋겠어!",
     },
   ]);
+
+  useEffect(() => {});
   return (
     <Container>
       <SectionTitle>이번주의 감정</SectionTitle>
