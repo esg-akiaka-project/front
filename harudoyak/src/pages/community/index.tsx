@@ -22,6 +22,7 @@ import {
   createComment,
   fetchComments,
   addDoyak,
+  deletePost,
 } from "@/src/apis/seoroApi";
 
 import { useUserStore } from "@/src/store/useUserStore";
@@ -53,7 +54,7 @@ const CommunityHome: React.FC = () => {
   const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 좋아요 상태 관리
 
   const postRefs = useRef<(HTMLDivElement | null)[]>([]);
-
+  
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -159,6 +160,19 @@ const CommunityHome: React.FC = () => {
     );
   };
   
+  // 삭제 버튼 클릭 핸들러 추가
+const handleDeletePost = async (index: number, shareDoyakId: number) => {
+  const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+  if (!confirmDelete) return;
+
+  try {
+    await deletePost(shareDoyakId);
+    setPosts((prevPosts) => prevPosts.filter((_, i) => i !== index));
+    console.log("게시글이 삭제되었습니다.");
+  } catch (error) {
+    console.error("게시글 삭제 중 오류 발생:", error);
+  }
+};
 
   return (
     <Root>
@@ -167,30 +181,36 @@ const CommunityHome: React.FC = () => {
       <PostList>
         {posts.map((post, index) => (
           <React.Fragment key={post.shareDoyakId}>
-            <Post
-              ref={(el) => {
-                postRefs.current[index] = el;
-              }}
-            >
-              <NickName nickname={post.shareAuthorNickname} />
-              <DoyakObject object={post.goalName} />
-              <MainPhoto selectedPhoto={post.shareImageUrl} />
-              <ButtonContainer>
-                <IconWrapper>
-                  <Image
-                    src="/assets/community/doyak.svg"
-                    alt="Doyak Icon"
-                    width={25}
-                    height={25}
-                    onClick={() => handleDoyakCount(index, post.shareDoyakId)}
-                  />
-                </IconWrapper>
-                <NumberDoyak count={post.doyakCount} />
-                <CommentButton onClick={() => handleCommentButtonClick(index, post.shareDoyakId)} />
-                <NumberComment commentCnt={post.commentCount} />
-              </ButtonContainer>
-              <CommentText>{post.shareContent}</CommentText>
-            </Post>
+          <Post
+  ref={(el) => {
+    postRefs.current[index] = el;
+  }}
+>
+  <NickName nickname={post.shareAuthorNickname} />
+  <DoyakObject object={post.goalName} />
+  <MainPhoto selectedPhoto={post.shareImageUrl} />
+  <ButtonContainer>
+    <IconWrapper>
+      <Image
+        src="/assets/community/doyak.svg"
+        alt="Doyak Icon"
+        width={25}
+        height={25}
+        onClick={() => handleDoyakCount(index, post.shareDoyakId)}
+      />
+    </IconWrapper>
+    <NumberDoyak count={post.doyakCount} />
+    <CommentButton
+      onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
+    />
+    <NumberComment commentCnt={post.commentCount} />
+    <DeleteButton onClick={() => handleDeletePost(index, post.shareDoyakId)}>
+      삭제
+    </DeleteButton>
+  </ButtonContainer>
+  <CommentText>{post.shareContent}</CommentText>
+</Post>
+
             {index < posts.length - 1 && <Separator />}
           </React.Fragment>
         ))}
@@ -212,6 +232,20 @@ const CommunityHome: React.FC = () => {
 export default CommunityHome;
 
 const CommentText = styled.div``;
+
+const DeleteButton = styled.button`
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+
+  &:hover {
+    background-color: #d9363e;
+  }
+`;
 
 const PostList = styled.div`
   display: flex;
