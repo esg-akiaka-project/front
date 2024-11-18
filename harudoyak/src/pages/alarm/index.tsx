@@ -50,7 +50,6 @@ const AlarmHome: React.FC = () => {
     <Root>
       <ExternalContainerSet>
         <TapButtonContainer activeTab={ActiveTab} handleTabClick={handleTabClick} />
-        {/* AlarmImportData를 사용해 알람 데이터 가져오기 */}
         <AlarmImportData
           activeTab={ActiveTab}
           handleDataFetch={handleDataFetch}
