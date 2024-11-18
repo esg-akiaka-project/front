@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
 import Circle from "./Circle";
-
+import { MonthlyRecord } from "@/src/apis/logsApi";
+import { format } from "date-fns";
 interface MonthProps {
   selectedDate: Date;
 }
-const MonthFeel: React.FC<MonthProps> = (selectedDate) => {
-  // dummyData todo: api 연동 후 적용
+const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
   console.log(selectedDate);
+
   const [monthTags, setMonthTags] = useState<string[]>([
     "123",
     "abc",
@@ -30,6 +31,18 @@ const MonthFeel: React.FC<MonthProps> = (selectedDate) => {
     love: 8,
     angry: 5,
   });
+  useEffect(() => {
+    const fetchMonthly = async () => {
+      try {
+        const response = await MonthlyRecord(
+          format(selectedDate, "yyyy-MM-dd")
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMonthly();
+  }, []);
   return (
     <Container>
       <SectionTitle>이번 달의 감정</SectionTitle>
