@@ -4,14 +4,14 @@ import { useState } from 'react';
 export interface PostData {
   emotion: string;
   text: string;
-  image: File | null;
+  image: string | null;
   tags: string[];
 }
 
 const usePostData = () => {
   const [emotion, setEmotion] = useState<string>("");
   const [text, setText] = useState<string>('');
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
 
   // 감정 업데이트 함수
@@ -21,7 +21,7 @@ const usePostData = () => {
   const updateText = (newText: string) => setText(newText);
 
   // 이미지 업데이트 함수
-  const updateImage = (newImage: File | null) => setImage(newImage);
+  const updateImage = (newImage: string | null) => setImage(newImage);
 
    // 태그 업데이트 함수
   const updateTags = (newTags: string[]) => setTags(newTags);

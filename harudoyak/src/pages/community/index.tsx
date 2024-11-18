@@ -103,7 +103,10 @@ const CommunityHome: React.FC = () => {
   }, [isCommentOpen]);
 
   // 댓글 열기 및 특정 게시글로 스크롤 이동
-  const handleCommentButtonClick = async (index: number, shareDoyakId: number) => {
+  const handleCommentButtonClick = async (
+    index: number,
+    shareDoyakId: number
+  ) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);
     try {

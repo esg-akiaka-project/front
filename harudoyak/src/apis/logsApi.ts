@@ -2,7 +2,7 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
-import { uploadToS3 } from "./uploadToS3";
+import { use } from "react";
 
 export type RecordItem = {
   logId: number;
@@ -14,7 +14,7 @@ export const fetchRecordList = async (): Promise<RecordItem[]> => {
 
   // console.log("memberId:", memberId); // memberId가 올바른지 확인
   if (!memberId) {
-      throw new Error("유효하지 않은 memberId입니다.");
+    throw new Error("유효하지 않은 memberId입니다.");
   }
 
   try {
@@ -35,7 +35,7 @@ export const fetchRecordList = async (): Promise<RecordItem[]> => {
   }
 };
 
-// 도약기록 쓰기 API 
+// 도약기록 쓰기 API
 export const createPost = async (
   text: string,
   emotion: string,
@@ -52,20 +52,21 @@ export const createPost = async (
     //const photoUrl = image ? await uploadToS3(image) : null;
     const tagNameList = tags.map((tag) => ({ tagName: tag }));
     console.log(
-  "logContent:", text,
-  "\ntagNameList:", tagNameList,
-  "\nemotion:", emotion,
-  "\nlogImageUrl:", photoUrl
-);
-    const response = await axiosInstance.post(
-      `/logs/${memberId}`,
-      {
-        logContent: text,
-        tagNameList: tagNameList,
-        emotion: emotion,
-        logImageUrl: photoUrl,
-      }
+      "logContent:",
+      text,
+      "\ntagNameList:",
+      tagNameList,
+      "\nemotion:",
+      emotion,
+      "\nlogImageUrl:",
+      photoUrl
     );
+    const response = await axiosInstance.post(`/logs/${memberId}`, {
+      logContent: text,
+      tagNameList: tagNameList,
+      emotion: emotion,
+      logImageUrl: photoUrl,
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -82,7 +83,7 @@ export const saveLetter = async (letter: string, logId: string) => {
 
   try {
     console.log(
-      "도약이의 편지가 서버에 전송됩니다. /api/logs/letters/${memberId}/${logId}"
+      "도약이의 편지가 서버에 전송됩니다. /logs/letters/${memberId}/${logId}"
     );
 
     const response = await axiosInstance.post(
@@ -96,4 +97,14 @@ export const saveLetter = async (letter: string, logId: string) => {
     throw error;
   }
 };
+export const DailyRecord = async (logId: number) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.get(`/logs/daily/${memberId}/${logId}`);
+  return response.data;
+};
 
+export const WeeklyRecord = async (date: Date) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.get(`/logs/weekly/${memberId}/${date}`);
+  return response.data;
+};

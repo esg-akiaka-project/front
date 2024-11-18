@@ -11,20 +11,19 @@ const Dropdown: React.FC<DropdownProps> = ({
   onMonthChange,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const handleToggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
 
   const handleSelectMonth = (month: number) => {
-    onMonthChange(month);
+    onMonthChange(month + 1);
     setIsOpen(false);
   };
 
   return (
     <DropdownContainer>
       <DropdownButton onClick={handleToggleDropdown}>
-        {selectedMonth + 1}월 ▼
+        {selectedMonth}월 ▼
       </DropdownButton>
       {isOpen && (
         <DropdownMenu>

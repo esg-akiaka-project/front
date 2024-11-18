@@ -6,9 +6,20 @@ interface EmotionProps {
 }
 
 const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
+  const emotionMapping: Record<string, string> = {
+    hearts: "love",
+    laughing: "happy",
+    tear: "sad",
+    rage: "angry",
+    hushed: "surprise",
+    star: "funny",
+    question: "etc",
+  };
+
   const emotionArray = Object.entries(emotions)
     .filter(([_, count]) => count > 0)
-    .sort((a, b) => b[1] - a[1]);
+    .map(([emotion, count]) => [emotionMapping[emotion] || emotion, count]) // 매핑된 감정 사용
+    .sort((a, b) => (b[1] as number) - (a[1] as number));
 
   const mainEmotion = emotionArray[0];
   const otherEmotions = emotionArray;
@@ -19,7 +30,7 @@ const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
         <MainEmotion>
           <EmotionImage
             src={`/assets/grow-up-record/${mainEmotion[0]}.svg`}
-            alt={mainEmotion[0]}
+            alt={String(mainEmotion[0])}
           />
         </MainEmotion>
       )}
@@ -28,7 +39,7 @@ const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
           <EmotionItem key={index}>
             <EmotionImageSmall
               src={`/assets/grow-up-record/${emotion}.svg`}
-              alt={emotion}
+              alt={String(mainEmotion[0])}
             />
             <EmotionCount>{count}</EmotionCount>
           </EmotionItem>

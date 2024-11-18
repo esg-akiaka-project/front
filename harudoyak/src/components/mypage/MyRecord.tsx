@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useUserStore } from "@/src/store/useUserStore";
 
@@ -10,7 +10,7 @@ interface RecordItemProps {
 const MyRecord: React.FC = () => {
   const { firstDoyak, recentContinuity, maxContinuity, shareDoyakCount } =
     useUserStore();
-  console.log(firstDoyak);
+
   const records: RecordItemProps[] = [
     // { title: "첫번째 하루도약", value: firstDoyak },
     { title: "하루도약 연속일", value: recentContinuity },

@@ -4,8 +4,9 @@ import usePostData, { PostData } from "../hooks/usePostData";
 export interface PostDataContextType extends PostData {
   updateText: (newText: string) => void;
   updateEmotion: (newEmotion: string) => void;
-  updateImage: (newImage: File | null) => void;
+  updateImage: (newImage: string | null) => void;
   updateTags: (newTags: string[]) => void;
+  resetPostData: () => void;
 }
 
 const PostDataContext = createContext<PostDataContextType | undefined>(
@@ -26,6 +27,13 @@ export const PostDataProvider: React.FC<{ children: React.ReactNode }> = ({
     updateTags,
   } = usePostData();
 
+  const resetPostData = () => {
+    updateEmotion("");
+    updateImage(null);
+    updateTags([]);
+    updateText("");
+  };
+
   return (
     <PostDataContext.Provider
       value={{
@@ -37,6 +45,7 @@ export const PostDataProvider: React.FC<{ children: React.ReactNode }> = ({
         updateEmotion,
         updateImage,
         updateTags,
+        resetPostData,
       }}
     >
       {children}

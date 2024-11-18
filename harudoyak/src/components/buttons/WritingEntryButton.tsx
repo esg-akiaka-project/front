@@ -9,13 +9,19 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import iconPencil from "../../../public/assets/common/icon_pencil.svg";
+import { usePostDataContext } from "@/src/context/PostDataContext";
 
 const WritingEntryButton: React.FC = () => {
+  const { resetPostData } = usePostDataContext();
   const router = useRouter();
+  const handleClick = () => {
+    resetPostData();
+    router.push("/grow-up-record");
+  };
 
   return (
     <ButtonLayout>
-      <button type="button" onClick={() => router.push("/grow-up-record")}>
+      <button type="button" onClick={handleClick}>
         <ContentWrapper>
           <Image src={iconPencil} alt="도약기록 쓰기 아이콘" />
           <Text>도약기록 쓰기</Text>

@@ -9,7 +9,7 @@ import cameraIcon from "../../../../public/assets/grow-up-record/icon_camera.svg
 import imageIcon from "../../../../public/assets/grow-up-record/icon_image.svg";
 
 interface UploadSectionProps {
-  image: string;
+  image: string | null;
   updateImage: (image: string) => void;
 }
 

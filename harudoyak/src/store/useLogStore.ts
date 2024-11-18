@@ -1,21 +1,44 @@
-// logsStore.ts
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-interface LogState {
-  logs: { logId: number; creationDate: string }[];
-  setLogs: (logs: { logId: number; creationDate: string }[]) => void;
-  getLogByDate: (date: string) => number | null;
+interface Log {
+  logId: number;
+  creationDate: string;
 }
 
-const useLogsStore = create<LogState>((set, get) => ({
-  logs: [],
-  setLogs: (logs) => set({ logs }),
-  getLogByDate: (date) => {
-    const foundLog = get().logs.find((log) =>
-      log.creationDate.startsWith(date)
-    );
-    return foundLog ? foundLog.logId : null;
-  },
-}));
+interface LogState {
+  logs: Log[];
+  setLogs: (logs: Log[]) => void;
+  getLogByDate: (date: string) => number | null;
+  clearLogs: () => void;
+}
+
+export const useLogsStore = create<LogState>()(
+  persist(
+    (set, get) => ({
+      logs: [],
+      setLogs: (logs) => set({ logs }),
+      getLogByDate: (date) => {
+        const formattedDate = date.split("T")[0];
+        const foundLog = get().logs.find(
+          (log) => log.creationDate.split("T")[0] === formattedDate
+        );
+        return foundLog ? foundLog.logId : null;
+      },
+      clearLogs: () => {
+        set({ logs: [] });
+      },
+    }),
+    {
+      name: "logsStorage",
+      partialize: (state) =>
+        Object.fromEntries(
+          Object.entries(state).filter(
+            ([key]) => key !== "getLogByDate" && !key.startsWith("set")
+          )
+        ),
+    }
+  )
+);
 
 export default useLogsStore;

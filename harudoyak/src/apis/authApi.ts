@@ -79,3 +79,11 @@ export const changeGoal = async (goalName: string) => {
   });
   return response.data;
 };
+
+export const changeProfileImg = async (photoUrl: string) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.put(`members/${memberId}/profile`, {
+    photoUrl,
+  });
+  return response.data;
+};
