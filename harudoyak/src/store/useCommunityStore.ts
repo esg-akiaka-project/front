@@ -57,7 +57,7 @@ const useCommunityStore = create<CommunityState>()(
         set((state) => {
           const updatedPhotos = [...newPhotos, ...state.photos];
           if (updatedPhotos.length > 20) {
-            return { photos: updatedPhotos.slice(0, 21) }; // 최신 100개 사진만 유지
+            return { photos: updatedPhotos.slice(0, 21) }; // 최신 20개 사진만 유지
           }
           return { photos: updatedPhotos };
         }),
