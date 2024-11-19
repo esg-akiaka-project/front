@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import { createComment, createCommentchild, fetchComments } from "@/src/apis/seoroApi";
+import {
+  createComment,
+  createCommentchild,
+  fetchComments,
+} from "@/src/apis/seoroApi";
 import { useUserStore } from "@/src/store/useUserStore";
-import { CommentProps } from "./CommentSection"; // CommentSection에서 CommentProps 가져오기
+import CommentProps from "./CommentSection"; // CommentSection에서 CommentProps 가져오기
 
 interface CommentProps {
   commentShareDoyakId: number;
@@ -49,7 +53,9 @@ const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({
     <CommentInputContainer>
       <CommentInput
         placeholder={
-          parentCommentId ? "답글을 작성해주세요..." : "이곳을 눌러 댓글을 작성하세요..."
+          parentCommentId
+            ? "답글을 작성해주세요..."
+            : "이곳을 눌러 댓글을 작성하세요..."
         }
         value={comment}
         onChange={(e) => setComment(e.target.value)}
@@ -71,7 +77,6 @@ const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({
 };
 
 export default WriteCommentBox;
-
 
 const CommentInputContainer = styled.div`
   position: sticky;

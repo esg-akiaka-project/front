@@ -31,10 +31,7 @@ const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost/api/openai/keywords",
-        { text }
-      );
+      const response = await axios.post("/api/openai/keywords", { text });
 
       if (response.status === 200) {
         const tags = response.data.keywords;
