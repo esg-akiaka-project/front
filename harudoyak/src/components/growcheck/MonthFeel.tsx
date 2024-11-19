@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
+//import Tags from '../components/'
 import Circle from "./Circle";
 import { MonthlyRecord } from "@/src/apis/logsApi";
 import { format } from "date-fns";
@@ -21,7 +22,7 @@ const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
     const fetchMonthly = async () => {
       try {
         const response = await MonthlyRecord(
-          format(selectedDate, "yyyy-MM-dd")
+          format(selectedDate, "yyyy-MM-dd"),
         );
         console.log(response);
         if (response.emotions) {
@@ -30,14 +31,14 @@ const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
           emotionsData.forEach(
             (item: { emotion: string; emotionCount: number }) => {
               emotionsRecord[item.emotion] = item.emotionCount;
-            }
+            },
           );
           setEmotion(emotionsRecord);
         }
 
         if (response.tags) {
           const tagsArray = response.tags.map(
-            (tagItem: { tagName: string }) => tagItem.tagName
+            (tagItem: { tagName: string }) => tagItem.tagName,
           );
           setMonthTags(tagsArray);
         }
