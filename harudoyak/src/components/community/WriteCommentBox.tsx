@@ -31,9 +31,16 @@ const SubmitIcon = styled.div`
   z-index: 1; /* 아이콘이 앞으로 나오도록 설정 */
 `;
 
+interface CommentProps {
+  commentShareDoyakId: number;
+  commentId: number;
+  commentContent: string;
+  commentAuthorNickname: string;
+}
+
 interface WriteCommentBoxProps {
   shareDoyakId: number; // 추가
-  onCommentSubmitted: (newComment: string) => void; // 추가
+  onCommentSubmitted: (newComment: CommentProps) => void; // 추가
 }
 
 const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({

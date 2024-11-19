@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import NavigationBar from "@/src/components/common/navigationbar/NavigationBar";
+
 import MainHeader from "../../components/community/MainHeader";
 import { MainPhoto } from "../../components/community/MainPhoto";
 import WriteButton from "../../components/community/WriteButton";
@@ -187,8 +187,8 @@ const CommunityHome: React.FC = () => {
           onClose={closeCommentSection}
           comments={comments}
           shareDoyakId={posts[selectedPostIndex].shareDoyakId}
-          onCommentSubmitted={(newComment) =>
-            setComments((prev) => [...prev, newComment])
+          onCommentSubmitted={(newComment: CommentProps) =>
+            setComments((prev: CommentProps[]) => [...prev, newComment])
           }
         />
       )}

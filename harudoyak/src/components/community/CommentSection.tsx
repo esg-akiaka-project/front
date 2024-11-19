@@ -14,7 +14,7 @@ interface CommentSectionProps {
   onClose: () => void; // 닫기 함수 prop
   comments: CommentProps[];
   shareDoyakId: number; // 추가
-  onCommentSubmitted: (newComment: string) => void; // 추가
+  onCommentSubmitted: (newComment: CommentProps) => void; // 추가
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({
