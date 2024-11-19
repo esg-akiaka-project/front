@@ -1,6 +1,5 @@
 import * as S from "../home/Modal.style";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 interface TitleModalProps {
   onClose: () => void;

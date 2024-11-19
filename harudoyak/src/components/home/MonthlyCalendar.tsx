@@ -28,7 +28,9 @@ const MonthlyCalendar: React.FC = () => {
         const response = await fetchRecordList();
         // creationDate 값들만 추출하여 recordDayList 배열에 값 업데이트
         setRecordDayList(
-          response.map((item: RecordItem) => item.creationDate.substring(0, 10))
+          response.map((item: RecordItem) =>
+            item.creationDate.substring(0, 10),
+          ),
         );
         const logData = response.map((item: RecordItem) => ({
           logId: item.logId,
@@ -84,7 +86,7 @@ const MonthlyCalendar: React.FC = () => {
               dayToSelect: formattedValue,
             },
           },
-          `/grow-check/` // query masking
+          `/grow-check/`, // query masking
         );
         break;
 
@@ -134,7 +136,7 @@ const MonthlyCalendar: React.FC = () => {
                 src={checkBox}
                 alt="recorded"
                 key={moment(date).format("YYYY-MM-DD")}
-              />
+              />,
             );
           }
           return <>{html}</>;
