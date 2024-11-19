@@ -33,7 +33,6 @@ const GrowCheckHome: React.FC = () => {
   useEffect(() => {
     if (selectedDay === null) {
       const newDate = new Date(new Date().getFullYear(), selectedMonth, 30);
-      console.log(newDate);
       setSelectedDate(startOfWeek(newDate, { weekStartsOn: 1 }));
     }
   }, [selectedMonth]);
@@ -49,6 +48,9 @@ const GrowCheckHome: React.FC = () => {
         ? null
         : date
     );
+  };
+  const handleWeekChange = (newDate: Date) => {
+    setSelectedDate(newDate);
   };
 
   const renderContent = () => {
@@ -81,6 +83,7 @@ const GrowCheckHome: React.FC = () => {
           selectedDate={selectedDate}
           onDayClick={handleDayClick}
           selectedDay={selectedDay}
+          onWeekChange={handleWeekChange}
         />
       ) : null}
       {renderContent()}
