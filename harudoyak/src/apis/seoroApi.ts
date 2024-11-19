@@ -54,8 +54,7 @@ export const fetchPostDetail = async (shareDoyakId: number) => {
 };
 
 // 게시글 삭제 API
-export const deletePost = async (shareDoyakId: number) => {
-  const { memberId } = useUserStore.getState();
+export const deletePost = async (memberId: number, shareDoyakId: number) => {
 
   if (!memberId) {
     console.error("memberId가 없습니다. 로그인을 확인해주세요.");

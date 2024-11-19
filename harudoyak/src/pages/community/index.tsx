@@ -19,7 +19,6 @@ import Image from "next/image";
 // seoroApi.ts에서 API 함수 임포트
 import {
   fetchPosts,
-  createComment,
   fetchComments,
   addDoyak,
   deletePost,
@@ -42,11 +41,13 @@ interface PostProps {
   shareAuthorNickname: string;
   goalName: string;
   resComments: CommentProps[];
-  authorId: number; // 게시글 작성자의 ID 추가
 }
 
 const CommunityHome: React.FC = () => {
-  const { memberId } = useUserStore();
+  const {memberId, nickname} = useUserStore((state) => ({
+    memberId: state.memberId,
+    nickname: state.nickname,
+  }))
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
@@ -69,7 +70,6 @@ const CommunityHome: React.FC = () => {
           shareAuthorNickname: post.shareAuthorNickname,
           goalName: post.goalName,
           resComments: post.resComments,
-          authorId: post.authorId, // 게시글 작성자의 ID 추가
         }));
 
         setPosts(formattedData);
@@ -167,11 +167,12 @@ const CommunityHome: React.FC = () => {
   
   // 삭제 버튼 클릭 핸들러 추가
 const handleDeletePost = async (index: number, shareDoyakId: number) => {
+  if(!memberId) return;//null 값 검사
   const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
   if (!confirmDelete) return;
 
   try {
-    await deletePost(shareDoyakId);
+    await deletePost(memberId, shareDoyakId);
     setPosts((prevPosts) => prevPosts.filter((_, i) => i !== index));
     console.log("게시글이 삭제되었습니다.");
   } catch (error) {
@@ -209,11 +210,9 @@ const handleDeletePost = async (index: number, shareDoyakId: number) => {
     onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
   />
   <NumberComment commentCnt={post.commentCount} />
-  {post.authorId === memberId && 
     <DeleteButton onClick={() => handleDeletePost(index, post.shareDoyakId)}>
       삭제
     </DeleteButton>
-  }
 </ButtonContainer>
 
   <CommentText>{post.shareContent}</CommentText>
