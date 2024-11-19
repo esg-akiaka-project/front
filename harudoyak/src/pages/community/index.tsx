@@ -44,10 +44,7 @@ interface PostProps {
 }
 
 const CommunityHome: React.FC = () => {
-  const {memberId, nickname} = useUserStore((state) => ({
-    memberId: state.memberId,
-    nickname: state.nickname,
-  }))
+  const { memberId } = useUserStore();
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
@@ -70,6 +67,7 @@ const CommunityHome: React.FC = () => {
           shareAuthorNickname: post.shareAuthorNickname,
           goalName: post.goalName,
           resComments: post.resComments,
+
         }));
 
         setPosts(formattedData);
@@ -166,8 +164,12 @@ const CommunityHome: React.FC = () => {
   };
   
   // 삭제 버튼 클릭 핸들러 추가
-const handleDeletePost = async (index: number, shareDoyakId: number) => {
-  if(!memberId) return;//null 값 검사
+const handleDeletePost = async (index: number, memberId: number | null, shareDoyakId: number) => {
+  if(memberId === null) {
+    console.error("memberId가 없습니다. 로그인을 확인해주세요");
+    return;
+  }
+
   const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
   if (!confirmDelete) return;
 
@@ -210,7 +212,7 @@ const handleDeletePost = async (index: number, shareDoyakId: number) => {
     onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
   />
   <NumberComment commentCnt={post.commentCount} />
-    <DeleteButton onClick={() => handleDeletePost(index, post.shareDoyakId)}>
+    <DeleteButton onClick={() => handleDeletePost(index,memberId, post.shareDoyakId)}>
       삭제
     </DeleteButton>
 </ButtonContainer>
