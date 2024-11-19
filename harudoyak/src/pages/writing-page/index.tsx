@@ -16,7 +16,7 @@ const WritingPage: React.FC = () => {
 `;
 
   const [showModal, setShowModal] = useState(false);
-  const textRef = useRef<any>(null);
+  const textRef = useRef<HTMLTextAreaElement | null>(null);
 
   const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
