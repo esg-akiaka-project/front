@@ -1,7 +1,7 @@
-// components/community/WriteButton.tsx
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import Image from 'next/image'; // next/image 모듈을 import
 
 const Button = styled.button`
   position: fixed;
@@ -9,7 +9,7 @@ const Button = styled.button`
   right: 20px;
   width: 60px;
   height: 60px;
-  border-radius: 50%;
+  border-radius: 30%;
   background-color: var(--sub-green3);
   color: white;
   border: none;
@@ -28,7 +28,19 @@ const WriteButton: React.FC = () => {
     router.push('/community/select-picture');
   };
 
-  return <Button onClick={handleClick}>글쓰러 가기!</Button>;
+  return (
+    <Button onClick={handleClick}>
+      
+      <Image
+        src="/assets/community/sharebutton.svg" 
+        alt="Submit Icon"
+        width={54}
+        height={0}
+        onLoad={() => console.log("이미지 업로드 성공")}
+        onError={() => console.error("이미지 업로드 실패")}
+      />
+    </Button>
+  );
 };
 
 export default WriteButton;
