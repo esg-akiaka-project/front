@@ -7,9 +7,10 @@
 // 최초 작성일/작성자: 2024.10.25./루이
 // 수정일/작성자:
 
+import { createTags } from "../../../apis/openAIApi";
+
 import React from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { usePostDataContext } from "@/src/context/PostDataContext";
 import { useRouter } from "next/router";
 
@@ -31,22 +32,12 @@ const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost/api/openai/keywords",
-        { text }
-      );
-
-      if (response.status === 200) {
-        const tags = response.data.keywords;
-        console.log(tags);
-        if (tags.length <= 1) {
-          onFail();
-        } else {
-          updateTags(tags);
-          router.push("/grow-up-record");
-        }
+      const tags = await createTags(text);
+      if (tags.length <= 1) {
+        onFail();
       } else {
-        console.error("태그 키워드를 가져오는 데 실패했습니다.");
+        updateTags(tags);
+        router.push("/grow-up-record");
       }
     } catch (error) {
       console.error("error: ", error);

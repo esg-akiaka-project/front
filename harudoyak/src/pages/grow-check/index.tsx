@@ -46,7 +46,7 @@ const GrowCheckHome: React.FC = () => {
     setSelectedDay((prevSelectedDay) =>
       prevSelectedDay && prevSelectedDay.getTime() === date.getTime()
         ? null
-        : date
+        : date,
     );
   };
   const handleWeekChange = (newDate: Date) => {

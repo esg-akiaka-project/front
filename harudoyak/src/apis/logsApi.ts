@@ -2,7 +2,6 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
-import { use } from "react";
 
 export type RecordItem = {
   logId: number;
@@ -49,7 +48,6 @@ export const createPost = async (
   }
 
   try {
-    //const photoUrl = image ? await uploadToS3(image) : null;
     const tagNameList = tags.map((tag) => ({ tagName: tag }));
     console.log(
       "logContent:",
