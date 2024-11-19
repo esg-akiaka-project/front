@@ -47,9 +47,12 @@ const Home: React.FC = () => {
           </P>
         </>
       ) : (
-        <Heading2>
-          {nickname}님의<br></br>하루 도약을 응원합니다
-        </Heading2>
+        <>
+          <Heading2>
+            {nickname}님의<br></br>하루 도약을 응원합니다.
+          </Heading2>
+          <P></P>
+        </>
       )}
 
       <Image
@@ -79,11 +82,11 @@ const imageStyle: CSSProperties = {
   position: "absolute",
   scale: "0.4",
   transform: "translate(520%, -150%)",
-  zIndex: "3",
+  zIndex: 2,
 };
 
 const Heading2 = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.55rem;
   color: var(--main-green);
   padding: 0;
   text-align: left;
@@ -96,7 +99,7 @@ const P = styled.p`
   color: var(--darkgray-from-grayscale);
   margin: 0;
   margin-left: 5px;
-  margin-bottom: 60px;
+  margin-bottom: 70px;
   margin-top: 10px;
   font-size: 14px;
   width: 80%;

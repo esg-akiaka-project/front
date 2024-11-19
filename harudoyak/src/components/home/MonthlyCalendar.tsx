@@ -181,17 +181,19 @@ const StyledCalendarWrapper = styled.div`
   /* 요일 폰트만 sub-green2 */
   .react-calendar__month-view__weekdays__weekday abbr {
     color: var(--sub-green2);
+    font-size: 13px;
   }
 
   /* 네비게이션 가운데 정렬 */
   .react-calendar__navigation {
     justify-content: center;
+    margin-top: 10px
   }
 
   /* 네비게이션 폰트 설정 */
   .react-calendar__navigation button {
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.3rem;
     text-align: center;
     color: var(--darkgray-from-grayscale);
   }

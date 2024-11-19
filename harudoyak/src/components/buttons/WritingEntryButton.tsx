@@ -7,7 +7,7 @@
 
 import { useRouter } from "next/router";
 import Image from "next/image";
-import styled from "styled-components";
+import styled, { CSSProperties } from "styled-components";
 import iconPencil from "../../../public/assets/common/icon_pencil.svg";
 import { usePostDataContext } from "@/src/context/PostDataContext";
 
@@ -23,8 +23,11 @@ const WritingEntryButton: React.FC = () => {
     <ButtonLayout>
       <button type="button" onClick={handleClick}>
         <ContentWrapper>
-          <Image src={iconPencil} alt="도약기록 쓰기 아이콘" />
-          <Text>도약기록 쓰기</Text>
+          <Image
+            src={iconPencil}
+            alt="도약기록 쓰기 아이콘"
+            style={imageStyle}
+          />
         </ContentWrapper>
       </button>
     </ButtonLayout>
@@ -33,21 +36,22 @@ const WritingEntryButton: React.FC = () => {
 
 export default WritingEntryButton;
 
+const imageStyle: CSSProperties = {
+  left: "50%",
+};
+
 const ButtonLayout = styled.div`
   z-index: 1;
   position: fixed;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 100px;
+  right: 23px;
 `;
 
 const ContentWrapper = styled.div`
-  display: flex;
   background-color: var(--main-green);
-  padding: 10px 15px;
+  padding: 15px 15px;
   border-radius: 55px;
   border: 1px solid #ccc;
-  gap: 6px;
   align-items: center;
 `;
 
