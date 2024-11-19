@@ -15,6 +15,9 @@ interface UserState {
   memberId: number | null;
   setMemberId: (memId: number) => void;
 
+  contentId: number | null;
+  setContentId: (conId: number) => void;
+
   exp: number; // 경험치
   setExp: (exp: number) => void;
 
@@ -66,6 +69,9 @@ export const useUserStore = create<UserState>()(
       memberId: null,
       setMemberId: (memberId) => set({ memberId }),
 
+      contentId: null,
+      setContentId: (contentId) => set({ contentId}),
+
       aiName: "도약이",
       setAiName: (name) => set({ aiName: name }),
 
@@ -86,6 +92,7 @@ export const useUserStore = create<UserState>()(
           isSociallogin: false,
           accessToken: null,
           memberId: null,
+          contentId: null,
           aiName: "도약이",
           exp: 0,
           goalName: null,
