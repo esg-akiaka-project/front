@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Image from "next/image";
 import { createComment, createCommentchild, fetchComments } from "@/src/apis/seoroApi";
 import { useUserStore } from "@/src/store/useUserStore";
-import { CommentProps } from "./CommentSection"; // CommentSection에서 CommentProps 가져오기
 
 interface CommentProps {
   commentShareDoyakId: number;

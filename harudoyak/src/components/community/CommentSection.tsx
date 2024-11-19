@@ -3,7 +3,7 @@ import styled from "styled-components";
 import WriteCommentBox from "./WriteCommentBox";
 import CancelCommentBar from "./CancelCommentBar";
 
-export interface CommentProps { // export 추가
+export interface CommentProps {
   commentShareDoyakId: number;
   commentId: number;
   commentContent: string;
@@ -33,6 +33,16 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   onCommentSubmitted,
 }) => {
   const [replyTo, setReplyTo] = useState<number | null>(null);
+  const [openedReplies, setOpenedReplies] = useState<{ [key: number]: boolean }>(
+    {}
+  );
+
+  const toggleReplies = (commentId: number) => {
+    setOpenedReplies((prevState) => ({
+      ...prevState,
+      [commentId]: !prevState[commentId],
+    }));
+  };
 
   return (
     <CommentSectionContainer>
@@ -46,15 +56,27 @@ const CommentSection: React.FC<CommentSectionProps> = ({
             <CommentBox key={comment.commentId}>
               <CommentAuthor>{comment.commentAuthorNickname}</CommentAuthor>
               <CommentContent>{comment.commentContent}</CommentContent>
-              <ReplyButton onClick={() => setReplyTo(comment.commentId)}>
-                답글달기
-              </ReplyButton>
-              {comment.replies?.map((reply) => (
-                <ReplyBox key={reply.replyId}>
-                  <ReplyAuthor>{reply.replyAuthorNickname}</ReplyAuthor>
-                  <ReplyContent>{reply.replyContent}</ReplyContent>
-                </ReplyBox>
-              ))}
+              <ButtonsContainer>
+                <ReplyButton onClick={() => setReplyTo(comment.commentId)}>
+                  답글달기
+                </ReplyButton>
+                {comment.replies && comment.replies.length > 0 && (
+                  <ToggleRepliesButton
+                    onClick={() => toggleReplies(comment.commentId)}
+                  >
+                    {openedReplies[comment.commentId]
+                      ? `답글 닫기`
+                      : `${comment.replies.length}개의 답글 열기`}
+                  </ToggleRepliesButton>
+                )}
+              </ButtonsContainer>
+              {openedReplies[comment.commentId] &&
+                comment.replies?.map((reply) => (
+                  <ReplyBox key={reply.replyId}>
+                    <ReplyAuthor>{reply.replyAuthorNickname}</ReplyAuthor>
+                    <ReplyContent>{reply.replyContent}</ReplyContent>
+                  </ReplyBox>
+                ))}
             </CommentBox>
           ))
         )}
@@ -63,8 +85,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({
         shareDoyakId={shareDoyakId}
         parentCommentId={replyTo || undefined}
         onCommentSubmitted={(updatedComments) => {
-          onCommentSubmitted(updatedComments); // 상태 업데이트
-          setReplyTo(null); // 답글 작성 완료 후 초기화
+          onCommentSubmitted(updatedComments);
+          setReplyTo(null);
         }}
       />
     </CommentSectionContainer>
@@ -73,6 +95,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 
 export default CommentSection;
 
+// 스타일 추가
 const CommentHeader = styled.h2`
   text-align: center;
   margin: 0;
@@ -82,6 +105,7 @@ const CommentHeader = styled.h2`
 const CommentBox = styled.div`
   padding: 10px;
   border-bottom: 1px solid #e0e0e0;
+  position: relative; /* 상대적 위치 설정 */
 `;
 
 const CommentAuthor = styled.div`
@@ -94,13 +118,29 @@ const CommentContent = styled.div`
   color: var(--darkgray-from-grayscale);
 `;
 
+const ButtonsContainer = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between; /* 버튼을 양쪽 끝으로 배치 */
+  gap: 10px;
+`;
+
 const ReplyButton = styled.button`
-  margin-top: 5px;
   background-color: transparent;
   border: none;
   color: var(--sub-green3);
   cursor: pointer;
   font-size: 12px;
+  align-self: flex-start; /* 왼쪽 정렬 */
+`;
+
+const ToggleRepliesButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: var(--sub-green3);
+  cursor: pointer;
+  font-size: 12px;
+  align-self: flex-end; /* 오른쪽 정렬 */
 `;
 
 const ReplyBox = styled.div`
@@ -112,7 +152,8 @@ const ReplyAuthor = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
   &::before {
-  content: "ㄴ"}
+    content: "ㄴ";
+  }
 `;
 
 const ReplyContent = styled.div`

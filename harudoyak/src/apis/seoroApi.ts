@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
 import useCommunityStore from "../store/useCommunityStore";
-import { uploadToS3Seoro } from "./uploadToS3Seoro";
+import { uploadToS3 } from "./uploadToS3";
 
 // 게시글 작성 API
 export const createPost = async (comment: string, photoUrl: string) => { // photoUrl을 string으로 받음
@@ -73,6 +73,23 @@ export const deletePost = async (shareDoyakId: number) => {
     throw error;
   }
 };
+
+// 게시글 수정 API
+export const editPost = async (
+  memberId: number, shareDoyakId: number, shareContent: string) => {
+  try {
+    const response = await axiosInstance.put(`/posts/${memberId}/${shareDoyakId}`, {
+      shareDoyakId: shareDoyakId,
+      shareContent: shareContent,
+    });
+    console.log("게시글 수정 성공");
+    return response.data;
+  } catch (error) {
+    console.error("게시글 수정 실패:", error);
+    throw error;
+  }
+};
+
 
 
 
