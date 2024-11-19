@@ -1,35 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
 import Circle from "./Circle";
-
+import { MonthlyRecord } from "@/src/apis/logsApi";
+import { format } from "date-fns";
 interface MonthProps {
   selectedDate: Date;
 }
-const MonthFeel: React.FC<MonthProps> = (selectedDate) => {
-  // dummyData todo: api 연동 후 적용
+interface EmotionData {
+  [key: string]: number;
+}
+const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
   console.log(selectedDate);
-  const [monthTags, setMonthTags] = useState<string[]>([
-    "123",
-    "abc",
-    "배고파",
-    "커피",
-    "테스트",
-    "프로그래밍",
-    "React",
-    "CSS",
-    "비즈니스테크놀로지",
-  ]);
-  const [emotion, setEmotion] = useState<Record<string, number>>({
-    happy: 3,
-    sad: 2,
-    funny: 4,
-    surprise: 1,
-    etc: 1,
-    love: 8,
-    angry: 5,
-  });
+
+  const [monthTags, setMonthTags] = useState<string[]>([]);
+  const [emotion, setEmotion] = useState<Record<string, number>>({});
+  const [aiFeedbackCount, setAiFeedbackCount] = useState<number>(0);
+  useEffect(() => {
+    const fetchMonthly = async () => {
+      try {
+        const response = await MonthlyRecord(
+          format(selectedDate, "yyyy-MM-dd")
+        );
+        console.log(response);
+        if (response.emotions) {
+          const emotionsData = response.emotions;
+          const emotionsRecord: EmotionData = {};
+          emotionsData.forEach(
+            (item: { emotion: string; emotionCount: number }) => {
+              emotionsRecord[item.emotion] = item.emotionCount;
+            }
+          );
+          setEmotion(emotionsRecord);
+        }
+
+        if (response.tags) {
+          const tagsArray = response.tags.map(
+            (tagItem: { tagName: string }) => tagItem.tagName
+          );
+          setMonthTags(tagsArray);
+        }
+
+        if (response.aiFeedbacks && response.aiFeedbacks.length > 0) {
+          setAiFeedbackCount(response.aiFeedbacks[0].aiFeedbackCount);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMonthly();
+  }, [selectedDate]);
   return (
     <Container>
       <SectionTitle>이번 달의 감정</SectionTitle>
@@ -38,7 +59,7 @@ const MonthFeel: React.FC<MonthProps> = (selectedDate) => {
       <Tags tags={monthTags} />
       <ParellelWrapper>
         <SectionTitle>이번 달 하루도약</SectionTitle>
-        <Circle number={21}></Circle>
+        <Circle number={aiFeedbackCount}></Circle>
       </ParellelWrapper>
     </Container>
   );

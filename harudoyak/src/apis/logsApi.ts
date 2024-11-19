@@ -103,8 +103,18 @@ export const DailyRecord = async (logId: number) => {
   return response.data;
 };
 
-export const WeeklyRecord = async (date: Date) => {
+export const WeeklyRecord = async (createDate: string) => {
   const { memberId } = useUserStore.getState();
-  const response = await axiosInstance.get(`/logs/weekly/${memberId}/${date}`);
+  const response = await axiosInstance.get(
+    `/logs/weekly/${memberId}/${createDate}`
+  );
+  return response.data;
+};
+
+export const MonthlyRecord = async (createDate: string) => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.get(
+    `/logs/monthly/${memberId}/${createDate}`
+  );
   return response.data;
 };
