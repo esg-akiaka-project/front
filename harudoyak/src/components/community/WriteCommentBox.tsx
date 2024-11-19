@@ -5,6 +5,13 @@ import { createComment, createCommentchild, fetchComments } from "@/src/apis/seo
 import { useUserStore } from "@/src/store/useUserStore";
 import { CommentProps } from "./CommentSection"; // CommentSection에서 CommentProps 가져오기
 
+interface CommentProps {
+  commentShareDoyakId: number;
+  commentId: number;
+  commentContent: string;
+  commentAuthorNickname: string;
+}
+
 interface WriteCommentBoxProps {
   shareDoyakId: number;
   parentCommentId?: number; // 답글 대상 댓글 ID

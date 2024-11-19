@@ -88,7 +88,6 @@ const Button = styled.button`
   letter-spacing: 0.5px;
 
   cursor: pointer;
-  margin-bottom: 1rem;
 
   &:hover {
     background-color: var(--sub-green1);

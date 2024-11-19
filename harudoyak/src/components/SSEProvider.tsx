@@ -29,7 +29,7 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
 
     // SSE 연결 설정
     const eventSource = new EventSource(
-      `https://harudoyak.site/api/notification/subscribe/${memberId}`
+      `https://harudoyak.site/api/notification/subscribe/${memberId}`,
     );
     eventSourceRef.current = eventSource;
 
@@ -74,7 +74,7 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
         `https://harudoyak.site/api/notification/add?memberId=${memberId}&content=테스트 알림입니다.`,
         {
           method: "post", // 서버의 `add` 엔드포인트에서 GET 요청을 사용하는 것 같아서 GET으로 설정
-        }
+        },
       );
 
       if (response.ok) {

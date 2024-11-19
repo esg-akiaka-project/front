@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import NavigationBar from "@/src/components/common/navigationbar/NavigationBar";
+
 import MainHeader from "../../components/community/MainHeader";
 import { MainPhoto } from "../../components/community/MainPhoto";
 import WriteButton from "../../components/community/WriteButton";
@@ -105,7 +105,7 @@ const CommunityHome: React.FC = () => {
   // 댓글 열기 및 특정 게시글로 스크롤 이동
   const handleCommentButtonClick = async (
     index: number,
-    shareDoyakId: number
+    shareDoyakId: number,
   ) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);

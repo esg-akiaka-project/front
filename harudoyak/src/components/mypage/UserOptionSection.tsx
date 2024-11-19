@@ -35,7 +35,7 @@ const UserOptionSection: React.FC = () => {
           />
           <p>AI Info</p>
         </Pagediv>
-        <Pagediv>
+        {/* <Pagediv>
           <Image
             src={footprint}
             alt="Footprint"
@@ -44,7 +44,7 @@ const UserOptionSection: React.FC = () => {
             onClick={() => gotoSpecificPage("password-check")} // todo: 이 부분 주소는 바꿔야함
           />
           <p>내 서로도약</p>
-        </Pagediv>
+        </Pagediv> */}
       </OptionSection>
     </OptionSectionWrapper>
   );

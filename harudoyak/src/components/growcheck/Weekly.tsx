@@ -15,12 +15,14 @@ interface WeeklyProps {
   selectedDate: Date;
   onDayClick: (date: Date) => void;
   selectedDay: Date | null;
+  onWeekChange: (newDate: Date) => void;
 }
 
 const Weekly: React.FC<WeeklyProps> = ({
   selectedDate,
   onDayClick,
   selectedDay,
+  onWeekChange,
 }) => {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
     startOfWeek(selectedDate, { weekStartsOn: 1 })
@@ -35,12 +37,16 @@ const Weekly: React.FC<WeeklyProps> = ({
   }, [selectedDay, selectedDate]);
 
   const handleNextWeek = () => {
-    setCurrentWeekStart((prevWeekStart) => addWeeks(prevWeekStart, 1));
+    const nextWeekStart = addWeeks(currentWeekStart, 1);
+    setCurrentWeekStart(nextWeekStart);
+    onWeekChange(nextWeekStart);
   };
 
   const handlePrevWeek = () => {
+    const prevWeekStart = subWeeks(currentWeekStart, 1);
     if (!isFirstWeekOfMonth()) {
-      setCurrentWeekStart(subWeeks(currentWeekStart, 1));
+      setCurrentWeekStart(prevWeekStart);
+      onWeekChange(prevWeekStart); // 주간 변경 시 부모 컴포넌트에 알림
     }
   };
 
