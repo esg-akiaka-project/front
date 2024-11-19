@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { AlarmData } from './AlarmDataTypes';  
-import AlarmTitleContainer from './AlarmTitleContainer'; 
+import React, { useState, useEffect } from "react";
+import { AlarmData } from "./AlarmDataTypes";
+import AlarmTitleContainer from "./AlarmTitleContainer";
 
 const AlarmImportData: React.FC<{
   activeTab: string;
   handleCardClick: (index: number) => void;
   clickedGeneralAlarmCard: boolean[];
   clickedCommunityAlarmCard: boolean[];
-  handleDataFetch: (GeneralData: AlarmData[], CommunityData: AlarmData[]) => void;
+  handleDataFetch: (
+    GeneralData: AlarmData[],
+    CommunityData: AlarmData[]
+  ) => void;
 }> = ({
   activeTab,
   handleCardClick,
   clickedGeneralAlarmCard,
   clickedCommunityAlarmCard,
-  handleDataFetch
+  handleDataFetch,
 }) => {
+  console.log(activeTab);
   const [GeneralAlarmData, setGeneralAlarmData] = useState<AlarmData[]>([
     {
       id: "성장기록",
@@ -40,22 +44,28 @@ const AlarmImportData: React.FC<{
     },
   ]);
 
-  useEffect(() => {
-    // activeTab에 따라 알람 데이터를 부모 컴포넌트로 전달
-    handleDataFetch(GeneralAlarmData, CommunityAlarmData);
-  }, [activeTab, GeneralAlarmData, CommunityAlarmData, handleDataFetch]);
+  // useEffect(() => {
+  //   // activeTab에 따라 알람 데이터를 부모 컴포넌트로 전달
+  //   handleDataFetch(GeneralAlarmData, CommunityAlarmData);
+  // }, [activeTab, GeneralAlarmData, CommunityAlarmData, handleDataFetch]);
 
   return (
     <div>
       {activeTab === "Record"
         ? GeneralAlarmData.map((alarm, index) => (
             <div key={alarm.id} onClick={() => handleCardClick(index)}>
-              <AlarmTitleContainer alarmCard={alarm} isClicked={clickedGeneralAlarmCard[index]} />
+              <AlarmTitleContainer
+                alarmCard={alarm}
+                isClicked={clickedGeneralAlarmCard[index]}
+              />
             </div>
           ))
         : CommunityAlarmData.map((alarm, index) => (
             <div key={alarm.id} onClick={() => handleCardClick(index)}>
-              <AlarmTitleContainer alarmCard={alarm} isClicked={clickedCommunityAlarmCard[index]} />
+              <AlarmTitleContainer
+                alarmCard={alarm}
+                isClicked={clickedCommunityAlarmCard[index]}
+              />
             </div>
           ))}
     </div>

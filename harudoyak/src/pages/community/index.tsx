@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import NavigationBar from "@/src/components/common/navigationbar/NavigationBar";
+
 import MainHeader from "../../components/community/MainHeader";
 import { MainPhoto } from "../../components/community/MainPhoto";
 import WriteButton from "../../components/community/WriteButton";
@@ -95,7 +95,7 @@ const CommunityHome: React.FC = () => {
   // 댓글 열기 및 특정 게시글로 스크롤 이동
   const handleCommentButtonClick = async (
     index: number,
-    shareDoyakId: number
+    shareDoyakId: number,
   ) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);
@@ -124,8 +124,8 @@ const CommunityHome: React.FC = () => {
         prevPosts.map((post, i) =>
           i === index
             ? { ...post, doyakCount: post.doyakCount + (isLiked ? -1 : 1) }
-            : post
-        )
+            : post,
+        ),
       );
       setLikedPosts((prevLikedPosts) => ({
         ...prevLikedPosts,
@@ -187,8 +187,8 @@ const CommunityHome: React.FC = () => {
           onClose={closeCommentSection}
           comments={comments}
           shareDoyakId={posts[selectedPostIndex].shareDoyakId}
-          onCommentSubmitted={(newComment) =>
-            setComments((prev) => [...prev, newComment])
+          onCommentSubmitted={(newComment: CommentProps) =>
+            setComments((prev: CommentProps[]) => [...prev, newComment])
           }
         />
       )}

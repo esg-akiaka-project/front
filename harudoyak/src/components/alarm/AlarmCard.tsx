@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import Root from "../../style/Root";
-import AlarmTitleContainer from './AlarmTitleContainer';
-import { AlarmData } from './AlarmDataTypes';
-import AlarmContent from './AlarmContent';
-import AlarmDate from './AlarmDate';
+import AlarmTitleContainer from "./AlarmTitleContainer";
+import { AlarmData } from "./AlarmDataTypes";
+import AlarmContent from "./AlarmContent";
+import AlarmDate from "./AlarmDate";
 
-const CardContainer = styled.div<{ isClicked: boolean }>`
+const CardContainer = styled.div<{ $isClicked: boolean }>`
   width: 353px;
   height: 143px;
   padding: 0px;
@@ -14,7 +14,7 @@ const CardContainer = styled.div<{ isClicked: boolean }>`
   border-radius: 10px;
   cursor: pointer;
   background-color: ${(props) =>
-    props.isClicked
+    props.$isClicked
       ? "rgba(121, 116, 126, 0.08)"
       : "rgba(110, 173, 107, 0.3)"};
   display: flex;
@@ -26,14 +26,14 @@ const CardContainer = styled.div<{ isClicked: boolean }>`
   font-family: "Inter", sans-serif;
 `;
 
-const AlarmCard: React.FC<{ alarmCard: AlarmData; isClicked: boolean; onClick: () => void }> = ({
-  alarmCard,
-  isClicked,
-  onClick,
-}) => {
+const AlarmCard: React.FC<{
+  alarmCard: AlarmData;
+  isClicked: boolean;
+  onClick: () => void;
+}> = ({ alarmCard, isClicked, onClick }) => {
   return (
     <Root>
-      <CardContainer isClicked={isClicked} onClick={onClick}>
+      <CardContainer $isClicked={isClicked} onClick={onClick}>
         <AlarmTitleContainer alarmCard={alarmCard} isClicked={isClicked} />
         <AlarmContent content={alarmCard.content} />
         <AlarmDate date={alarmCard.date} />

@@ -6,7 +6,7 @@ import LoginButton from "../components/home/HomeLoginButton";
 import WritingEntryButton from "@/src/components/buttons/WritingEntryButton";
 import BeginningSetting from "../components/home/beginningSetting";
 import { changeAiname, changeGoal } from "../apis/authApi";
-import Logo from "@/public/assets/common/OptimizedLogo.svg";
+import Logo from "@/public/assets/common/DoyakiLogo.svg";
 import { useUserStore } from "../store/useUserStore";
 import Image from "next/image";
 
@@ -38,33 +38,37 @@ const Home: React.FC = () => {
 
   return (
     <Root>
+      {memberId === null ? ( // 로그인 전, 후 조건부 렌더링
+        <>
+          <Heading2>하루의 작은 도약을 쌓아보세요</Heading2>
+          <P>
+            하루도약은 도약이 AI 편지를 통해 작성된 도약 기록에 대한 응원과
+            피드백을 제공해요.
+          </P>
+        </>
+      ) : (
+        <Heading2>
+          {nickname}님의<br></br>하루 도약을 응원합니다
+        </Heading2>
+      )}
+
       <Image
         src={Logo.src}
         width={120}
-        height={80}
+        height={-10}
         alt="Logo"
         style={imageStyle}
         priority={Logo ? true : false}
-        />
+      />
+      <MonthlyCalendar />
 
-      {memberId === null ? ( // 로그인 전, 후 조건부 렌더링
-        <>
-          <Wrapper>
-            <Heading2>하루도약 시작하기</Heading2>
-          </Wrapper>
+      {memberId === null ? (
+        <FixedWrapper>
           <LoginButton />
-        </>
+        </FixedWrapper>
       ) : (
-        <Wrapper>
-          <Heading2>
-            {nickname}님<br></br>도약기록을 작성해주세요
-          </Heading2>
-        </Wrapper>
+        <WritingEntryButton />
       )}
-
-      <MonthlyCalendar></MonthlyCalendar>
-
-      {memberId === null ? null : <WritingEntryButton />}
 
       {showModal && <BeginningSetting onSave={handleSave} />}
     </Root>
@@ -73,25 +77,36 @@ const Home: React.FC = () => {
 
 const imageStyle: CSSProperties = {
   position: "absolute",
-  transform: "translateX(-50%)",
-  left: "4.9rem",
-  top: "4%",
+  scale: "0.4",
+  transform: "translate(520%, -150%)",
+  zIndex: "3",
 };
 
-const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  position: relative;
+const Heading2 = styled.h2`
+  font-size: 1.5rem;
+  color: var(--main-green);
+  padding: 0;
+  text-align: left;
+  margin: 0;
+  margin-left: 5px;
+  margin-top: 20px;
 `;
 
-const Heading2 = styled.h2`
-  font-size: 1.44rem;
-  color: var(--main-green);
-  padding: 3% 5%;
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 10px;
+const P = styled.p`
+  color: var(--darkgray-from-grayscale);
+  margin: 0;
+  margin-left: 5px;
+  margin-bottom: 60px;
+  margin-top: 10px;
+  font-size: 14px;
+  width: 80%;
+`;
+
+const FixedWrapper = styled.div`
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export default Home;

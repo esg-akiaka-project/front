@@ -31,12 +31,22 @@ const SubmitIcon = styled.div`
   z-index: 1; /* 아이콘이 앞으로 나오도록 설정 */
 `;
 
-interface WriteCommentBoxProps {
-  shareDoyakId: number; // 추가
-  onCommentSubmitted: (newComment: any) => void; // 추가
+interface CommentProps {
+  commentShareDoyakId: number;
+  commentId: number;
+  commentContent: string;
+  commentAuthorNickname: string;
 }
 
-const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({ shareDoyakId, onCommentSubmitted }) => {
+interface WriteCommentBoxProps {
+  shareDoyakId: number; // 추가
+  onCommentSubmitted: (newComment: CommentProps) => void; // 추가
+}
+
+const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({
+  shareDoyakId,
+  onCommentSubmitted,
+}) => {
   const [comment, setComment] = useState("");
 
   const handleSubmit = async () => {
@@ -44,7 +54,7 @@ const WriteCommentBox: React.FC<WriteCommentBoxProps> = ({ shareDoyakId, onComme
       try {
         const newComment = await createComment(shareDoyakId, comment);
         onCommentSubmitted(newComment); // 새로운 댓글을 부모 컴포넌트에 전달
-        setComment(''); // 입력 필드 초기화
+        setComment(""); // 입력 필드 초기화
       } catch (error) {
         console.error("댓글 작성 중 오류 발생:", error);
       }

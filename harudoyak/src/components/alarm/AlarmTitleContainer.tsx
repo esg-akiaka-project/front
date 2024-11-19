@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import Root from "../../style/Root";
-import Icon from './AlarmIcon';
-import AlarmMessenger from './AlarmMessenger';
-import { AlarmData } from './AlarmDataTypes';
+import React from "react";
+import styled from "styled-components";
+
+import Icon from "./AlarmIcon";
+import AlarmMessenger from "./AlarmMessenger";
+import { AlarmData } from "./AlarmDataTypes";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -15,7 +15,16 @@ const TitleContainer = styled.div`
   font-family: "Inter", sans-serif;
 `;
 
-const AlarmTitleContainer: React.FC<{ alarmCard: AlarmData; isClicked: boolean }> = ({ alarmCard, isClicked }) => {
+const TitleWrapper = styled.div`
+  padding: 0;
+  max-width: 1100px;
+  margin-top: 4rem;
+`;
+const AlarmTitleContainer: React.FC<{
+  alarmCard: AlarmData;
+  isClicked: boolean;
+}> = ({ alarmCard, isClicked }) => {
+  console.log(alarmCard.id);
   let buttonLabel1 = "";
   let buttonLabel2 = "";
   let titleText = "";
@@ -40,16 +49,16 @@ const AlarmTitleContainer: React.FC<{ alarmCard: AlarmData; isClicked: boolean }
   }
 
   return (
-    <Root>
+    <TitleWrapper>
       <TitleContainer>
         <Icon isClicked={isClicked} />
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
           <AlarmMessenger label={buttonLabel1} />
           {buttonLabel2 && <AlarmMessenger label={buttonLabel2} />}
           <span>{titleText}</span>
         </div>
       </TitleContainer>
-    </Root>
+    </TitleWrapper>
   );
 };
 
