@@ -166,7 +166,7 @@ const StyledCalendarWrapper = styled.div`
     border: none;
     border-radius: 0.5rem;
     box-shadow: 4px 2px 10px 0px rgba(0, 0, 0, 0.13);
-    padding: 3% 5%;
+    padding: 5% 5%;
     background-color: var(--white-from-grayscale);
   }
 
@@ -258,7 +258,8 @@ const StyledCalendarWrapper = styled.div`
   /* 일 날짜 간격 */
   .react-calendar__tile {
     min-height: 46px;
-    padding: 5px 0px 18px;
+    padding: 0px 0px 13px;
+    margin-bottom: 2px;
     position: relative;
     img {
       margin: 3;
