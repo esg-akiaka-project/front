@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import Image from "next/image";
-import { PostDataContextType } from "@/src/context/PostDataContext";
 import axios from "axios";
-import { useRouter } from "next/router";
 
 // logsApi.ts에서 API 함수 import
 import { createPost, saveLetter } from "@/src/apis/logsApi";
@@ -23,8 +20,6 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   tags,
   onSuccess,
 }) => {
-  const router = useRouter();
-
   const handleSubmit = async () => {
     console.log(
       "작성된 도약 기록\n text:",
@@ -38,8 +33,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     );
     try {
       const createPostResponse = await createPost(text, emotion, image, tags);
-      console.log("기록 작성 성공, 서버 응답:", createPostResponse.data);
-
+      //console.log("기록 작성 성공, 서버 응답:", createPostResponse.data);
       const logId = createPostResponse.logId;
 
       const letterResponse = await axios.post("api/openai/letter", {
@@ -79,11 +73,4 @@ const Button = styled.button`
   bottom: 0%;
   margin-top: 110px;
   font-weight: bold;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
 `;

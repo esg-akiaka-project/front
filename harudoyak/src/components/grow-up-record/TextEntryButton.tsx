@@ -32,10 +32,6 @@ const EntryButton = styled.button`
   font-size: 0.94rem;
   align-items: flex-start;
   margin-right: 23px;
-  margin-bottom: 23px;
+  margin-bottom: 5px;
 `;
 
-const Span = styled.span`
-  display: block;
-  margin-top: 10px;
-`;

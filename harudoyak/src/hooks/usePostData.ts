@@ -11,6 +11,7 @@ export interface PostData {
 const usePostData = () => {
   const [emotion, setEmotion] = useState<string>("");
   const [text, setText] = useState<string>('');
+  const [prevText, setPrevText] = useState<string>('');
   const [image, setImage] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
 
@@ -26,13 +27,17 @@ const usePostData = () => {
    // 태그 업데이트 함수
   const updateTags = (newTags: string[]) => setTags(newTags);
 
+  const updatePrevText = (newPrevText: string) => setPrevText(newPrevText);
+
 
   return {
     text,
+    prevText,
     image,
     emotion,
     tags,
     updateText,
+    updatePrevText,
     updateImage,
     updateEmotion,
     updateTags

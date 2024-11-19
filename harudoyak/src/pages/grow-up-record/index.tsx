@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -35,7 +35,6 @@ const GrowUpRecordHome: React.FC = () => {
   };
 
   const [showModal, setShowModal] = useState(false);
-  const clickModal = () => setShowModal(!showModal);
   const isReadyToSubmit = text && emotion && tags && tags.length > 0;
 
   return (
@@ -57,7 +56,7 @@ const GrowUpRecordHome: React.FC = () => {
       <Link href="/writing-page">
         <TextEntryButton>
           <ReactMarkdown>
-            {text || "이곳을 눌러 도약기록을 작성해 주세요."}
+            {text || "이 곳을 눌러 도약기록을 작성해 주세요."}
           </ReactMarkdown>
         </TextEntryButton>
       </Link>
@@ -68,7 +67,7 @@ const GrowUpRecordHome: React.FC = () => {
           오늘의 도약 태그
         </Heading2>
         <Tooltip
-          message="하루도약의 AI가 작성된 성장 기록을 보고 도약태그 3~7개를 출력합니다. 출력된 결과가 마음에 안 드신다면 (reload) 버튼을 눌러 태그 분석 결과를 다시 받아보세요. 태그 분석은 2회까지 다시 요청할 수 있어요."
+          message="하루도약의 AI가 작성된 성장 기록을 보고 도약태그 3~7개를 출력해요. 출력된 결과가 마음에 안 드신다면 (reload) 버튼을 눌러 태그 분석 결과를 다시 받아보세요. 태그 분석은 2회까지 다시 요청할 수 있어요."
           direction="top"
         >
           <Image src={iconTooltip} alt="Tip" onClick={handleTooltip} />
@@ -78,9 +77,9 @@ const GrowUpRecordHome: React.FC = () => {
         {tags && tags.length > 0 ? (
           <Tags tagslist={tags} />
         ) : (
-          <P>아직 출력된 태그가 없습니다.</P>
+          <P>아직 출력된 태그가 없습니다.</P>  
         )}
-        <ReloadButton text={text} updateTags={updateTags} />
+        <ReloadButton text={text} updateTags={updateTags} /> 
       </FlexWrapper>
       {isReadyToSubmit && (
         <SubmitButton

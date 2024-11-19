@@ -95,7 +95,7 @@ const CommunityHome: React.FC = () => {
   // 댓글 열기 및 특정 게시글로 스크롤 이동
   const handleCommentButtonClick = async (
     index: number,
-    shareDoyakId: number
+    shareDoyakId: number,
   ) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);
@@ -124,8 +124,8 @@ const CommunityHome: React.FC = () => {
         prevPosts.map((post, i) =>
           i === index
             ? { ...post, doyakCount: post.doyakCount + (isLiked ? -1 : 1) }
-            : post
-        )
+            : post,
+        ),
       );
       setLikedPosts((prevLikedPosts) => ({
         ...prevLikedPosts,

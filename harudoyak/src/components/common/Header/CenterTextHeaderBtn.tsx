@@ -14,23 +14,19 @@ import { usePostDataContext } from "@/src/context/PostDataContext";
 import { useRouter } from "next/router";
 
 interface CenterTextHeaderBtnProps {
-  text: string;
   onFail: () => void;
 }
 
 const CenterTextHeaderBtn: React.FC<CenterTextHeaderBtnProps> = ({
-  text,
-  onFail,
+  onFail
 }) => {
-  const { updateTags } = usePostDataContext();
+  const { text, updateTags } = usePostDataContext();
   const router = useRouter();
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
-
     if (text.length < 50) {
       onFail();
-      console.log(text.length);
       return;
     }
 
