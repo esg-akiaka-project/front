@@ -166,7 +166,7 @@ const StyledCalendarWrapper = styled.div`
     border: none;
     border-radius: 0.5rem;
     box-shadow: 4px 2px 10px 0px rgba(0, 0, 0, 0.13);
-    padding: 3% 5%;
+    padding: 5% 5%;
     background-color: var(--white-from-grayscale);
   }
 
@@ -181,17 +181,19 @@ const StyledCalendarWrapper = styled.div`
   /* 요일 폰트만 sub-green2 */
   .react-calendar__month-view__weekdays__weekday abbr {
     color: var(--sub-green2);
+    font-size: 13px;
   }
 
   /* 네비게이션 가운데 정렬 */
   .react-calendar__navigation {
     justify-content: center;
+    margin-top: 10px
   }
 
   /* 네비게이션 폰트 설정 */
   .react-calendar__navigation button {
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.3rem;
     text-align: center;
     color: var(--darkgray-from-grayscale);
   }
@@ -256,7 +258,8 @@ const StyledCalendarWrapper = styled.div`
   /* 일 날짜 간격 */
   .react-calendar__tile {
     min-height: 46px;
-    padding: 5px 0px 18px;
+    padding: 0px 0px 13px;
+    margin-bottom: 2px;
     position: relative;
     img {
       margin: 3;
