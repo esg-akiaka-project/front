@@ -206,6 +206,15 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
 >
   <NickName nickname={post.shareAuthorNickname} />
   <DoyakObject object={post.goalName} />
+  <MoreButton
+                  onClick={() => {
+                    setSelectedPostId(post.shareDoyakId);
+                    setSelectedPostIndexForDelete(index);
+                    setOpenModal(true);
+                  }}
+                >
+                 ...
+                </MoreButton>
   <MainPhoto selectedPhoto={post.shareImageUrl} />
   <ButtonContainer>
   <IconWrapper>
@@ -222,15 +231,6 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
     onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
   />
   <NumberComment commentCnt={post.commentCount} />
-  <MoreButton
-                  onClick={() => {
-                    setSelectedPostId(post.shareDoyakId);
-                    setSelectedPostIndexForDelete(index);
-                    setOpenModal(true);
-                  }}
-                >
-                  더보기
-                </MoreButton>
 </ButtonContainer>
 
   <CommentText>{post.shareContent}</CommentText>
@@ -295,10 +295,13 @@ export default CommunityHome;
 const CommentText = styled.div``;
 
 const MoreButton = styled.button`
-  background-color: #007bff;
+  position: absolute; /* 부모(Post) 컨테이너의 상대적 위치에 따라 배치 */
+  top: 20px; /* 위쪽에서 10px */
+  right: 20px; /* 오른쪽에서 10px */
+  background-color: #A6A6A6;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 5px 10px;
   cursor: pointer;
 
@@ -306,6 +309,7 @@ const MoreButton = styled.button`
     background-color: #0056b3;
   }
 `;
+
 
 const ModalContent = styled.div`
   display: flex;
@@ -366,7 +370,10 @@ const Post = styled.div`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* 자식 요소를 절대 위치로 배치 가능 */
+  margin-bottom: 20px;
 `;
+
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -385,3 +392,6 @@ const IconWrapper = styled.div`
   height: 23px;
   margin-right: 8px;
 `;
+
+
+
