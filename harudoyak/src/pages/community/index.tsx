@@ -14,16 +14,16 @@ import CommentButton from "../../components/community/CommentButton";
 import Doyak from "../../components/community/Doyak";
 import NumberDoyak from "../../components/community/NumberDoyak";
 import NumberComment from "../../components/community/NumberComment";
-import Modal from "../../components/home/Modal"; //Modal 컴포넌트 임포트
+import Modal from "../../components/community/seoroModal";
 import Image from "next/image";
 import {useRouter} from "next/router";
+
 // seoroApi.ts에서 API 함수 임포트
 import {
   fetchPosts,
   fetchComments,
   addDoyak,
   deletePost,
-  editPost,
 } from "@/src/apis/seoroApi";
 
 import { useUserStore } from "@/src/store/useUserStore";
@@ -53,13 +53,15 @@ const CommunityHome: React.FC = () => {
   const [comments, setComments] = useState<CommentProps[]>([]); // 댓글 데이터 상태 추가
   const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
   const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 좋아요 상태 관리
+  const [openModal, setOpenModal] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [selectedPostIndexForDelete, setSelectedPostIndexForDelete] =
+    useState<number | null>(null);
 
-  const [openModal, setOpenModal] = useState(false); // 모달 상태 관리
-  const [selectedPostId, setSelectedPostId] = useState<number |null>(null); // 선택된 게시글 ID
-  
   const postRefs = useRef<(HTMLDivElement | null)[]>([]);
   const router = useRouter();
-  
+
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -169,23 +171,9 @@ const CommunityHome: React.FC = () => {
     );
   };
   
-const handleEdit = async () => {
-  if (memberId === null || selectedPostId === null) return;
-  try {
-    // 수정 페이지로 이동
-    router.push({
-      pathname: "/community/select-picture",
-      query: { postId: selectedPostId },
-    });
-    setOpenModal(false); // 모달 닫기
-  } catch (error) {
-    console.error("게시글 수정 이동 중 오류 발생:", error);
-  }
-};
-
- // 삭제 버튼 클릭 핸들러 추가
- const handleDeletePost = async (index: number, shareDoyakId: number) => {
-  if (memberId === null) {
+  // 삭제 버튼 클릭 핸들러 추가
+const handleDeletePost = async (index: number, memberId: number | null, shareDoyakId: number) => {
+  if(memberId === null) {
     console.error("memberId가 없습니다. 로그인을 확인해주세요");
     return;
   }
@@ -195,14 +183,14 @@ const handleEdit = async () => {
 
   try {
     await deletePost(memberId, shareDoyakId);
-    setPosts((prevPosts) => prevPosts.filter((_, i) => i !== index));
+    setPosts((prevPosts) => 
+      prevPosts.filter((_, i) => i !== selectedPostIndexForDelete));
     console.log("게시글이 삭제되었습니다.");
   } catch (error) {
     console.error("게시글 삭제 중 오류 발생:", error);
   }
-  setOpenModal(false); // 모달 닫기
+  setIsDeleteModalOpen(false);
 };
-
 
   return (
     <Root>
@@ -237,6 +225,7 @@ const handleEdit = async () => {
   <MoreButton
                   onClick={() => {
                     setSelectedPostId(post.shareDoyakId);
+                    setSelectedPostIndexForDelete(index);
                     setOpenModal(true);
                   }}
                 >
@@ -260,25 +249,43 @@ const handleEdit = async () => {
           onCommentSubmitted={handleCommentSubmitted}
         />
       )}
-      <WriteButton />
-  {/* 더보기 모달 */}
-  {openModal && (
+
+      {openModal && (
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <ModalContent>
-            <ModalButton onClick={() => handleEdit()}>수정</ModalButton>
+            <ModalButton onClick={() => router.push(`/community/select-picture`)}>
+              수정
+            </ModalButton>
             <ModalButton
-              onClick={() =>
-                handleDeletePost(
-                  selectedPostIndex,
-                  selectedPostId as number
-                )
-              }
+              onClick={() => {
+                setOpenModal(false);
+                setIsDeleteModalOpen(true);
+              }}
             >
               삭제
             </ModalButton>
           </ModalContent>
         </Modal>
       )}
+
+      
+      {isDeleteModalOpen && (
+        <Modal open={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+          <ModalContent>
+            <ModalTitle>삭제</ModalTitle>
+            <ModalText>정말 삭제하시겠습니까?</ModalText>
+            <ModalButton 
+             onClick={() =>
+             handleDeletePost(
+              selectedPostIndexForDelete!,
+              memberId!,
+              selectedPostId!
+             )}>확인</ModalButton>
+            <ModalButton onClick={() => setIsDeleteModalOpen(false)}>취소</ModalButton>
+          </ModalContent>
+        </Modal>
+      )}
+      <WriteButton />
     </Root>
   );
 };
@@ -294,7 +301,6 @@ const MoreButton = styled.button`
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
-  font-size: 12px;
 
   &:hover {
     background-color: #0056b3;
@@ -304,20 +310,45 @@ const MoreButton = styled.button`
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  gap: 15px;
 `;
 
 const ModalButton = styled.button`
-  background-color: var(--sub-green2);
+  padding: 10px 20px;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 10px;
   cursor: pointer;
-  font-size: 14px;
 
   &:hover {
     background-color: #0056b3;
+  }
+`;
+
+const ModalTitle = styled.h2`
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const ModalText = styled.p`
+  font-size: 16px;
+  color: #333;
+`;
+
+
+const DeleteButton = styled.button`
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+
+  &:hover {
+    background-color: #d9363e;
   }
 `;
 
