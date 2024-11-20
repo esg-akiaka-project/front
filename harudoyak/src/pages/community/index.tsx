@@ -19,7 +19,6 @@ import Image from "next/image";
 // seoroApi.ts에서 API 함수 임포트
 import {
   fetchPosts,
-  createComment,
   fetchComments,
   addDoyak,
   deletePost,
@@ -42,7 +41,6 @@ interface PostProps {
   shareAuthorNickname: string;
   goalName: string;
   resComments: CommentProps[];
-  authorId: number; // 게시글 작성자의 ID 추가
 }
 
 const CommunityHome: React.FC = () => {
@@ -69,7 +67,7 @@ const CommunityHome: React.FC = () => {
           shareAuthorNickname: post.shareAuthorNickname,
           goalName: post.goalName,
           resComments: post.resComments,
-          authorId: post.authorId, // 게시글 작성자의 ID 추가
+
         }));
 
         setPosts(formattedData);
@@ -166,12 +164,17 @@ const CommunityHome: React.FC = () => {
   };
   
   // 삭제 버튼 클릭 핸들러 추가
-const handleDeletePost = async (index: number, shareDoyakId: number) => {
+const handleDeletePost = async (index: number, memberId: number | null, shareDoyakId: number) => {
+  if(memberId === null) {
+    console.error("memberId가 없습니다. 로그인을 확인해주세요");
+    return;
+  }
+
   const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
   if (!confirmDelete) return;
 
   try {
-    await deletePost(shareDoyakId);
+    await deletePost(memberId, shareDoyakId);
     setPosts((prevPosts) => prevPosts.filter((_, i) => i !== index));
     console.log("게시글이 삭제되었습니다.");
   } catch (error) {
@@ -209,11 +212,9 @@ const handleDeletePost = async (index: number, shareDoyakId: number) => {
     onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
   />
   <NumberComment commentCnt={post.commentCount} />
-  {post.authorId === memberId && 
-    <DeleteButton onClick={() => handleDeletePost(index, post.shareDoyakId)}>
+    <DeleteButton onClick={() => handleDeletePost(index,memberId, post.shareDoyakId)}>
       삭제
     </DeleteButton>
-  }
 </ButtonContainer>
 
   <CommentText>{post.shareContent}</CommentText>
