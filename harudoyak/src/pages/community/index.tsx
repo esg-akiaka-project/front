@@ -46,7 +46,7 @@ interface PostProps {
 }
 
 const CommunityHome: React.FC = () => {
-  const { memberId } = useUserStore();
+  const { memberId, nickname } = useUserStore();
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
@@ -61,6 +61,7 @@ const CommunityHome: React.FC = () => {
 
   const postRefs = useRef<(HTMLDivElement | null)[]>([]);
   const router = useRouter();
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -90,7 +91,11 @@ const CommunityHome: React.FC = () => {
       }
     };
     loadPosts();
-  }, []);
+  }, [refreshTrigger]);
+
+  const handleRefresh = () => {
+    setRefreshTrigger(!refreshTrigger);
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -194,7 +199,7 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
 
   return (
     <Root>
-      <MainHeader />
+      <MainHeader onClick={handleRefresh} />
       {showSideHeader && <SideHeader />}
       <PostList>
         {posts.map((post, index) => (
@@ -206,7 +211,8 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
 >
   <NickName nickname={post.shareAuthorNickname} />
   <DoyakObject object={post.goalName} />
-  <MoreButton
+  {nickname === post.shareAuthorNickname && (
+    <MoreButton
                   onClick={() => {
                     setSelectedPostId(post.shareDoyakId);
                     setSelectedPostIndexForDelete(index);
@@ -215,6 +221,7 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
                 >
                  ...
                 </MoreButton>
+  )}
   <MainPhoto selectedPhoto={post.shareImageUrl} />
   <ButtonContainer>
   <IconWrapper>
