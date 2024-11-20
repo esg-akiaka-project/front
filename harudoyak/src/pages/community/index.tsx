@@ -14,14 +14,16 @@ import CommentButton from "../../components/community/CommentButton";
 import Doyak from "../../components/community/Doyak";
 import NumberDoyak from "../../components/community/NumberDoyak";
 import NumberComment from "../../components/community/NumberComment";
+import Modal from "../../components/home/Modal"; //Modal 컴포넌트 임포트
 import Image from "next/image";
-
+import {useRouter} from "next/router";
 // seoroApi.ts에서 API 함수 임포트
 import {
   fetchPosts,
   fetchComments,
   addDoyak,
   deletePost,
+  editPost,
 } from "@/src/apis/seoroApi";
 
 import { useUserStore } from "@/src/store/useUserStore";
@@ -52,7 +54,11 @@ const CommunityHome: React.FC = () => {
   const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
   const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 좋아요 상태 관리
 
+  const [openModal, setOpenModal] = useState(false); // 모달 상태 관리
+  const [selectedPostId, setSelectedPostId] = useState<number |null>(null); // 선택된 게시글 ID
+  
   const postRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const router = useRouter();
   
   useEffect(() => {
     const loadPosts = async () => {
@@ -163,9 +169,23 @@ const CommunityHome: React.FC = () => {
     );
   };
   
-  // 삭제 버튼 클릭 핸들러 추가
-const handleDeletePost = async (index: number, memberId: number | null, shareDoyakId: number) => {
-  if(memberId === null) {
+const handleEdit = async () => {
+  if (memberId === null || selectedPostId === null) return;
+  try {
+    // 수정 페이지로 이동
+    router.push({
+      pathname: "/community/select-picture",
+      query: { postId: selectedPostId },
+    });
+    setOpenModal(false); // 모달 닫기
+  } catch (error) {
+    console.error("게시글 수정 이동 중 오류 발생:", error);
+  }
+};
+
+ // 삭제 버튼 클릭 핸들러 추가
+ const handleDeletePost = async (index: number, shareDoyakId: number) => {
+  if (memberId === null) {
     console.error("memberId가 없습니다. 로그인을 확인해주세요");
     return;
   }
@@ -180,7 +200,9 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
   } catch (error) {
     console.error("게시글 삭제 중 오류 발생:", error);
   }
+  setOpenModal(false); // 모달 닫기
 };
+
 
   return (
     <Root>
@@ -212,9 +234,14 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
     onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
   />
   <NumberComment commentCnt={post.commentCount} />
-    <DeleteButton onClick={() => handleDeletePost(index,memberId, post.shareDoyakId)}>
-      삭제
-    </DeleteButton>
+  <MoreButton
+                  onClick={() => {
+                    setSelectedPostId(post.shareDoyakId);
+                    setOpenModal(true);
+                  }}
+                >
+                  더보기
+                </MoreButton>
 </ButtonContainer>
 
   <CommentText>{post.shareContent}</CommentText>
@@ -234,6 +261,24 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
         />
       )}
       <WriteButton />
+  {/* 더보기 모달 */}
+  {openModal && (
+        <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <ModalContent>
+            <ModalButton onClick={() => handleEdit()}>수정</ModalButton>
+            <ModalButton
+              onClick={() =>
+                handleDeletePost(
+                  selectedPostIndex,
+                  selectedPostId as number
+                )
+              }
+            >
+              삭제
+            </ModalButton>
+          </ModalContent>
+        </Modal>
+      )}
     </Root>
   );
 };
@@ -242,8 +287,8 @@ export default CommunityHome;
 
 const CommentText = styled.div``;
 
-const DeleteButton = styled.button`
-  background-color: #ff4d4f;
+const MoreButton = styled.button`
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -252,7 +297,27 @@ const DeleteButton = styled.button`
   font-size: 12px;
 
   &:hover {
-    background-color: #d9363e;
+    background-color: #0056b3;
+  }
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const ModalButton = styled.button`
+  background-color: var(--sub-green2);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #0056b3;
   }
 `;
 
