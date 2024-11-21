@@ -280,7 +280,6 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
         <Modal open={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
           <ModalContent>
             <ModalTitle>삭제</ModalTitle>
-            <ModalText>정말 삭제하시겠습니까?</ModalText>
             <ModalButton 
              onClick={() =>
              handleDeletePost(
@@ -288,7 +287,6 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
               memberId!,
               selectedPostId!
              )}>확인</ModalButton>
-            <ModalButton onClick={() => setIsDeleteModalOpen(false)}>취소</ModalButton>
           </ModalContent>
         </Modal>
       )}
@@ -327,7 +325,7 @@ const ModalContent = styled.div`
 
 const ModalButton = styled.button`
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: var(--sub-green1);
   color: white;
   border: none;
   border-radius: 5px;
