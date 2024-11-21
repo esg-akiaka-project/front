@@ -58,7 +58,7 @@ const Home: React.FC = () => {
         height={-10}
         alt="Logo"
         style={imageStyle}
-        priority={Logo ? true : false}
+        loading="lazy"
       />
       <MonthlyCalendar />
 
