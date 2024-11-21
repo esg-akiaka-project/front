@@ -14,7 +14,9 @@ import CommentButton from "../../components/community/CommentButton";
 import Doyak from "../../components/community/Doyak";
 import NumberDoyak from "../../components/community/NumberDoyak";
 import NumberComment from "../../components/community/NumberComment";
+import Modal from "../../components/community/seoroModal";
 import Image from "next/image";
+import {useRouter} from "next/router";
 
 // seoroApi.ts에서 API 함수 임포트
 import {
@@ -44,16 +46,23 @@ interface PostProps {
 }
 
 const CommunityHome: React.FC = () => {
-  const { memberId } = useUserStore();
+  const { memberId, nickname } = useUserStore();
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
   const [comments, setComments] = useState<CommentProps[]>([]); // 댓글 데이터 상태 추가
   const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
   const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 좋아요 상태 관리
+  const [openModal, setOpenModal] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [selectedPostIndexForDelete, setSelectedPostIndexForDelete] =
+    useState<number | null>(null);
 
   const postRefs = useRef<(HTMLDivElement | null)[]>([]);
-  
+  const router = useRouter();
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
+
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -82,7 +91,11 @@ const CommunityHome: React.FC = () => {
       }
     };
     loadPosts();
-  }, []);
+  }, [refreshTrigger]);
+
+  const handleRefresh = () => {
+    setRefreshTrigger(!refreshTrigger);
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -175,16 +188,18 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
 
   try {
     await deletePost(memberId, shareDoyakId);
-    setPosts((prevPosts) => prevPosts.filter((_, i) => i !== index));
+    setPosts((prevPosts) => 
+      prevPosts.filter((_, i) => i !== selectedPostIndexForDelete));
     console.log("게시글이 삭제되었습니다.");
   } catch (error) {
     console.error("게시글 삭제 중 오류 발생:", error);
   }
+  setIsDeleteModalOpen(false);
 };
 
   return (
     <Root>
-      <MainHeader />
+      <MainHeader onClick={handleRefresh} />
       {showSideHeader && <SideHeader />}
       <PostList>
         {posts.map((post, index) => (
@@ -196,6 +211,17 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
 >
   <NickName nickname={post.shareAuthorNickname} />
   <DoyakObject object={post.goalName} />
+  {nickname === post.shareAuthorNickname && (
+    <MoreButton
+                  onClick={() => {
+                    setSelectedPostId(post.shareDoyakId);
+                    setSelectedPostIndexForDelete(index);
+                    setOpenModal(true);
+                  }}
+                >
+                 ...
+                </MoreButton>
+  )}
   <MainPhoto selectedPhoto={post.shareImageUrl} />
   <ButtonContainer>
   <IconWrapper>
@@ -212,9 +238,6 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
     onClick={() => handleCommentButtonClick(index, post.shareDoyakId)}
   />
   <NumberComment commentCnt={post.commentCount} />
-    <DeleteButton onClick={() => handleDeletePost(index,memberId, post.shareDoyakId)}>
-      삭제
-    </DeleteButton>
 </ButtonContainer>
 
   <CommentText>{post.shareContent}</CommentText>
@@ -233,6 +256,42 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
           onCommentSubmitted={handleCommentSubmitted}
         />
       )}
+
+      {openModal && (
+        <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <ModalContent>
+            <ModalButton onClick={() => router.push(`/community/select-picture`)}>
+              수정
+            </ModalButton>
+            <ModalButton
+              onClick={() => {
+                setOpenModal(false);
+                setIsDeleteModalOpen(true);
+              }}
+            >
+              삭제
+            </ModalButton>
+          </ModalContent>
+        </Modal>
+      )}
+
+      
+      {isDeleteModalOpen && (
+        <Modal open={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+          <ModalContent>
+            <ModalTitle>삭제</ModalTitle>
+            <ModalText>정말 삭제하시겠습니까?</ModalText>
+            <ModalButton 
+             onClick={() =>
+             handleDeletePost(
+              selectedPostIndexForDelete!,
+              memberId!,
+              selectedPostId!
+             )}>확인</ModalButton>
+            <ModalButton onClick={() => setIsDeleteModalOpen(false)}>취소</ModalButton>
+          </ModalContent>
+        </Modal>
+      )}
       <WriteButton />
     </Root>
   );
@@ -241,6 +300,54 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
 export default CommunityHome;
 
 const CommentText = styled.div``;
+
+const MoreButton = styled.button`
+  position: absolute; /* 부모(Post) 컨테이너의 상대적 위치에 따라 배치 */
+  top: 20px; /* 위쪽에서 10px */
+  right: 20px; /* 오른쪽에서 10px */
+  background-color: #A6A6A6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+`;
+
+const ModalButton = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const ModalTitle = styled.h2`
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const ModalText = styled.p`
+  font-size: 16px;
+  color: #333;
+`;
+
 
 const DeleteButton = styled.button`
   background-color: #ff4d4f;
@@ -270,7 +377,10 @@ const Post = styled.div`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* 자식 요소를 절대 위치로 배치 가능 */
+  margin-bottom: 20px;
 `;
+
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -289,3 +399,6 @@ const IconWrapper = styled.div`
   height: 23px;
   margin-right: 8px;
 `;
+
+
+
