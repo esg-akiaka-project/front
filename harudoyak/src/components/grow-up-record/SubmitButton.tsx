@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import axios from "axios";
 
-// logsApi.ts에서 API 함수 import
 import { createPost, saveLetter } from "@/src/apis/logsApi";
+import { createLetter } from "@/src/apis/openAIApi";
 
 interface SubmitButtonProps {
   text: string;
@@ -20,39 +19,26 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   tags,
   onSuccess,
 }) => {
+  const requestData = `${emotion}, ${text}`;
+
   const handleSubmit = async () => {
-    console.log(
-      "작성된 도약 기록\n text:",
-      text,
-      "emotion:",
-      emotion,
-      "image:",
-      image,
-      "tags:",
-      tags,
-    );
     try {
+      // 도약 기록 생성
       const createPostResponse = await createPost(text, emotion, image, tags);
-      //console.log("기록 작성 성공, 서버 응답:", createPostResponse.data);
-      const logId = createPostResponse.logId;
-
-      const letterResponse = await axios.post("api/openai/letter", {
-        text: `${emotion}, ${text}`,
-      });
-
-      if (letterResponse.status === 200) {
-        const letter = letterResponse.data.letter;
-        console.log("도약이의 편지가 생성되었습니다:", letter);
-
-        await saveLetter(letter, logId);
-        console.log("도약이 편지 저장 성공!");
-
-        onSuccess();
-      } else {
-        console.error("도약이 편지 생성에 실패했습니다.");
+      const logId = createPostResponse?.logId;
+      console.log(logId);
+      if (!logId) {
+        throw new Error("logId를 생성하지 못했습니다. (createPost error)");
       }
+
+      // 도약이 편지 생성 및 저장
+      const letter = await createLetter(requestData);
+
+      await saveLetter(letter, logId);
+      console.log("도약이 편지 저장 성공!");
+      onSuccess();
     } catch (error) {
-      console.log("도약기록 저장을 실패했습니다:", error);
+      console.log("error:", error);
     }
   };
 

@@ -11,25 +11,21 @@ interface SSEProviderProps {
 const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
   const router = useRouter();
   const { memberId } = useUserStore();
-  const eventSourceRef = useRef<EventSource | null>(null); // SSE 연결 관리용 Ref
+  const eventSourceRef = useRef<EventSource | null>(null);
 
   useEffect(() => {
-    // 제외할 경로들 (로그인/회원가입 페이지)
     const excludedPaths = ["/log-in", "/sign-up"];
 
-    // 제외 경로에 포함되거나 memberId가 없는 경우에는 SSE 연결하지 않음
     if (excludedPaths.includes(router.pathname) || !memberId) {
       return;
     }
 
-    // 이미 연결되어 있는 경우 중복 연결 방지
     if (eventSourceRef.current) {
       return;
     }
 
-    // SSE 연결 설정
     const eventSource = new EventSource(
-      `https://harudoyak.site/api/notification/subscribe/${memberId}`,
+      `https://harudoyak.site/api/notification/subscribe/${memberId}`
     );
     eventSourceRef.current = eventSource;
 
@@ -51,14 +47,14 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
 
     eventSource.onerror = (error) => {
       console.error("Error with SSE connection:", error);
-      eventSource.close(); // 오류 발생 시 연결 닫기
-      eventSourceRef.current = null; // Ref 초기화
+      eventSource.close();
+      eventSourceRef.current = null;
     };
 
     return () => {
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
-        eventSourceRef.current = null; // 컴포넌트 언마운트 시 연결 닫기
+        eventSourceRef.current = null;
       }
     };
   }, [memberId, router.pathname]);
@@ -74,7 +70,7 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
         `https://harudoyak.site/api/notification/add?memberId=${memberId}&content=테스트 알림입니다.`,
         {
           method: "post", // 서버의 `add` 엔드포인트에서 GET 요청을 사용하는 것 같아서 GET으로 설정
-        },
+        }
       );
 
       if (response.ok) {
@@ -89,7 +85,7 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
   return (
     <>
       {children}
-      <button onClick={sendTestNotification}>테스트 알림 보내기</button>
+      {/* <button onClick={sendTestNotification}>테스트 알림 보내기</button> */}
       <ToastContainer />
     </>
   );

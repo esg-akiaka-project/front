@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 import iconReload from "../../../public/assets/common/icon_reload.svg";
 import Image from "next/image";
+import { createTags } from "@/src/apis/openAIApi";
 
 interface ReloadButtonProps {
   text: string;
@@ -14,24 +14,19 @@ const ReloadButton: React.FC<ReloadButtonProps> = ({ text, updateTags }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post("/api/openai/keywords", { text });
-
-      if (response.status === 200) {
-        if (index >= 3) {
-          return alert("도약태그는 최대 3번까지 재설정 가능합니다.");
-        } else {
-          const tags = response.data.keywords;
-          updateTags(tags);
-          console.log(tags);
-        }
+      const tagsReloadData = await createTags(text);
+      if (index >= 3) {
+        return alert("도약태그는 최대 3번까지 재설정 가능합니다.");
       } else {
-        console.error("태그 키워드를 가져오는 데 실패했습니다.");
+        const tags = tagsReloadData;
+        updateTags(tags);
+        console.log("reload된 태그:", tags);
+        setIndex(index + 1);
+        console.log(index + "번째 호출");
       }
     } catch (error) {
       console.error("error: ", error);
     }
-    setIndex(index + 1);
-    console.log(index + "번째 호출");
   };
 
   return (

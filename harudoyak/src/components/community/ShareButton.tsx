@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import useCommunityStore from '../../store/useCommunityStore';
 import { createPost } from '@/src/apis/seoroApi';
-import { uploadToS3Seoro } from '@/src/apis/uploadToS3Seoro';
+import { uploadToS3 } from '@/src/apis/uploadToS3';
 
 interface ShareButtonProps {
   onClick?: () => void;
@@ -29,7 +29,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ onClick }) => {
         }
     
         // S3에 파일 업로드
-        const uploadedUrl = await uploadToS3Seoro(file); // File을 전달하여 S3에 업로드
+        const uploadedUrl = await uploadToS3(file); // File을 전달하여 S3에 업로드
     
         console.log('Uploaded URL:', uploadedUrl);
     
