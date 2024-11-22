@@ -250,7 +250,7 @@ const handleDeletePost = async (index: number, memberId: number | null, shareDoy
       {openModal && (
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <ModalContent>
-            <ModalButton onClick={() => router.push(`/community/select-picture`)}>
+            <ModalButton onClick={() => router.push(`/community/edit-picture`)}>
               수정
             </ModalButton>
             <ModalButton

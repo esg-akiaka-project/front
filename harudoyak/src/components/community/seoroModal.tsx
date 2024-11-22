@@ -9,6 +9,7 @@ type propTypes = {
 
 const Background = styled.div`
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -18,6 +19,7 @@ const Background = styled.div`
 
 const ModalSection = styled.div`
   position: fixed;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

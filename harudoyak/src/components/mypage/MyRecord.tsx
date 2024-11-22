@@ -16,6 +16,7 @@ const MyRecord: React.FC = () => {
     { title: "하루도약 연속일", value: recentContinuity },
     { title: "전체 하루도약", value: shareDoyakCount },
     { title: "최장 연속일", value: maxContinuity },
+    { title: "나의 서로도약", value: shareDoyakCount },
   ];
 
   return (

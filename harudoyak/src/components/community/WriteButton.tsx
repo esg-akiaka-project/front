@@ -19,6 +19,7 @@ const Button = styled.button`
   align-items: center;
   font-size: 0.875rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10; //modal보다 낮은 값
 `;
 
 const WriteButton: React.FC = () => {
