@@ -85,7 +85,7 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
   return (
     <>
       {children}
-      <button onClick={sendTestNotification}>테스트 알림 보내기</button>
+      {/* <button onClick={sendTestNotification}>테스트 알림 보내기</button> */}
       <ToastContainer />
     </>
   );

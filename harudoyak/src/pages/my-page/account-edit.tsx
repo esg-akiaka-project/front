@@ -11,13 +11,16 @@ import { useUserStore } from "@/src/store/useUserStore";
 import { useRouter } from "next/router";
 import { uploadToS3 } from "@/src/apis/uploadToS3";
 import { changeProfileImg } from "@/src/apis/authApi";
+import CropBoxModal from "@/src/components/mypage/CropBoxModal";
 
 const AccountEdit: React.FC = () => {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [oldnickname, setOldNickname] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [oldPassword, setOldpassword] = useState<string>("");
-  const { nickname, setNickname, clearToken, setProfileImage } = useUserStore();
+  const { setNickname, clearToken, setProfileImage } = useUserStore();
 
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -62,15 +65,21 @@ const AccountEdit: React.FC = () => {
   ) => {
     const file = event?.target.files?.[0];
     if (file) {
-      try {
-        const photoUrl = await uploadToS3(file);
-        console.log("Photo Url:", photoUrl);
-        setProfileImage(photoUrl);
-        const response = await changeProfileImg(photoUrl);
-      } catch (error) {
-        console.error("이미지 파일 업로드 중 에러 발생:", error);
-        alert("이미지 파일 업로드에 실패했습니다. 서버 상태를 확인해 주세요.");
-      }
+      setSelectedImage(file);
+      setIsModalOpen(true); // 모달 열기
+    }
+  };
+
+  const handleCropComplete = async (croppedImageBlob: File) => {
+    try {
+      const photoUrl = await uploadToS3(croppedImageBlob);
+      console.log("Photo Url:", photoUrl);
+      setProfileImage(photoUrl);
+      await changeProfileImg(photoUrl);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("크롭된 이미지 업로드 중 오류 발생:", error);
+      alert("크롭된 이미지 업로드에 실패했습니다. 서버 상태를 확인해 주세요.");
     }
   };
 
@@ -135,6 +144,13 @@ const AccountEdit: React.FC = () => {
       <SavePasswordButton onClick={savePassword}>
         비밀번호 변경
       </SavePasswordButton>
+      {isModalOpen && selectedImage && (
+        <CropBoxModal
+          imageFile={selectedImage}
+          onCropComplete={handleCropComplete}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </Root>
   );
 };
