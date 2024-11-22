@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 interface EmotionProps {
   emotions: Record<string, number>;
+  type: string;
 }
 
-const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
+const EmotionDiv: React.FC<EmotionProps> = ({ emotions, type }) => {
   const emotionMapping: Record<string, string> = {
     hearts: "love",
     laughing: "happy",
@@ -27,24 +28,30 @@ const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
   return (
     <EmotionContainer>
       {mainEmotion && (
-        <MainEmotion>
+        <MainEmotion type={type}>
           <EmotionImage
+            type={type}
             src={`/assets/grow-up-record/${mainEmotion[0]}.svg`}
             alt={String(mainEmotion[0])}
           />
         </MainEmotion>
       )}
-      <EmotionList $numEmotions={otherEmotions.length}>
-        {otherEmotions.map(([emotion, count], index) => (
-          <EmotionItem key={index}>
-            <EmotionImageSmall
-              src={`/assets/grow-up-record/${emotion}.svg`}
-              alt={String(mainEmotion[0])}
-            />
-            <EmotionCount>{count}</EmotionCount>
-          </EmotionItem>
-        ))}
-      </EmotionList>
+
+      {/* 오늘의 도약 기록에서는 감정 리스트를 출력하지 않음 
+      -> type이 "Today"가 아닐 때만 EmotionList를 출력할 수 있도록 조건부 렌더링 */}
+      {type !== "Today" && (
+        <EmotionList $numEmotions={otherEmotions.length}>
+          {otherEmotions.map(([emotion, count], index) => (
+            <EmotionItem key={index}>
+              <EmotionImageSmall
+                src={`/assets/grow-up-record/${emotion}.svg`}
+                alt={String(mainEmotion[0])}
+              />
+              <EmotionCount index={index}>{count}</EmotionCount>
+            </EmotionItem>
+          ))}
+        </EmotionList>
+      )}
     </EmotionContainer>
   );
 };
@@ -54,21 +61,25 @@ export default EmotionDiv;
 const EmotionContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 1rem;
   background-color: #f2f6f3;
   border-radius: 1rem;
 `;
 
-const MainEmotion = styled.div`
+const MainEmotion = styled.div<{ type: string }>`
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: ${({ type }) =>
+    type === "Today" ? "flex-start" : "center"};
   align-items: center;
 `;
 
-const EmotionImage = styled.img`
-  width: 80px;
-  height: 80px;
+const EmotionImage = styled.img<{ type: string }>`
+  width: ${({ type }) => (type === "Today" ? "55px" : "90px")};
+  height: ${({ type }) => (type === "Today" ? "55px" : "90px")};
+  margin: ${({ type }) => (type === "Today" ? "16px" : "")};
+  margin-bottom: ${({ type }) => (type === "Today" ? "30px" : "")};
+  transform: ${({ type }) => (type === "Today" ? "" : "translateX(-25%)")};
+  filter: drop-shadow(0px 0px 25px rgba(125, 180, 157, 0.6));
 `;
 
 const EmotionList = styled.div<{ $numEmotions: number }>`
@@ -78,6 +89,7 @@ const EmotionList = styled.div<{ $numEmotions: number }>`
   gap: 0.5rem;
   justify-items: center;
   align-items: center;
+  margin-right: 15px;
 `;
 
 const EmotionItem = styled.div`
@@ -85,7 +97,8 @@ const EmotionItem = styled.div`
   align-items: center;
   background-color: #ffffff;
   border-radius: 1rem;
-  padding: 0.3rem 0.6rem;
+  padding: 0.25rem 0.9rem;
+  gap: 0.7rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
@@ -94,8 +107,10 @@ const EmotionImageSmall = styled.img`
   height: 24px;
 `;
 
-const EmotionCount = styled.span`
+const EmotionCount = styled.span<{ index: number }>`
   margin-left: 0.4rem;
-  font-size: 0.9rem;
-  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  color: ${({ index }) =>
+    index === 0 ? "var(--main-green)" : "var(--sub-green3)"};
 `;
