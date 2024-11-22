@@ -55,8 +55,8 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
             });
             setWeeklyTags(
               record["tagNameList"]?.map(
-                (tag: { tagName: string }) => tag.tagName
-              ) || []
+                (tag: { tagName: string }) => tag.tagName,
+              ) || [],
             );
             setEmotion({
               [record["emotion"]]: 1,
@@ -68,7 +68,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
               day: record["letterCreationDate"]
                 ? format(
                     new Date(record["letterCreationDate"]),
-                    "EEE"
+                    "EEE",
                   ).toUpperCase()
                 : undefined,
               content:
