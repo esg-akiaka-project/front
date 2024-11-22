@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     --white-from-grayscale: #ffffff;
     --gray-from-grayscale: #A6A6A6;
     --darkgray-from-grayscale: #6d6d6d;
+    font-family: Inter;
   }
 
   /* 기본적인 HTML 요소의 초기화 */
@@ -25,22 +26,26 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+    font-family: Inter;
   }
 
   /* 블록 요소 */
   article, aside, footer, header, nav, section {
     display: block;
+    font-family: Inter;
   }
 
   /* 목록 스타일 초기화 */
   ol, ul {
     list-style: none;
+    font-family: Inter;
   }
 
   /* 링크 스타일 초기화 */
   a {
     text-decoration: none;
     color: var(--link-color);
+    font-family: Inter;
     &:hover {
       color: darken(var(--link-color), 10%);
     }
@@ -51,21 +56,25 @@ const GlobalStyle = createGlobalStyle`
     max-width: 100%;
     height: auto;
     display: block;
+    font-family: Inter;
   }
 
   button {
     all: unset;
+    font-family: Inter;
   }
 
   table {
     border-collapse: collapse;
     width: 100%;
+    font-family: Inter;
   }
 
   th, td {
     padding: 0.5rem;
     text-align: left;
     border: 1px solid #ddd;
+    font-family: Inter;
   }
 
   /* 모든 요소에 대해 box-sizing을 border-box로 설정 */
