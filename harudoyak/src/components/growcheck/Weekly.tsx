@@ -25,7 +25,7 @@ const Weekly: React.FC<WeeklyProps> = ({
   onWeekChange,
 }) => {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
-    startOfWeek(selectedDate, { weekStartsOn: 1 })
+    startOfWeek(selectedDate, { weekStartsOn: 1 }),
   );
 
   useEffect(() => {
@@ -73,7 +73,11 @@ const Weekly: React.FC<WeeklyProps> = ({
 
   return (
     <WeekContainer>
-      <ArrowButton onClick={handlePrevWeek} disabled={isFirstWeekOfMonth()}>
+      <ArrowButton
+        onClick={handlePrevWeek}
+        disabled={isFirstWeekOfMonth()}
+        style={{ marginLeft: "3px" }}
+      >
         {"<"}
       </ArrowButton>
       {weekDates.map((dayInfo, index) => (
@@ -89,7 +93,11 @@ const Weekly: React.FC<WeeklyProps> = ({
           <DateText>{dayInfo.formattedDate}</DateText>
         </DayBox>
       ))}
-      <ArrowButton onClick={handleNextWeek} disabled={isLastWeekOfMonth()}>
+      <ArrowButton
+        onClick={handleNextWeek}
+        disabled={isLastWeekOfMonth()}
+        style={{ marginRight: "3px" }}
+      >
         {">"}
       </ArrowButton>
     </WeekContainer>
@@ -102,9 +110,10 @@ const WeekContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
-  padding: 8px 16px;
+  margin-top: 11px;
+  padding: 8px 4px;
   border-radius: 8px;
+  margin-bottom: 10px;
 `;
 
 const DayBox = styled.div<{ $isSelected: boolean | null }>`
@@ -115,27 +124,27 @@ const DayBox = styled.div<{ $isSelected: boolean | null }>`
   ${({ $isSelected }) =>
     $isSelected
       ? `
-    border-radius: 0.6rem;
-    background-color: white; 
-    // border: 1px solid #4caf50; 
-    width: 8%
+    border-radius: 0.5rem;
+    background-color: rgba(1000,1000,1000,0.5); 
+    width: 10%;
     `
-      : `width: 8%
-  
+      : `width: 10%
   `}
 `;
 
 const Day = styled.span`
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
+  font-size: 12px;
+  color: var(--darkgray-from-grayscale);
+  margin-top: 4px;
 `;
 
 const DateText = styled.span`
-  font-size: 12px;
+  font-size: 13px;
   color: #666;
-  margin-top: 4px;
+  margin-top: 8px;
+  margin-bottom: 6px;
   font-weight: 1000;
+  padding: 0;
 `;
 
 const ArrowButton = styled.button`
@@ -143,10 +152,9 @@ const ArrowButton = styled.button`
   border: none;
   font-size: 20px;
   cursor: pointer;
-  color: #333;
-
+  color: var(--darkgray-from-grayscale);
   &:disabled {
-    color: #ccc; /* 비활성화된 버튼 색상 */
+    color: var(--gray-from-grayscale); /* 비활성화된 버튼 색상 */
     cursor: not-allowed;
   }
 

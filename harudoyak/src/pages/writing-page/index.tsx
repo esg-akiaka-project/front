@@ -16,7 +16,7 @@ const WritingPage: React.FC = () => {
   const { text, updateText, prevText, updatePrevText } = usePostDataContext();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const [showModal, setShowModal] = useState(false);
-  const [isModified, setIsModified] = useState(true);
+  //const [isModified, setIsModified] = useState(true);
 
   // 입력되는 텍스트 길이에 따라 Textarea의 높이 조정
   const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

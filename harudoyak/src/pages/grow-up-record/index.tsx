@@ -77,9 +77,9 @@ const GrowUpRecordHome: React.FC = () => {
         {tags && tags.length > 0 ? (
           <Tags tagslist={tags} />
         ) : (
-          <P>아직 출력된 태그가 없습니다.</P>  
+          <P>아직 출력된 태그가 없습니다.</P>
         )}
-        <ReloadButton text={text} updateTags={updateTags} /> 
+        <ReloadButton text={text} updateTags={updateTags} />
       </FlexWrapper>
       {isReadyToSubmit && (
         <SubmitButton

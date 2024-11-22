@@ -45,7 +45,7 @@ export const fetchPosts = async () => {
 export const fetchPostDetail = async (shareDoyakId: number) => {
   try {
     const response = await axiosInstance.get(`/posts/detail/${shareDoyakId}`);
-    console.log("게시글 세부 정보 불러오기 성공");
+    console.log("게시글 세부 정보 불러오기 성공", response);
     return response.data;
   } catch (error) {
     console.error("게시글 세부 정보 불러오기 실패:", error);

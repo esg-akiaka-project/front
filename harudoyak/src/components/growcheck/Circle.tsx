@@ -17,9 +17,9 @@ const StyledCircle = styled.div`
   justify-content: center;
   border-radius: 3rem;
   background-color: white;
-  width: 1.3rem;
-  height: 1.3rem;
-  font-size: 1rem;
+  font-size: 0.7rem;
   font-weight: bold;
-  color: #3c7960;
+  text-align: center;
+  padding: 2px 8px;
+  color: var(--darkgray-from-grayscale);
 `;
