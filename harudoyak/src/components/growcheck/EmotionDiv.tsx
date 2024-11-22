@@ -47,7 +47,7 @@ const EmotionDiv: React.FC<EmotionProps> = ({ emotions, type }) => {
                 src={`/assets/grow-up-record/${emotion}.svg`}
                 alt={String(mainEmotion[0])}
               />
-              <EmotionCount>{count}</EmotionCount>
+              <EmotionCount index={index}>{count}</EmotionCount>
             </EmotionItem>
           ))}
         </EmotionList>
@@ -74,11 +74,12 @@ const MainEmotion = styled.div<{ type: string }>`
 `;
 
 const EmotionImage = styled.img<{ type: string }>`
-  width: ${({ type }) => (type === "Today" ? "55px" : "80px")};
-  height: ${({ type }) => (type === "Today" ? "55px" : "80px")};
+  width: ${({ type }) => (type === "Today" ? "55px" : "90px")};
+  height: ${({ type }) => (type === "Today" ? "55px" : "90px")};
   margin: ${({ type }) => (type === "Today" ? "16px" : "")};
   margin-bottom: ${({ type }) => (type === "Today" ? "30px" : "")};
-
+  transform: ${({ type }) => (type === "Today" ? "" : "translateX(-25%)")};
+  filter: drop-shadow(0px 0px 25px rgba(125, 180, 157, 0.6));
 `;
 
 const EmotionList = styled.div<{ $numEmotions: number }>`
@@ -88,6 +89,7 @@ const EmotionList = styled.div<{ $numEmotions: number }>`
   gap: 0.5rem;
   justify-items: center;
   align-items: center;
+  margin-right: 15px;
 `;
 
 const EmotionItem = styled.div`
@@ -95,7 +97,8 @@ const EmotionItem = styled.div`
   align-items: center;
   background-color: #ffffff;
   border-radius: 1rem;
-  padding: 0.3rem 0.6rem;
+  padding: 0.25rem 0.9rem;
+  gap: 0.7rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
@@ -104,8 +107,10 @@ const EmotionImageSmall = styled.img`
   height: 24px;
 `;
 
-const EmotionCount = styled.span`
+const EmotionCount = styled.span<{ index: number }>`
   margin-left: 0.4rem;
-  font-size: 0.9rem;
-  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  color: ${({ index }) =>
+    index === 0 ? "var(--main-green)" : "var(--sub-green3)"};
 `;
