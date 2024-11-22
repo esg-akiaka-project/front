@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import * as S from "./Feel.style";
 import EmotionDiv from "./EmotionDiv";
 import Tags from "./Tags";
 //import Tags from '../components/'
@@ -53,37 +53,16 @@ const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
     fetchMonthly();
   }, [selectedDate]);
   return (
-    <Container>
-      <SectionTitle>이번 달의 감정</SectionTitle>
-      <EmotionDiv emotions={emotion} />
-      <SectionTitle>이번 달 도약태그</SectionTitle>
+    <S.Container>
+      <S.SectionTitle>이번 달의 감정</S.SectionTitle>
+      <EmotionDiv emotions={emotion} type="Month" />
+      <S.SectionTitle>이번 달 도약태그</S.SectionTitle>
       <Tags tags={monthTags} />
-      <ParellelWrapper>
-        <SectionTitle>이번 달 하루도약</SectionTitle>
+      <S.ParellelWrapper>
+        <S.SectionTitle>이번 달 하루도약</S.SectionTitle>
         <Circle number={aiFeedbackCount}></Circle>
-      </ParellelWrapper>
-    </Container>
+      </S.ParellelWrapper>
+    </S.Container>
   );
 };
 export default MonthFeel;
-
-const Container = styled.div`
-  background-color: #f2f6f3;
-  border-radius: 2rem 2rem 0 0;
-  padding: 1.5rem;
-  min-height: 100vh;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 2rem;
-`;
-const SectionTitle = styled.h2`
-  font-size: 1.6rem;
-  color: #3c7960;
-  margin-bottom: 1rem;
-`;
-const ParellelWrapper = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  gap: 1rem;
-`;

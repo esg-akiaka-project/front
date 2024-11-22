@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 interface EmotionProps {
   emotions: Record<string, number>;
+  type: string;
 }
 
-const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
+const EmotionDiv: React.FC<EmotionProps> = ({ emotions, type }) => {
   const emotionMapping: Record<string, string> = {
     hearts: "love",
     laughing: "happy",
@@ -27,24 +28,30 @@ const EmotionDiv: React.FC<EmotionProps> = ({ emotions }) => {
   return (
     <EmotionContainer>
       {mainEmotion && (
-        <MainEmotion>
+        <MainEmotion type={type}>
           <EmotionImage
+            type={type}
             src={`/assets/grow-up-record/${mainEmotion[0]}.svg`}
             alt={String(mainEmotion[0])}
           />
         </MainEmotion>
       )}
-      <EmotionList $numEmotions={otherEmotions.length}>
-        {otherEmotions.map(([emotion, count], index) => (
-          <EmotionItem key={index}>
-            <EmotionImageSmall
-              src={`/assets/grow-up-record/${emotion}.svg`}
-              alt={String(mainEmotion[0])}
-            />
-            <EmotionCount>{count}</EmotionCount>
-          </EmotionItem>
-        ))}
-      </EmotionList>
+
+      {/* 오늘의 도약 기록에서는 감정 리스트를 출력하지 않음 
+      -> type이 "Today"가 아닐 때만 EmotionList를 출력할 수 있도록 조건부 렌더링 */}
+      {type !== "Today" && (
+        <EmotionList $numEmotions={otherEmotions.length}>
+          {otherEmotions.map(([emotion, count], index) => (
+            <EmotionItem key={index}>
+              <EmotionImageSmall
+                src={`/assets/grow-up-record/${emotion}.svg`}
+                alt={String(mainEmotion[0])}
+              />
+              <EmotionCount>{count}</EmotionCount>
+            </EmotionItem>
+          ))}
+        </EmotionList>
+      )}
     </EmotionContainer>
   );
 };
@@ -54,21 +61,24 @@ export default EmotionDiv;
 const EmotionContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 1rem;
   background-color: #f2f6f3;
   border-radius: 1rem;
 `;
 
-const MainEmotion = styled.div`
+const MainEmotion = styled.div<{ type: string }>`
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: ${({ type }) =>
+    type === "Today" ? "flex-start" : "center"};
   align-items: center;
 `;
 
-const EmotionImage = styled.img`
-  width: 80px;
-  height: 80px;
+const EmotionImage = styled.img<{ type: string }>`
+  width: ${({ type }) => (type === "Today" ? "55px" : "80px")};
+  height: ${({ type }) => (type === "Today" ? "55px" : "80px")};
+  margin: ${({ type }) => (type === "Today" ? "16px" : "")};
+  margin-bottom: ${({ type }) => (type === "Today" ? "30px" : "")};
+
 `;
 
 const EmotionList = styled.div<{ $numEmotions: number }>`

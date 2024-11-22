@@ -46,7 +46,7 @@ const GrowUpRecordHome: React.FC = () => {
     if (hasTodayLog()) {
       setShowBackModal(true);
     }
-  }, []);
+  }, [hasTodayLog]);
 
   return (
     <Root>
