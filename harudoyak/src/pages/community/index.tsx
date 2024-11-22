@@ -52,7 +52,6 @@ const CommunityHome: React.FC = () => {
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
   const [comments, setComments] = useState<CommentProps[]>([]); // 댓글 데이터 상태 추가
   const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
-  const [likedPosts, setLikedPosts] = useState<Record<number, boolean>>({}); // 좋아요 상태 관리
   const [openModal, setOpenModal] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
@@ -71,21 +70,17 @@ const CommunityHome: React.FC = () => {
           shareDoyakId: post.shareDoyakId,
           shareImageUrl: post.shareImageUrl,
           shareContent: post.shareContent,
-          doyakCount: post.doyakCount,
+          doyakCount: post.doyakCount, // 서버에서 최신 도약수 반영
           commentCount: post.commentCount,
           shareAuthorNickname: post.shareAuthorNickname,
           goalName: post.goalName,
           resComments: post.resComments,
 
         }));
-
+        
         setPosts(formattedData);
-        // LikedPosts 초기화
-        const initialLikedPosts = formattedData.reduce((acc: Record<number,boolean>,post: PostProps) => {
-          acc[post.shareDoyakId] = post.doyakCount > 0; // doyakCount가 0보다 크면 true로 설정
-          return acc;
-        }, {} as Record<number,boolean>);
-        setLikedPosts(initialLikedPosts); // LikedPosts 초기화
+        console.log("게시글 데이터 성공:", formattedData.doyakCount); // 서버에서 최신 도약수 반영);
+        console.log("게시글 데이터 성공:", formattedData); // 서버에서 최신 도약수 반영);
       } catch (error) {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
       }
@@ -136,9 +131,8 @@ const CommunityHome: React.FC = () => {
   };
 
   const handleDoyakCount = async (index: number, shareDoyakId: number) => {
-    if (memberId === null) return;
-    const isLiked = likedPosts[shareDoyakId] || false;
-
+    if (!memberId) return;
+    
     try {
       const response = await addDoyak(memberId, shareDoyakId);
       const updatedDoyakCount = response.doyakCount; // 서버에서 반환된 도약수
@@ -150,10 +144,6 @@ const CommunityHome: React.FC = () => {
             : post
         )
       );
-      setLikedPosts((prevLikedPosts) => ({
-        ...prevLikedPosts,
-        [shareDoyakId]: !isLiked,
-      }));
     } catch (error) {
       console.error("좋아요 업데이트 중 오류 발생:", error);
     }
