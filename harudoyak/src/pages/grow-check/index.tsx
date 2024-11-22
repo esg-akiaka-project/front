@@ -8,6 +8,7 @@ import Weekly from "@/src/components/growcheck/Weekly";
 import TodayFeel from "@/src/components/growcheck/TodayFeel";
 import WeekFeel from "@/src/components/growcheck/WeekFeel";
 import MonthFeel from "@/src/components/growcheck/MonthFeel";
+import TitleModal2 from "@/src/components/growcheck/TitleModal2";
 
 import { useRouter } from "next/router";
 import { startOfWeek } from "date-fns";
@@ -20,6 +21,8 @@ const GrowCheckHome: React.FC = () => {
   const [selectedMode, setSelectedMode] = useState<"Month" | "Week">("Week");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (router.isReady && router.query.dayToSelect) {
@@ -87,7 +90,8 @@ const GrowCheckHome: React.FC = () => {
         />
       ) : null}
       {renderContent()}
-      <WritingEntryButton />
+      <WritingEntryButton onFail={() => setShowModal(true)} />
+      {showModal && <TitleModal2 onClose={() => setShowModal(false)} />}
     </GrowCheckWrapper>
   );
 };

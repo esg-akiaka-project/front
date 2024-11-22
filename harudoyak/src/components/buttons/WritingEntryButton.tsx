@@ -13,7 +13,11 @@ import iconPencil from "../../../public/assets/common/icon_pencil.svg";
 import { usePostDataContext } from "@/src/context/PostDataContext";
 import useLogsStore from "@/src/store/useLogStore";
 
-const WritingEntryButton: React.FC = () => {
+interface WritingEntryButtonProps {
+  onFail: () => void;
+}
+
+const WritingEntryButton: React.FC<WritingEntryButtonProps> = ({ onFail }) => {
   // 오늘 날짜로 작성된 log가 있는지 확인
   const getLogByDate = useLogsStore((state) => state.getLogByDate);
   const todayDate = new Date().toISOString().split("T")[0];
@@ -25,6 +29,7 @@ const WritingEntryButton: React.FC = () => {
     const logId = getLogByDate(todayDate);
     if (logId) {
       console.log("오늘의 도약기록이 있습니다!");
+      onFail();
     } else {
       console.log("오늘의 로그가 없습니다.");
       resetPostData();
@@ -70,12 +75,4 @@ const ContentWrapper = styled.div`
   width: 30px;
   height: 30px;
   justify-content: center;
-`;
-
-const Text = styled.p`
-  font-size: 0.94rem;
-  font-weight: bold;
-  color: #ffffff;
-  padding: 0px;
-  margin: 0px;
 `;
