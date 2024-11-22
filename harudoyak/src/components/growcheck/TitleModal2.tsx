@@ -1,11 +1,23 @@
 import * as S from "../home/Modal.style";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 interface TitleModal2Props {
   onClose: () => void;
+  shouldGoBack?: boolean;
 }
 
-const TitleModal2: React.FC<TitleModal2Props> = ({ onClose }) => {
+const TitleModal2: React.FC<TitleModal2Props> = ({ onClose, shouldGoBack }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (shouldGoBack) {
+      router.back(); // path가 있으면 이전으로 이동
+    } else {
+      onClose();
+    }
+  };
+
   return (
     <>
       <S.Background />
@@ -15,7 +27,7 @@ const TitleModal2: React.FC<TitleModal2Props> = ({ onClose }) => {
           도약기록은 하루에 한 개만 작성할 수 있어요. <br />
           내일 작성해 주세요.
         </S.Detail>
-        <Button type="button" onClick={onClose}>
+        <Button type="button" onClick={handleClick}>
           닫기
         </Button>
       </S.ModalSection>

@@ -52,7 +52,7 @@ export default Dropdown;
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
-  z-index: 1000;
+  z-index: 1;
 `;
 
 const DropdownButton = styled.button`

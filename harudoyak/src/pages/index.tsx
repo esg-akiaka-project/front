@@ -9,13 +9,14 @@ import { changeAiname, changeGoal } from "../apis/authApi";
 import Logo from "@/public/assets/common/DoyakiLogo.svg";
 import { useUserStore } from "../store/useUserStore";
 import Image from "next/image";
+import TitleModal2 from "../components/growcheck/TitleModal2";
 
 const Home: React.FC = () => {
   const { goalName, setAiName, setGoalName, memberId, nickname, aiName } =
     useUserStore();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-
+  const [showModal2, setShowModal2] = useState(false);
   useEffect(() => {
     if (memberId && (aiName === "도약이" || !goalName)) {
       setShowModal(true);
@@ -70,10 +71,11 @@ const Home: React.FC = () => {
           <LoginButton />
         </FixedWrapper>
       ) : (
-        <WritingEntryButton />
+        <WritingEntryButton onFail={() => setShowModal2(true)} />
       )}
 
       {showModal && <BeginningSetting onSave={handleSave} />}
+      {showModal2 && <TitleModal2 onClose={() => setShowModal2(false)} />}
     </Root>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -12,6 +12,8 @@ import Tags from "../../components/common/Tags";
 import Tooltip from "../../components/common/Tooltip";
 import iconTooltip from "../../../public/assets/common/icon_tooltip.svg";
 import iconX from "../../../public/assets/common/icon_X.svg";
+import { useTodayLog } from "@/src/hooks/useTodayLog";
+import TitleModal2 from "@/src/components/growcheck/TitleModal2";
 
 import {
   DoneModal,
@@ -26,7 +28,13 @@ const GrowUpRecordHome: React.FC = () => {
   const { text, image, emotion, tags, updateImage, updateEmotion, updateTags } =
     usePostDataContext();
 
+  const hasTodayLog = useTodayLog();
+
   const [isTooltipOpened, setIsTooltipOpened] = useState<boolean>(false);
+  const [showDoneModal, setShowDoneModal] = useState(false);
+  const [showBackModal, setShowBackModal] = useState(false);
+
+  const isReadyToSubmit = text && emotion && tags && tags.length > 0;
 
   const handleTooltip = (): void => {
     return isTooltipOpened
@@ -34,8 +42,11 @@ const GrowUpRecordHome: React.FC = () => {
       : setIsTooltipOpened(true);
   };
 
-  const [showModal, setShowModal] = useState(false);
-  const isReadyToSubmit = text && emotion && tags && tags.length > 0;
+  useEffect(() => {
+    if (hasTodayLog()) {
+      setShowBackModal(true);
+    }
+  }, []);
 
   return (
     <Root>
@@ -87,10 +98,16 @@ const GrowUpRecordHome: React.FC = () => {
           image={image}
           emotion={emotion}
           tags={tags}
-          onSuccess={() => setShowModal(true)}
+          onSuccess={() => setShowDoneModal(true)}
         />
       )}
-      {showModal && <DoneModal />}
+      {showDoneModal && <DoneModal />}
+      {showBackModal && (
+        <TitleModal2
+          onClose={() => setShowBackModal(false)}
+          shouldGoBack={true}
+        />
+      )}
     </Root>
   );
 };
