@@ -7,6 +7,7 @@ import { PhotoGrid } from "../../components/community/PhotoGrid";
 import { MainPhoto } from "../../components/community/MainPhoto";
 import Root from "../../style/Root";
 import useCommunityStore from "../../store/useCommunityStore";
+import { editPost } from "@/src/apis/seoroApi";
 
 const SelectPicture: React.FC = () => {
   const { selectedPhoto, setSelectedPhoto } = useCommunityStore();
