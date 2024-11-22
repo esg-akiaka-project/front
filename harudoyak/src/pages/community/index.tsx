@@ -101,12 +101,12 @@ const CommunityHome: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isCommentOpen) {
+    if (openModal || isDeleteModalOpen || isCommentOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [isCommentOpen]);
+  }, [openModal, isDeleteModalOpen, isCommentOpen]);
 
   // 댓글 열기 및 특정 게시글로 스크롤 이동
   const handleCommentButtonClick = async (
