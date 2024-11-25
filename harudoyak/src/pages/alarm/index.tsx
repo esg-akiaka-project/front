@@ -7,7 +7,7 @@ import AlarmListContainer from "../../components/alarm/AlarmListContainer";
 import AlarmImportData from "../../components/alarm/AlarmImportData";
 import { AlarmData } from "../../components/alarm/AlarmDataTypes";
 
-const AlarmHome: React.FC = () => {
+const AlarmHome: React.FC = () => { 
   const router = useRouter();
   const [ActiveTab, setActiveTab] = useState<string>("Record");
   const [GeneralAlarmData, setGeneralAlarmData] = useState<AlarmData[]>([]);

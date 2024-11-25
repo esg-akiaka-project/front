@@ -5,7 +5,7 @@ import TapButton from "./TapbuttonSet"; // TapButtonSet 임포트
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   margin-top: 50px;
 `;
 
