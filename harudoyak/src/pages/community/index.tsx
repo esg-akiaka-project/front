@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-
 import MainHeader from "../../components/community/MainHeader";
 import { MainPhoto } from "../../components/community/MainPhoto";
 import WriteButton from "../../components/community/WriteButton";
-import Root from "../../style/Root";
-import SideHeader from "@/src/components/community/SideHeader";
+//import SideHeader from "@/src/components/community/SideHeader";
 import CommentSection from "../../components/community/CommentSection";
 import NickName from "../../components/community/NickName";
 import DoyakObject from "../../components/community/DoyakObject";
 import CommentButton from "../../components/community/CommentButton";
-import Doyak from "../../components/community/Doyak";
 import NumberDoyak from "../../components/community/NumberDoyak";
 import NumberComment from "../../components/community/NumberComment";
 import Modal from "../../components/community/seoroModal";
@@ -23,7 +20,6 @@ import {
   fetchComments,
   addDoyak,
   deletePost,
-  checkDoyak,
 } from "@/src/apis/seoroApi";
 
 import { useUserStore } from "@/src/store/useUserStore";
@@ -51,7 +47,7 @@ const CommunityHome: React.FC = () => {
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const [selectedPostIndex, setSelectedPostIndex] = useState<number>(0);
   const [comments, setComments] = useState<CommentProps[]>([]); // 댓글 데이터 상태 추가
-  const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
+  //const [showSideHeader, setShowSideHeader] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
@@ -92,13 +88,13 @@ const CommunityHome: React.FC = () => {
     setRefreshTrigger(!refreshTrigger);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowSideHeader(window.scrollY > 100);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // useEffect(() => {
+  //   // const handleScroll = () => {
+  //   //   setShowSideHeader(window.scrollY > 100);
+  //   // };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   useEffect(() => {
     if (openModal || isDeleteModalOpen || isCommentOpen) {
@@ -191,10 +187,10 @@ const CommunityHome: React.FC = () => {
   };
 
   return (
-    <Root>
+    <>
       <MainHeader onClick={handleRefresh} />
-      {showSideHeader && <SideHeader />}
       <PostList>
+        <TopMargin />
         {posts.map((post, index) => (
           <React.Fragment key={post.shareDoyakId}>
             <Post
@@ -294,7 +290,7 @@ const CommunityHome: React.FC = () => {
         </Modal>
       )}
       <WriteButton />
-    </Root>
+    </>
   );
 };
 
@@ -343,24 +339,24 @@ const ModalTitle = styled.h2`
   font-weight: bold;
 `;
 
-const ModalText = styled.p`
-  font-size: 16px;
-  color: #333;
-`;
+// const ModalText = styled.p`
+//   font-size: 16px;
+//   color: #333;
+// `;
 
-const DeleteButton = styled.button`
-  background-color: #ff4d4f;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 12px;
+// const DeleteButton = styled.button`
+//   background-color: #ff4d4f;
+//   color: white;
+//   border: none;
+//   border-radius: 5px;
+//   padding: 5px 10px;
+//   cursor: pointer;
+//   font-size: 12px;
 
-  &:hover {
-    background-color: #d9363e;
-  }
-`;
+//   &:hover {
+//     background-color: #d9363e;
+//   }
+// `;
 
 const PostList = styled.div`
   display: flex;
@@ -396,4 +392,9 @@ const IconWrapper = styled.div`
   width: 25px;
   height: 23px;
   margin-right: 8px;
+`;
+
+const TopMargin = styled.div`
+  width: 100%;
+  height: 60px;
 `;

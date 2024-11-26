@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const DoyakContent = styled.div`
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: white;
   border: 0.1px solid #3c7960;
   padding: 1rem;
