@@ -212,6 +212,7 @@ const CommunityHome: React.FC = () => {
                 </MoreButton>
               )}
               <MainPhoto selectedPhoto={post.shareImageUrl} />
+              <SmallMargin />
               <ButtonContainer>
                 <IconWrapper>
                   <Image
@@ -230,10 +231,9 @@ const CommunityHome: React.FC = () => {
                 />
                 <NumberComment commentCnt={post.commentCount} />
               </ButtonContainer>
-
+              <SmallMargin style={{ height: "10px" }} />
               <CommentText>{post.shareContent}</CommentText>
             </Post>
-
             {index < posts.length - 1 && <Separator />}
           </React.Fragment>
         ))}
@@ -378,23 +378,27 @@ const Post = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 10px;
 `;
 
 const Separator = styled.hr`
   border: none;
-  border-top: 1px solid green;
+  border-top: 0.1px solid var(--main-green);
   margin: 20px 0;
 `;
 
 const IconWrapper = styled.div`
-  width: 25px;
-  height: 23px;
-  margin-right: 8px;
+  margin-right: 10px;
 `;
 
 const TopMargin = styled.div`
   width: 100%;
   height: 60px;
+`;
+
+const SmallMargin = styled.div`
+  width: 100%;
+  height: 5px;
 `;
