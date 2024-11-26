@@ -25,8 +25,8 @@ const Home: React.FC = () => {
 
   const handleSave = async (newAiName: string, newGoal: string) => {
     try {
-      const response = await changeAiname(newAiName);
-      const response1 = await changeGoal(newGoal);
+      await changeAiname(newAiName);
+      await changeGoal(newGoal);
 
       setAiName(newAiName);
       setGoalName(newGoal);
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
       <Image
         src={Logo.src}
         width={120}
-        height={-10}
+        height={179}
         alt="Logo"
         style={imageStyle}
         loading="lazy"
