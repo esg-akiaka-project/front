@@ -70,7 +70,7 @@ export const useUserStore = create<UserState>()(
       setMemberId: (memberId) => set({ memberId }),
 
       contentId: null,
-      setContentId: (contentId) => set({ contentId}),
+      setContentId: (contentId) => set({ contentId }),
 
       aiName: "도약이",
       setAiName: (name) => set({ aiName: name }),
@@ -88,22 +88,9 @@ export const useUserStore = create<UserState>()(
       setProfileImage: (url) => set({ profileImage: url }),
 
       clearToken: () => {
-        set({
-          isSociallogin: false,
-          accessToken: null,
-          memberId: null,
-          contentId: null,
-          aiName: "도약이",
-          exp: 0,
-          goalName: null,
-          nickname: null,
-          profileImage: null,
-          firstDoyak: null,
-          recentContinuity: 0,
-          maxContinuity: 0,
-          shareDoyakCount: 0,
-        });
+        localStorage.removeItem("userInfoStorage");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("logsStorage");
       },
     }),
     {

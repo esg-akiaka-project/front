@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import Logo from "../../components/Logo";
 import InputField from "../../components/login/InputField";
@@ -8,30 +9,90 @@ import SocialLogin from "../../components/login/SocialLogin";
 import FirstSeperator from "../../components/login/FirstSeperator";
 import SecondSeperator from "../../components/login/SecondSeperator";
 import Root from "../../style/Root";
+import { Login } from "@/src/apis/authApi";
+import { useUserStore } from "@/src/store/useUserStore";
 
 const LoginPage: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const {
+    setAccessToken,
+    setAiName,
+    setGoalName,
+    setProfileImage,
+    setMemberId,
+    setExp,
+    setNickname,
+    setRecentContinuity,
+    setFirstDoyak,
+    setMaxContinuity,
+    setShareDoyakCount,
+  } = useUserStore();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLoading) return;
+    try {
+      setIsLoading(true);
+      const response = await Login({ email, password });
+
+      if (response.status === 200) {
+        const { member, level, file } = response.data;
+
+        const accessToken = response.headers["authorization"].split(" ")[1];
+
+        setAccessToken(accessToken);
+
+        setMemberId(member.memberId);
+        setAiName(member.aiNickname);
+        setGoalName(member.goalName);
+        setProfileImage(file?.filePathName || null);
+        setNickname(member.nickname);
+
+        setExp(level.point);
+
+        setRecentContinuity(level.sharedotakCount);
+        setFirstDoyak(level.firstDate);
+        setMaxContinuity(level.maxContinuity);
+        setShareDoyakCount(level.shareDoyakCount);
+
+        localStorage.setItem("refreshToken", member.refreshToken);
+
+        router.push("/");
+      } else {
+        console.error("로그인 실패:", response);
+      }
+    } catch (error) {
+      console.error("로그인 중 에러 발생:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Root>
       <Logo />
       <Heading1></Heading1>
-      <InputField
-        label="이메일"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <InputField
-        label="비밀번호"
-        placeholder="비밀번호"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Heading4></Heading4>
-      <LoginButton email={email} password={password} />
+      <Form onSubmit={handleSubmit}>
+        <InputField
+          label="이메일"
+          placeholder="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <InputField
+          label="비밀번호"
+          placeholder="비밀번호"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Heading4></Heading4>
+        <LoginButton isLoading={isLoading} disabled={!email || !password} />
+      </Form>
       <Heading2></Heading2>
       <FirstSeperator></FirstSeperator>
       <Heading2></Heading2>
@@ -44,6 +105,12 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
+
+const Form = styled.form`
+  width: 100%;
+`;
+
+// Heading 스타일은 그대로 유지
 
 const Heading1 = styled.h1`
   font-size: 1.44rem;

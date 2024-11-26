@@ -12,8 +12,15 @@ import Image from "next/image";
 import TitleModal2 from "../components/growcheck/TitleModal2";
 
 const Home: React.FC = () => {
-  const { goalName, setAiName, setGoalName, memberId, nickname, aiName } =
-    useUserStore();
+  const {
+    goalName,
+    setAiName,
+    setGoalName,
+    memberId,
+    nickname,
+    aiName,
+    accessToken,
+  } = useUserStore();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showModal2, setShowModal2] = useState(false);

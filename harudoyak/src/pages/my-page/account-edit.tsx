@@ -35,7 +35,7 @@ const AccountEdit: React.FC = () => {
   };
   const logout = () => {
     clearToken();
-    router.push("/");
+    window.location.href = "/";
   };
   const savePassword = async () => {
     if (newPassword === oldPassword) {

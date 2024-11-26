@@ -44,8 +44,53 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
       console.log("SSE 연결 성공");
     };
 
-    eventSource.addEventListener("letter", (event) => {
-      toast.info(`새 알림: ${event}`, {
+    eventSource.addEventListener("POST_COMMENT", (event) => {
+      toast.info(`새 알림: 내글에 댓글이 달렸어요`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    });
+
+    eventSource.addEventListener("REPLY_COMMENT", (event) => {
+      toast.info(`새 알림: 내 댓글에 댓글이 달렸어요`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    });
+    eventSource.addEventListener("DAILY", (event) => {
+      toast.info(`새 알림: 도약 편지가 도착했어요`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    });
+    eventSource.addEventListener("WEEK", (event) => {
+      toast.info(`새 알림: 주간 알림이 도착했어요`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    });
+    eventSource.addEventListener("MONTH", (event) => {
+      toast.info(`새 알림: 월간 알림이 도착했어요`, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -71,33 +116,10 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
     };
   }, [memberId, router.pathname]);
 
-  // const sendTestNotification = async () => {
-  //   if (!memberId) {
-  //     console.error("memberId가 없습니다. 알림을 보낼 수 없습니다.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch(
-  //       `https://harudoyak.site/api/notification/add?memberId=${memberId}&content=테스트 알림입니다.`,
-  //       {
-  //         method: "post", // 서버의 `add` 엔드포인트에서 GET 요청을 사용하는 것 같아서 GET으로 설정
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       console.log("테스트 알림 요청이 성공적으로 전송되었습니다.");
-  //     } else {
-  //       console.error("테스트 알림 요청에 실패했습니다.");
-  //     }
-  //   } catch (error) {
-  //     console.error("알림 전송 중 오류 발생:", error);
-  //   }
-  // };
   return (
     <>
       {children}
-      {/* <button onClick={sendTestNotification}>테스트 알림 보내기</button> */}
+
       <ToastContainer />
     </>
   );
