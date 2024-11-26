@@ -9,7 +9,7 @@ const ExternalContainer = styled.div`
   background-color: #F2F6F3;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   font-family: "Inter", sans-serif;
   letter-spacing: -1px;
 `;

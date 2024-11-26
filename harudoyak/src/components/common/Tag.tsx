@@ -29,5 +29,8 @@ const StyledTag = styled.div`
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
   color: var(--main-green);
   white-space: nowrap;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;

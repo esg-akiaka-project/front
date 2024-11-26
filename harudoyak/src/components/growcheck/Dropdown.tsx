@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import dropdownbutton from "../../../public/assets/grow-check/dropdownbtn.svg";
+import Image from "next/image";
 
 interface DropdownProps {
   selectedMonth: number;
@@ -23,7 +25,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <DropdownContainer>
       <DropdownButton onClick={handleToggleDropdown}>
-        {selectedMonth}월 ▼
+        {selectedMonth}월 <Image src={dropdownbutton} alt="dropdownButton" />
       </DropdownButton>
       {isOpen && (
         <DropdownMenu>
@@ -50,20 +52,22 @@ export default Dropdown;
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
-  z-index: 1000;
+  z-index: 1;
 `;
 
 const DropdownButton = styled.button`
-  padding: 0.2rem 1.5rem;
+  padding: 4px 16px;
   font-size: 1rem;
   justify-content: left;
   display: flex;
   color: grey;
   cursor: pointer;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 1.3rem;
   background-color: #ffffff;
   font-weight: bold;
+  text-align: left;
+  gap: 35px;
 `;
 
 const DropdownMenu = styled.div`

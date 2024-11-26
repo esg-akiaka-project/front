@@ -8,7 +8,9 @@ import { AlarmData } from "./AlarmDataTypes";
 const TitleContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
+  margin-top: 2px;
+  margin-bottom: 0px;
+  gap: 7px;
   font-size: 18px;
   font-weight: 900;
   text-shadow: 0.5px 0 0 #333;
@@ -18,7 +20,9 @@ const TitleContainer = styled.div`
 const TitleWrapper = styled.div`
   padding: 0;
   max-width: 1100px;
-  margin-top: 4rem;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0rem;
 `;
 const AlarmTitleContainer: React.FC<{
   alarmCard: AlarmData;

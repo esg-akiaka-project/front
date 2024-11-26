@@ -47,7 +47,7 @@ const NavigationBar: React.FC = () => {
         <ButtonText  $active={isActive("/community")}>서로도약</ButtonText>
       </NavButton>
       <NavButton onClick={() => navigate("/alarm")} $active={isActive("/alarm")}>
-        <StyledImage src={Alarm} alt="Notifications" width={24} height={24} $active={isActive("/alarm")} />
+        <StyledImage src={Alarm} alt="Notifications" width={22} height={24} $active={isActive("/alarm")} />
         <ButtonText  $active={isActive("/alarm")}>알림</ButtonText>
       </NavButton>
       <NavButton onClick={() => navigate("/my-page")} $active={isActive("/my-page")}>

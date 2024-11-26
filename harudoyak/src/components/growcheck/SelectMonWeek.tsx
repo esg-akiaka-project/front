@@ -29,37 +29,34 @@ export default SelectMonWeek;
 const ToggleContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 6rem;
-  height: 2.2rem;
+  width: 5.5rem;
+  height: 1.6rem;
   background-color: #ffffff;
-  border: 1px solid #ddd;
   border-radius: 30px;
   cursor: pointer;
   position: relative;
-  padding: 4px;
+  padding: 4px
   justify-content: center;
 `;
 
 const ToggleIndicator = styled.div<{ $isWeekly: boolean }>`
   position: absolute;
-  top: 4px;
   left: ${({ $isWeekly }) =>
-    $isWeekly ? "0.2rem" : "4rem"}; /* 슬라이딩 위치 */
-  width: 1.5rem;
-  height: 1.5rem;
+    $isWeekly ? "0.15rem" : "4.05rem"}; /* 슬라이딩 위치 */
+  width: 1.35rem;
+  height: 1.35rem;
   background-color: ${({ $isWeekly }) => ($isWeekly ? "#3C7960" : "#A5CBBC")};
   border-radius: 30px;
-  transition: left 0.3s ease;
+  transition: left 0.5s ease;
 `;
 
 const ModeText = styled.span<{ $isWeekly: boolean }>`
   position: absolute;
-  top: 50%;
+  top: 55%;
   transform: translateY(-50%);
   left: ${({ $isWeekly }) =>
-    $isWeekly ? "2rem" : "0.8rem"}; /* 글씨 위치 조정 */
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: #333;
-  transition: left 0.3s ease;
+    $isWeekly ? "2rem" : "0.65rem"}; /* 글씨 위치 조정 */
+  font-size: 0.9rem;
+  color: var(--darkgray-from-grayscale);
+  transition: left 0.5s ease;
 `;

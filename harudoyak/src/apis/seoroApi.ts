@@ -1,7 +1,5 @@
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
-import useCommunityStore from "../store/useCommunityStore";
-import { uploadToS3 } from "./uploadToS3";
 
 // 게시글 작성 API
 export const createPost = async (comment: string, photoUrl: string) => { // photoUrl을 string으로 받음
@@ -45,7 +43,7 @@ export const fetchPosts = async () => {
 export const fetchPostDetail = async (shareDoyakId: number) => {
   try {
     const response = await axiosInstance.get(`/posts/detail/${shareDoyakId}`);
-    console.log("게시글 세부 정보 불러오기 성공");
+    console.log("게시글 세부 정보 불러오기 성공", response);
     return response.data;
   } catch (error) {
     console.error("게시글 세부 정보 불러오기 실패:", error);
@@ -88,9 +86,6 @@ export const editPost = async (
     throw error;
   }
 };
-
-
-
 
 // 도약하기 추가 API
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {

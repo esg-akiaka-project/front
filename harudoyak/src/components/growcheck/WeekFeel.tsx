@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-
-import styled from "styled-components";
-import Tags from "./Tags";
+import * as S from "./Feel.style";
+import Tags from "../common/Tags";
 import EmotionDiv from "./EmotionDiv";
 import Mailbox from "./Mailbox";
 import Circle from "./Circle";
@@ -29,19 +28,19 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
 
         if (response) {
           const tags = response.tags
-            .slice(0, 6)
+            .slice(0, 12)
             .map((tag: { tagName: string }) => tag.tagName);
           setWeeklyTags(tags);
 
           const emotions = response.emotions.reduce(
             (
               acc: Record<string, number>,
-              cur: { emotion: string; emotionCount: number }
+              cur: { emotion: string; emotionCount: number },
             ) => {
               acc[cur.emotion] = cur.emotionCount;
               return acc;
             },
-            {}
+            {},
           );
           setEmotion(emotions);
 
@@ -50,7 +49,7 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
               date: new Date(feedback.feedBackDate),
               day: format(new Date(feedback.feedBackDate), "EEE").toUpperCase(),
               content: feedback.feedback,
-            })
+            }),
           );
           setMailList(feedbacks);
         }
@@ -61,45 +60,31 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
     fetchWeek();
   }, [selectedDate]);
   return (
-    <Container>
-      <SectionTitle>이번주의 감정</SectionTitle>
-      <EmotionDiv emotions={emotion} />
-      <SectionTitle>이번주 도약 태그</SectionTitle>
-      <Tags tags={weeklyTags} />
-      <ParellelWrapper>
-        <SectionTitle>이번주 하루도약</SectionTitle>
+    <S.Container>
+      <S.SectionTitle>이번주의 감정</S.SectionTitle>
+      <EmotionDiv emotions={emotion} type="Week" />
+      <S.BigMargin />
+
+      <S.SectionTitle>이번주 도약 태그</S.SectionTitle>
+      <S.Margin />
+      <Tags tagslist={weeklyTags} />
+      <S.BigMargin />
+
+      <S.ParellelWrapper>
+        <S.SectionTitle>이번주 하루도약</S.SectionTitle>
         <Circle number={mailList.length} />
-      </ParellelWrapper>
-      <ParellelWrapper>
-        <SectionTitle>도약이의 우체통</SectionTitle>
+      </S.ParellelWrapper>
+      <S.BigMargin />
+
+      <S.ParellelWrapper>
+        <S.SectionTitle>도약이의 우체통</S.SectionTitle>
         <Circle number={mailList.length} />
-      </ParellelWrapper>
+      </S.ParellelWrapper>
+      <S.Margin />
       <Mailbox mailList={mailList || []} />
-    </Container>
+      <S.BottomMargin />
+    </S.Container>
   );
 };
 
 export default WeekFeel;
-
-// 스타일 정의
-const Container = styled.div`
-  background-color: #f2f6f3;
-  border-radius: 2rem 2rem 0 0;
-  padding: 1.5rem;
-  min-height: 100vh;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 1.6rem;
-  color: #3c7960;
-  margin-bottom: 1rem;
-`;
-
-const ParellelWrapper = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  gap: 1rem;
-`;

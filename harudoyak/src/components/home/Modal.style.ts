@@ -35,7 +35,8 @@ export const Content = styled.div`
   font-weight: bold;
   font-family: Inter;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 1.15rem;
 `;
 
 export const Wrapper = styled.div`
@@ -59,7 +60,8 @@ export const CloseButton = styled.button`
 `;
 
 export const Detail = styled.p`
-  font-size: 13px;
+  font-size: 14px;
   color: var(--gray-from-grayscale);
   margin: 0;
+  margin-bottom: 5px;
 `;

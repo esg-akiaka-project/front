@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Root from "../../style/Root";
 import AlarmTitleContainer from "./AlarmTitleContainer";
 import { AlarmData } from "./AlarmDataTypes";
 import AlarmContent from "./AlarmContent";
@@ -10,7 +9,7 @@ const CardContainer = styled.div<{ $isClicked: boolean }>`
   width: 353px;
   height: 143px;
   padding: 0px;
-  margin-bottom: 30px;
+  margin: 40px 0px;
   border-radius: 10px;
   cursor: pointer;
   background-color: ${(props) =>
@@ -31,14 +30,13 @@ const AlarmCard: React.FC<{
   isClicked: boolean;
   onClick: () => void;
 }> = ({ alarmCard, isClicked, onClick }) => {
+  console.log("alarmCard test")
   return (
-    <Root>
       <CardContainer $isClicked={isClicked} onClick={onClick}>
         <AlarmTitleContainer alarmCard={alarmCard} isClicked={isClicked} />
         <AlarmContent content={alarmCard.content} />
         <AlarmDate date={alarmCard.date} />
       </CardContainer>
-    </Root>
   );
 };
 

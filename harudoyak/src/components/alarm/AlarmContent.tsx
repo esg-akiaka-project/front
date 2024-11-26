@@ -14,10 +14,11 @@ const Content = styled.div`
   font-size: 15px;
   line-height: 1.4;
   font-weight: 700;
-  margin: 10px 0;
+  margin: 3px 20px 0px 0px;
+  padding: 10px 20px;
   color: #333;
   width: 100%;
-  height: 100%;
+  height: 40px;
   display: -webkit-box;
   white-space: normal;
   overflow-wrap: break-word;

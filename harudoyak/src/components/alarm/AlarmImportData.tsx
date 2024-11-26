@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AlarmData } from "./AlarmDataTypes";
-import AlarmTitleContainer from "./AlarmTitleContainer";
+import AlarmCard from "./AlarmCard";
 
 const AlarmImportData: React.FC<{
   activeTab: string;
@@ -45,7 +45,7 @@ const AlarmImportData: React.FC<{
   ]);
 
   // useEffect(() => {
-  //   // activeTab에 따라 알람 데이터를 부모 컴포넌트로 전달
+    //   // activeTab에 따라 알람 데이터를 부모 컴포넌트로 전달
   //   handleDataFetch(GeneralAlarmData, CommunityAlarmData);
   // }, [activeTab, GeneralAlarmData, CommunityAlarmData, handleDataFetch]);
 
@@ -54,17 +54,19 @@ const AlarmImportData: React.FC<{
       {activeTab === "Record"
         ? GeneralAlarmData.map((alarm, index) => (
             <div key={alarm.id} onClick={() => handleCardClick(index)}>
-              <AlarmTitleContainer
+              <AlarmCard
                 alarmCard={alarm}
                 isClicked={clickedGeneralAlarmCard[index]}
+                onClick={() => handleCardClick(index)} 
               />
             </div>
           ))
         : CommunityAlarmData.map((alarm, index) => (
             <div key={alarm.id} onClick={() => handleCardClick(index)}>
-              <AlarmTitleContainer
+              <AlarmCard
                 alarmCard={alarm}
                 isClicked={clickedCommunityAlarmCard[index]}
+                onClick={() => handleCardClick(index)} 
               />
             </div>
           ))}

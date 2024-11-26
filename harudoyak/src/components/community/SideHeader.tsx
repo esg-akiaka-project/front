@@ -1,7 +1,7 @@
 // src/components/community/SideHeader.tsx
-import React from 'react';
-import styled from 'styled-components';
-import { useRouter } from 'next/router';
+import React from "react";
+import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const SideHeaderContainer = styled.div`
   position: fixed;
@@ -26,7 +26,7 @@ const SideHeader: React.FC = () => {
   const router = useRouter();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (

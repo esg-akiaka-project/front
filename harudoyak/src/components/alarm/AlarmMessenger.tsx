@@ -5,6 +5,7 @@ const Messenger = styled.div`
   width: 90px;
   height: 33px;
   padding: 5px 10px;
+  margin-right: 5px;
   background-color: #ffffff;
   color: #3C7960;
   border-radius: 15px;

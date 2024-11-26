@@ -10,19 +10,33 @@ import { PostDataProvider } from "../context/PostDataContext";
 import defaultSEOConfig from "../../next-seo.config";
 import { DefaultSeo } from "next-seo";
 import SSEProvider from "../components/SSEProvider";
+import { AuthProvider, useAuth } from "../context/AuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-function App({ Component, pageProps }: AppProps) {
+function MyAppContent({ Component, pageProps }: AppProps) {
+  const { isAuthenticating } = useAuth();
+
+  if (isAuthenticating) {
+    return <LoadingSpinner />;
+  }
+  return (
+    <Layout>
+      <SSEProvider>
+        <PostDataProvider>
+          <Component {...pageProps} />
+        </PostDataProvider>
+      </SSEProvider>
+    </Layout>
+  );
+}
+function App(props: AppProps) {
   return (
     <>
       <DefaultSeo {...defaultSEOConfig} />
       <GlobalStyle />
-      <Layout>
-        <SSEProvider>
-          <PostDataProvider>
-            <Component {...pageProps} />
-          </PostDataProvider>
-        </SSEProvider>
-      </Layout>
+      <AuthProvider>
+        <MyAppContent {...props} />
+      </AuthProvider>
     </>
   );
 }

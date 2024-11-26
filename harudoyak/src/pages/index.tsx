@@ -9,13 +9,21 @@ import { changeAiname, changeGoal } from "../apis/authApi";
 import Logo from "@/public/assets/common/DoyakiLogo.svg";
 import { useUserStore } from "../store/useUserStore";
 import Image from "next/image";
+import TitleModal2 from "../components/growcheck/TitleModal2";
 
 const Home: React.FC = () => {
-  const { goalName, setAiName, setGoalName, memberId, nickname, aiName } =
-    useUserStore();
+  const {
+    goalName,
+    setAiName,
+    setGoalName,
+    memberId,
+    nickname,
+    aiName,
+    accessToken,
+  } = useUserStore();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-
+  const [showModal2, setShowModal2] = useState(false);
   useEffect(() => {
     if (memberId && (aiName === "도약이" || !goalName)) {
       setShowModal(true);
@@ -24,8 +32,8 @@ const Home: React.FC = () => {
 
   const handleSave = async (newAiName: string, newGoal: string) => {
     try {
-      const response = await changeAiname(newAiName);
-      const response1 = await changeGoal(newGoal);
+      await changeAiname(newAiName);
+      await changeGoal(newGoal);
 
       setAiName(newAiName);
       setGoalName(newGoal);
@@ -58,7 +66,7 @@ const Home: React.FC = () => {
       <Image
         src={Logo.src}
         width={120}
-        height={-10}
+        height={179}
         alt="Logo"
         style={imageStyle}
         loading="lazy"
@@ -70,10 +78,11 @@ const Home: React.FC = () => {
           <LoginButton />
         </FixedWrapper>
       ) : (
-        <WritingEntryButton />
+        <WritingEntryButton onFail={() => setShowModal2(true)} />
       )}
 
       {showModal && <BeginningSetting onSave={handleSave} />}
+      {showModal2 && <TitleModal2 onClose={() => setShowModal2(false)} />}
     </Root>
   );
 };
