@@ -30,4 +30,7 @@ const StyledTag = styled.div`
   color: var(--main-green);
   white-space: nowrap;
   font-size: 0.85rem;
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
