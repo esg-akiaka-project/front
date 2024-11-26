@@ -1,7 +1,5 @@
 import axiosInstance from "./axiosInstance";
 import { useUserStore } from "../store/useUserStore";
-import useCommunityStore from "../store/useCommunityStore";
-import { uploadToS3 } from "./uploadToS3";
 
 // 게시글 작성 API
 export const createPost = async (comment: string, photoUrl: string) => { // photoUrl을 string으로 받음
@@ -88,9 +86,6 @@ export const editPost = async (
     throw error;
   }
 };
-
-
-
 
 // 도약하기 추가 API
 export const addDoyak = async (memberId: number, shareDoyakId: number) => {
