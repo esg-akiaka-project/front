@@ -65,6 +65,7 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
     return () => {
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
+
         eventSourceRef.current = null;
       }
     };
