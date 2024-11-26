@@ -8,6 +8,9 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+const refreshAxiosInstance = axios.create({
+  baseURL: "https://www.harudoyak.site/api/",
+});
 
 axiosInstance.interceptors.request.use(
   function (config) {
@@ -34,7 +37,8 @@ axiosInstance.interceptors.response.use(
     if (
       error.response &&
       error.response.status === 401 &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !originalRequest.url.includes("auth/reissue")
     ) {
       originalRequest._retry = true;
 
@@ -42,18 +46,27 @@ axiosInstance.interceptors.response.use(
       const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {
         try {
-          const response = await axios.post("auth/reissue", {
+          const response = await refreshAxiosInstance.post("auth/reissue", {
             refreshToken,
           });
 
-          const newAccessToken = response.data.accessToken;
+          const authorizationHeader = response.headers["authorization"];
 
+          const newAccessToken =
+            authorizationHeader && authorizationHeader.split(" ")[1];
+
+          const newRefreshToken = response.data.refreshToken;
           setAccessToken(newAccessToken);
+
+          if (newRefreshToken) {
+            localStorage.setItem("refreshToken", newRefreshToken);
+          }
           originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosInstance(originalRequest);
         } catch (refreshError) {
           console.error("토큰 재발급 실패:", refreshError);
           clearToken();
+          return Promise.reject(refreshError);
         }
       }
     }
