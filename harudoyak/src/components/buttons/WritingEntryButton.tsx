@@ -3,12 +3,13 @@
 // 주 사용처: 홈 화면, 도약기록 확인 탭의 하단 '도약기록 쓰기'버튼
 
 // Dev Log
-// 최초 작성일/작성자: 2024.11.01./루이
-// 수정일/작성자/수정 내용: 2024.11.22./루이/오늘 이미 작성한 로그가 있으면 작성페이지에 들어가지 못하도록 설계
+// 최초 작성일/작성자: 2024.11.01/루이
+// 수정일/작성자/수정 내용: 2024.11.22/루이/오늘 이미 작성한 로그가 있으면 작성페이지에 들어가지 못하도록 설계
 
 import { useRouter } from "next/router";
 import Image from "next/image";
-import styled, { CSSProperties } from "styled-components";
+import { CSSProperties } from "styled-components";
+import * as S from "./WritingEntryButton.style";
 import iconPencil from "../../../public/assets/common/icon_pencil.svg";
 import { usePostDataContext } from "@/src/context/PostDataContext";
 import useLogsStore from "@/src/store/useLogStore";
@@ -38,17 +39,17 @@ const WritingEntryButton: React.FC<WritingEntryButtonProps> = ({ onFail }) => {
   };
 
   return (
-    <ButtonLayout>
+    <S.ButtonLayout>
       <button type="button" onClick={handleClick}>
-        <ContentWrapper>
+        <S.ContentWrapper>
           <Image
             src={iconPencil}
             alt="도약기록 쓰기 아이콘"
             style={imageStyle}
           />
-        </ContentWrapper>
+        </S.ContentWrapper>
       </button>
-    </ButtonLayout>
+    </S.ButtonLayout>
   );
 };
 
@@ -57,22 +58,3 @@ export default WritingEntryButton;
 const imageStyle: CSSProperties = {
   left: "50%",
 };
-
-const ButtonLayout = styled.div`
-  z-index: 1;
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-`;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  background-color: var(--main-green);
-  padding: 15px 15px;
-  border-radius: 55px;
-  border: 1px solid #ccc;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  justify-content: center;
-`;

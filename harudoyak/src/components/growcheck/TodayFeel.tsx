@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import * as S from "./Feel.style";
 import { format } from "date-fns";
 import EmotionDiv from "./EmotionDiv";
-//import Tags from "./Tags";
 import Tags from "../common/Tags";
 import pot from "../../../public/assets/grow-up-record/pot.svg";
 
@@ -125,6 +124,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
           <Image src={pot} width={50} height={50} alt="pot" />
         </S.PotImageWrapper>
       </S.MailWrapper>
+      <S.BottomMargin />
     </S.Container>
   );
 };

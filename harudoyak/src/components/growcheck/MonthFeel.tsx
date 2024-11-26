@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./Feel.style";
 import EmotionDiv from "./EmotionDiv";
-import Tags from "./Tags";
-//import Tags from '../components/'
+import Tags from "../common/Tags";
 import Circle from "./Circle";
 import { MonthlyRecord } from "@/src/apis/logsApi";
 import { format } from "date-fns";
@@ -53,15 +52,21 @@ const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
     fetchMonthly();
   }, [selectedDate]);
   return (
-    <S.Container>
+    <S.Container style={{ marginTop: "30px" }}>
       <S.SectionTitle>이번 달의 감정</S.SectionTitle>
+      <S.Margin />
+      <S.Margin />
       <EmotionDiv emotions={emotion} type="Month" />
+      <S.BigMargin />
       <S.SectionTitle>이번 달 도약태그</S.SectionTitle>
-      <Tags tags={monthTags} />
+      <S.Margin />
+      <Tags tagslist={monthTags} />
+      <S.BigMargin />
       <S.ParellelWrapper>
         <S.SectionTitle>이번 달 하루도약</S.SectionTitle>
         <Circle number={aiFeedbackCount}></Circle>
       </S.ParellelWrapper>
+      <S.BottomMargin />
     </S.Container>
   );
 };

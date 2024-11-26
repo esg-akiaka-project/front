@@ -45,7 +45,7 @@ export const MailWrapper = styled.div`
   border-radius: 10px;
   background: linear-gradient(90deg, rgba(210, 205, 100, 0.10) 0%, rgba(110, 173, 107, 0.10) 100%);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
-    margin-bottom: 6rem;
+  margin-bottom: 5px;
 `;
 
 export const PotImageWrapper = styled.div`
@@ -60,4 +60,19 @@ export const ParellelWrapper = styled.div`
   justify-content: left;
   align-items: center;
   gap: 1rem;
+`;
+
+export const Margin = styled.div`
+  width: 100%;
+  height: 5px;
+`;
+
+export const BigMargin = styled.div`
+  width: 100%;
+  height: 50px;
+`;
+
+export const BottomMargin = styled.div`
+  width: 100%;
+  height: 6rem;
 `;
