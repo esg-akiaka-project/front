@@ -62,6 +62,7 @@ const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
         <S.SectionTitle>이번 달 하루도약</S.SectionTitle>
         <Circle number={aiFeedbackCount}></Circle>
       </S.ParellelWrapper>
+      <S.BottomMargin />
     </S.Container>
   );
 };

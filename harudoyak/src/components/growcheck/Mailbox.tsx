@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import messageIcon from "../../Images/messageIcon.png";
 import Image from "next/image";
+import { MailWrapper } from "./Feel.style";
 
 interface MailProps {
   date?: Date;
@@ -33,15 +34,6 @@ const MailBox: React.FC<MailListProps> = ({ mailList }) => {
   );
 };
 export default MailBox;
-
-const MailWrapper = styled.div`
-  background-color: #e6efe5;
-  border-radius: 2rem;
-  padding: 1rem;
-  color: #767676;
-  margin-bottom: 1rem;
-  box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem #d5d5d5;
-`;
 
 const UpperItems = styled.div`
   display: flex;

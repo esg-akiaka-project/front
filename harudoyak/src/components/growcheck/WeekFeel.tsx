@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as S from "./Feel.style";
-import Tags from "./Tags";
+import Tags from "../common/Tags";
 import EmotionDiv from "./EmotionDiv";
 import Mailbox from "./Mailbox";
 import Circle from "./Circle";
@@ -28,7 +28,7 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
 
         if (response) {
           const tags = response.tags
-            .slice(0, 6)
+            .slice(0, 12)
             .map((tag: { tagName: string }) => tag.tagName);
           setWeeklyTags(tags);
 
@@ -63,17 +63,26 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
     <S.Container>
       <S.SectionTitle>이번주의 감정</S.SectionTitle>
       <EmotionDiv emotions={emotion} type="Week" />
+      <S.BigMargin />
+
       <S.SectionTitle>이번주 도약 태그</S.SectionTitle>
-      <Tags tags={weeklyTags} />
+      <S.Margin />
+      <Tags tagslist={weeklyTags} />
+      <S.BigMargin />
+
       <S.ParellelWrapper>
         <S.SectionTitle>이번주 하루도약</S.SectionTitle>
         <Circle number={mailList.length} />
       </S.ParellelWrapper>
+      <S.BigMargin />
+
       <S.ParellelWrapper>
         <S.SectionTitle>도약이의 우체통</S.SectionTitle>
         <Circle number={mailList.length} />
       </S.ParellelWrapper>
+      <S.Margin />
       <Mailbox mailList={mailList || []} />
+      <S.BottomMargin />
     </S.Container>
   );
 };
