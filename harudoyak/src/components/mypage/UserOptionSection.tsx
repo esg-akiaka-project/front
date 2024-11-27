@@ -5,12 +5,22 @@ import lock from "@/public/assets/mypage/lock.png";
 import robot from "@/public/assets/mypage/robot.png";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import { useUserStore } from "@/src/store/useUserStore";
 
 const UserOptionSection: React.FC = () => {
+  const { isSociallogin } = useUserStore();
   const router = useRouter();
 
   const gotoSpecificPage = (pagename: string) => {
-    router.push(`${pagename}`);
+    if (pagename === "/my-page/password-check") {
+      if (isSociallogin) {
+        router.push(`/my-page/account-edit`);
+      } else {
+        router.push(`${pagename}`);
+      }
+    } else {
+      router.push(`${pagename}`);
+    }
   };
   return (
     <OptionSectionWrapper>

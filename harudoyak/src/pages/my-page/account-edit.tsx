@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { uploadToS3 } from "@/src/apis/uploadToS3";
 import { changeProfileImg } from "@/src/apis/authApi";
 import CropBoxModal from "@/src/components/mypage/CropBoxModal";
+import { AxiosError } from "axios";
 
 const AccountEdit: React.FC = () => {
   const router = useRouter();
@@ -20,7 +21,8 @@ const AccountEdit: React.FC = () => {
   const [oldnickname, setOldNickname] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [oldPassword, setOldpassword] = useState<string>("");
-  const { setNickname, clearToken, setProfileImage } = useUserStore();
+  const { setNickname, clearToken, setProfileImage, isSociallogin, email } =
+    useUserStore();
 
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -53,9 +55,9 @@ const AccountEdit: React.FC = () => {
 
   const changeId = async () => {
     try {
-      const response = await changeNickname(oldnickname);
-      console.log(response);
+      await changeNickname(oldnickname);
       setNickname(oldnickname);
+      alert("닉네임이 변경되었습니다");
     } catch (error) {
       console.log(error);
     }
@@ -114,7 +116,10 @@ const AccountEdit: React.FC = () => {
               placeholder={"닉네임을 입력하세요"}
               onChange={handleNicknameChange}
             />
-            <DuplicateCheckButton onClick={changeId}>
+            <DuplicateCheckButton
+              onClick={changeId}
+              disabled={oldnickname.trim() === ""}
+            >
               중복확인
             </DuplicateCheckButton>
           </NicknameDivWrapper>
@@ -122,28 +127,32 @@ const AccountEdit: React.FC = () => {
 
         <div>
           <Label>이메일</Label>
-          <InputField value={"asd123@naver.com"} disabled={true} />
+          <InputField value={email} disabled={true} />
         </div>
-        <div>
-          <Label>비밀번호 변경</Label>
-          <InputField
-            type="password"
-            value={oldPassword}
-            placeholder="기존 비밀번호"
-            onChange={handleOldPasswordChange}
-          />
-          <br></br>
-          <InputField
-            type="password"
-            value={newPassword}
-            placeholder="새 비밀번호 "
-            onChange={handleNewPasswordChange}
-          />
-        </div>
+        {!isSociallogin && (
+          <div>
+            <Label>비밀번호 변경</Label>
+            <InputField
+              type="password"
+              value={oldPassword}
+              placeholder="기존 비밀번호"
+              onChange={handleOldPasswordChange}
+            />
+            <br></br>
+            <InputField
+              type="password"
+              value={newPassword}
+              placeholder="새 비밀번호 "
+              onChange={handleNewPasswordChange}
+            />
+          </div>
+        )}
       </InfoSection>
-      <SavePasswordButton onClick={savePassword}>
-        비밀번호 변경
-      </SavePasswordButton>
+      {!isSociallogin && (
+        <SavePasswordButton onClick={savePassword}>
+          비밀번호 변경
+        </SavePasswordButton>
+      )}
       {isModalOpen && selectedImage && (
         <CropBoxModal
           imageFile={selectedImage}
@@ -217,7 +226,8 @@ const DuplicateCheckButton = styled.button`
   font-weight: bold;
   font-size: 1rem;
   border: none;
-
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   border-radius: 10px;
 `;
 const SavePasswordButton = styled.button`
