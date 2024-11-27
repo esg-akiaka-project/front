@@ -16,7 +16,7 @@ const SSEProvider: React.FC<SSEProviderProps> = ({ children }) => {
   const eventSourceRef = useRef<InstanceType<EventSourceType> | null>(null);
 
   useEffect(() => {
-    const excludedPaths = ["/log-in", "/sign-up"];
+    const excludedPaths = ["/log-in", "/sign-up", "/oauth?code"];
 
     if (excludedPaths.includes(router.pathname) || !memberId) {
       return;

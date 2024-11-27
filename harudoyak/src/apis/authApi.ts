@@ -96,3 +96,17 @@ export const findPassword = async (email: string) => {
   });
   return response.data;
 };
+
+export const kakaoLogin = async (code: string) => {
+  const response = await axiosInstance.post(`auth/login/kakao`, {
+    code,
+  });
+  return response.data;
+};
+
+export const googleLogin = async (code: string) => {
+  const response = await axiosInstance.post(`auth/login/google`, {
+    code,
+  });
+  return response.data;
+};

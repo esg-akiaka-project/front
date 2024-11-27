@@ -5,7 +5,7 @@ import EmotionDiv from "./EmotionDiv";
 import Mailbox from "./Mailbox";
 import Circle from "./Circle";
 import { WeeklyRecord } from "@/src/apis/logsApi";
-import { format } from "date-fns";
+import { format, addDays } from "date-fns";
 interface WeekProps {
   selectedDate: Date;
 }
@@ -24,8 +24,12 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
   useEffect(() => {
     const fetchWeek = async () => {
       try {
-        const response = await WeeklyRecord(format(selectedDate, "yyyy-MM-dd"));
-
+        const response = await WeeklyRecord(
+          format(selectedDate, "yyyy-MM-dd")
+          // format(addDays(selectedDate, 1), "yyyy-MM-dd")
+        );
+        // console.log(addDays(selectedDate, 1));
+        console.log(response);
         if (response) {
           const tags = response.tags
             .slice(0, 12)
@@ -35,12 +39,12 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
           const emotions = response.emotions.reduce(
             (
               acc: Record<string, number>,
-              cur: { emotion: string; emotionCount: number },
+              cur: { emotion: string; emotionCount: number }
             ) => {
               acc[cur.emotion] = cur.emotionCount;
               return acc;
             },
-            {},
+            {}
           );
           setEmotion(emotions);
 
@@ -49,7 +53,7 @@ const WeekFeel: React.FC<WeekProps> = ({ selectedDate }) => {
               date: new Date(feedback.feedBackDate),
               day: format(new Date(feedback.feedBackDate), "EEE").toUpperCase(),
               content: feedback.feedback,
-            }),
+            })
           );
           setMailList(feedbacks);
         }
