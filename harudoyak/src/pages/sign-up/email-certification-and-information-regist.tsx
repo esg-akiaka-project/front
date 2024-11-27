@@ -29,7 +29,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
         const updatedState = JSON.parse(event.newValue || "{}");
         if (updatedState.isVerified) {
           setEmailVerified(true);
-          console.log("이메일 인증이 완료되었습니다. (스토리지 이벤트)");
+
           localStorage.removeItem("emailVerification");
         }
       }
@@ -61,7 +61,6 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   };
 
   const verifyEmail = async () => {
-    console.log("이메일 인증 요청: ", email);
     try {
       const response = await certifyEmail(email);
       console.log("인증 요청 성공 :", response);
@@ -78,7 +77,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
         password: password,
         nickname: nickname,
       });
-      console.log("회원가입 완료", response);
+
       router.push("/sign-up/signup-complete");
     } catch (error) {
       console.log("회원가입 완료 중 오류", error);
@@ -88,7 +87,7 @@ const EmailCertificationAndInformationRegist: React.FC = () => {
   const CheckDuplicateId = async () => {
     try {
       const response = await CheckDuplicateNickname(nickname);
-      console.log("닉네임 중복 확인 성공", response);
+
       setnicknameVerified(true);
     } catch (error) {
       console.log("닉네임 중복 확인 실패:", error);

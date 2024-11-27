@@ -28,9 +28,7 @@ const MonthlyCalendar: React.FC = () => {
         const response = await fetchRecordList();
         // creationDate 값들만 추출하여 recordDayList 배열에 값 업데이트
         setRecordDayList(
-          response.map((item: RecordItem) =>
-            item.creationDate.substring(0, 10),
-          ),
+          response.map((item: RecordItem) => item.creationDate.substring(0, 10))
         );
         const logData = response.map((item: RecordItem) => ({
           logId: item.logId,
@@ -86,7 +84,7 @@ const MonthlyCalendar: React.FC = () => {
               dayToSelect: formattedValue,
             },
           },
-          `/grow-check/`, // query masking
+          `/grow-check/` // query masking
         );
         break;
 
@@ -122,7 +120,6 @@ const MonthlyCalendar: React.FC = () => {
         prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
         minDetail="year" // 10년단위 년도 숨기기
         onClickDay={(value: Date) => {
-          // console.log("Selected day:", value); // 선택한 날짜 출력
           handleDateClick(value); // 선택한 날짜에 대한 추가 처리
         }}
         tileContent={({ date }) => {
@@ -136,7 +133,7 @@ const MonthlyCalendar: React.FC = () => {
                 src={checkBox}
                 alt="recorded"
                 key={moment(date).format("YYYY-MM-DD")}
-              />,
+              />
             );
           }
           return <>{html}</>;
@@ -187,7 +184,7 @@ const StyledCalendarWrapper = styled.div`
   /* 네비게이션 가운데 정렬 */
   .react-calendar__navigation {
     justify-content: center;
-    margin-top: 10px
+    margin-top: 10px;
   }
 
   /* 네비게이션 폰트 설정 */

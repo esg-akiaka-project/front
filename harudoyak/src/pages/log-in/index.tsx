@@ -44,7 +44,10 @@ const LoginPage: React.FC = () => {
         const { member, level, file } = response.data;
 
         const accessToken = response.headers["authorization"].split(" ")[1];
-
+        console.log(response.data);
+        console.log(member);
+        console.log(level);
+        console.log(file);
         setAccessToken(accessToken);
 
         setMemberId(member.memberId);

@@ -12,8 +12,6 @@ interface EmotionData {
   [key: string]: number;
 }
 const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
-  console.log(selectedDate);
-
   const [monthTags, setMonthTags] = useState<string[]>([]);
   const [emotion, setEmotion] = useState<Record<string, number>>({});
   const [aiFeedbackCount, setAiFeedbackCount] = useState<number>(0);
@@ -21,23 +19,23 @@ const MonthFeel: React.FC<MonthProps> = ({ selectedDate }) => {
     const fetchMonthly = async () => {
       try {
         const response = await MonthlyRecord(
-          format(selectedDate, "yyyy-MM-dd"),
+          format(selectedDate, "yyyy-MM-dd")
         );
-        console.log(response);
+
         if (response.emotions) {
           const emotionsData = response.emotions;
           const emotionsRecord: EmotionData = {};
           emotionsData.forEach(
             (item: { emotion: string; emotionCount: number }) => {
               emotionsRecord[item.emotion] = item.emotionCount;
-            },
+            }
           );
           setEmotion(emotionsRecord);
         }
 
         if (response.tags) {
           const tagsArray = response.tags.map(
-            (tagItem: { tagName: string }) => tagItem.tagName,
+            (tagItem: { tagName: string }) => tagItem.tagName
           );
           setMonthTags(tagsArray);
         }

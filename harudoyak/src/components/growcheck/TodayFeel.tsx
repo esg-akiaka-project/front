@@ -48,7 +48,6 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
         try {
           const response = await DailyRecord(logId);
           if (response && response.length > 0) {
-            console.log(response);
             const record = response[0];
             setTodayDoyak({
               content: record["logContent"] || "기록이 없습니다.",
@@ -56,10 +55,10 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
             });
             setTodayTags(
               record["tagNameList"]?.map(
-                (tag: { tagName: string }) => tag.tagName,
-              ) || [],
+                (tag: { tagName: string }) => tag.tagName
+              ) || []
             );
-            console.log(todayTags);
+
             setEmotion({
               [record["emotion"]]: 1,
             });
@@ -70,7 +69,7 @@ const TodayFeel: React.FC<TodayProps> = ({ selectedDay }) => {
               day: record["letterCreationDate"]
                 ? format(
                     new Date(record["letterCreationDate"]),
-                    "EEE",
+                    "EEE"
                   ).toUpperCase()
                 : undefined,
               content:

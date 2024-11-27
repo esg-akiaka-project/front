@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { uploadToS3 } from "@/src/apis/uploadToS3";
 import { changeProfileImg } from "@/src/apis/authApi";
 import CropBoxModal from "@/src/components/mypage/CropBoxModal";
-import { AxiosError } from "axios";
+import Modal from "@/src/components/mypage/Modal";
 
 const AccountEdit: React.FC = () => {
   const router = useRouter();
@@ -23,6 +23,9 @@ const AccountEdit: React.FC = () => {
   const [oldPassword, setOldpassword] = useState<string>("");
   const { setNickname, clearToken, setProfileImage, isSociallogin, email } =
     useUserStore();
+  const [isNicknameModalOpen, setIsNicknameModalOpen] =
+    useState<boolean>(false);
+  const [nicknameModalMessage, setNicknameModalMessage] = useState<string>("");
 
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -57,7 +60,8 @@ const AccountEdit: React.FC = () => {
     try {
       await changeNickname(oldnickname);
       setNickname(oldnickname);
-      alert("닉네임이 변경되었습니다");
+      setNicknameModalMessage("닉네임이 변경되었습니다.");
+      setIsNicknameModalOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +131,10 @@ const AccountEdit: React.FC = () => {
 
         <div>
           <Label>이메일</Label>
-          <InputField value={email} disabled={true} />
+          <InputField
+            value={email === "" ? "Social Email" : email}
+            disabled={true}
+          />
         </div>
         {!isSociallogin && (
           <div>
@@ -160,11 +167,57 @@ const AccountEdit: React.FC = () => {
           onClose={() => setIsModalOpen(false)}
         />
       )}
+      <Modal
+        isOpen={isNicknameModalOpen}
+        onClose={() => setIsNicknameModalOpen(false)}
+      >
+        <Title>알림</Title>
+        <Description>{nicknameModalMessage}</Description>
+        <SubmitButton onClick={() => setIsNicknameModalOpen(false)}>
+          확인
+        </SubmitButton>
+      </Modal>
     </Root>
   );
 };
 
 export default AccountEdit;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  height: 3rem;
+  background: var(--main-green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:disabled {
+    background: var(--sub-green2);
+    cursor: not-allowed;
+  }
+`;
+
+const Title = styled.h2`
+  color: var(--main-green);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
+const Description = styled.p`
+  color: var(--gray-from-grayscale);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 1.5rem;
+`;
 
 const CameraIconLabel = styled.label`
   cursor: pointer;
