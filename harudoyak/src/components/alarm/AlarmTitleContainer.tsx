@@ -35,17 +35,24 @@ const AlarmTitleContainer: React.FC<{
 
   switch (alarmCard.id) {
     case "성장기록":
-      buttonLabel1 = "주/월간 회고";
+      // buttonLabel1 = "주/월간 회고";
+      buttonLabel1 = "월간 회고";
       titleText = "성장 기록 도착!";
       break;
     case "AI편지":
-      buttonLabel1 = "도약이";
+      // buttonLabel1 = "도약이";
+      buttonLabel1 = "112";
       titleText = "의 편지가 도착했어요!";
       break;
     case "신규댓글":
       buttonLabel1 = alarmCard.title || "";
       buttonLabel2 = alarmCard.nickname || "";
       titleText = "의 신규 댓글";
+      break;
+    case "대댓글":
+      buttonLabel1 = alarmCard.title || "";
+      buttonLabel2 = alarmCard.nickname || "";
+      titleText = "의 대댓글";
       break;
     default:
       buttonLabel1 = "알림";
