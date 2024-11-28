@@ -6,7 +6,8 @@ import AlarmContent from "./AlarmContent";
 import AlarmDate from "./AlarmDate";
 
 const CardContainer = styled.div<{ $isClicked: boolean }>`
-  width: 353px;
+  width: 100% /* ExternalContainer에 맞추기 */
+  max-width: 353px; /* 너무 커지지 않도록 제한 */
   height: 143px;
   padding: 0px;
   margin: 40px 0px;
