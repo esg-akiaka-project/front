@@ -58,7 +58,7 @@ const LoginPage: React.FC = () => {
         setEEmail(email);
         setExp(level.point);
 
-        setRecentContinuity(level.sharedotakCount);
+        setRecentContinuity(level.recentContinuity);
         setFirstDoyak(level.firstDate);
         setMaxContinuity(level.maxContinuity);
         setShareDoyakCount(level.shareDoyakCount);

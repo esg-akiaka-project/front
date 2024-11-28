@@ -56,7 +56,8 @@ export default function Auth() {
 
           setExp(level.point);
 
-          setRecentContinuity(level.sharedotakCount);
+          console.log(level);
+          setRecentContinuity(level.recentContinuity);
           setFirstDoyak(level.firstDate);
           setMaxContinuity(level.maxContinuity);
           setShareDoyakCount(level.shareDoyakCount);
@@ -87,7 +88,7 @@ export default function Auth() {
 
           setExp(level.point);
 
-          setRecentContinuity(level.sharedotakCount);
+          setRecentContinuity(level.recentContinuity);
           setFirstDoyak(level.firstDate);
           setMaxContinuity(level.maxContinuity);
           setShareDoyakCount(level.shareDoyakCount);
