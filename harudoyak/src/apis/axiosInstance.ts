@@ -29,8 +29,7 @@ axiosInstance.interceptors.response.use(
   function (response) {
     return response;
   },
-  // todo: 실패 응답 반환시 작업 수행
-  // accessToken 만료의 경우, refresh를 기반으로 재발급 이후 다시 요청 보내기
+
   async function (error) {
     const originalRequest = error.config;
 

@@ -88,9 +88,7 @@ export const changeProfileImg = async (photoUrl: string) => {
   return response.data;
 };
 
-// todo: 비밀번호 찾기 api 주소 작성해야함
 export const findPassword = async (email: string) => {
-  const { memberId } = useUserStore.getState();
   const response = await axiosInstance.post(`auth/temp-password`, {
     email,
   });

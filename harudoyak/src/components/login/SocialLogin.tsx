@@ -45,6 +45,7 @@ const SocialLogin: React.FC = () => {
   const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID; // 구글 클라이언트 ID
   const redirectUrl = process.env.NEXT_PUBLIC_REDIRECT_URI; // 리다이렉트 URI
 
+  console.log(redirectUrl);
   const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUrl}&response_type=code&scope=email profile&state=google`;
   const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApiKey}&redirect_uri=${redirectUrl}&response_type=code&state=kakao`;
 

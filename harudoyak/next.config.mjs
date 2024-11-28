@@ -24,5 +24,5 @@ const nextConfig = {
     unoptimized: false,
   },
 };
-
+console.log("NEXT_PUBLIC_REDIRECT_URI:", process.env.NEXT_PUBLIC_REDIRECT_URI);
 export default withBundleAnalyzer(nextConfig);

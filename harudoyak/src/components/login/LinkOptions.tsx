@@ -33,7 +33,7 @@ const LinkOptions: React.FC = () => {
         <LinkText onClick={() => router.push("/sign-up/tos-agreement")}>
           회원가입
         </LinkText>
-        {/* todo: 비밀번호 찾기 페이지 필요 */}
+
         <LinkText onClick={() => setIsPasswordResetOpen(true)}>
           비밀번호 찾기{" "}
         </LinkText>

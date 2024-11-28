@@ -1,5 +1,3 @@
-// todo: 닉네임 api 연동
-
 import React from "react";
 import { useUserStore } from "@/src/store/useUserStore";
 import styled from "styled-components";
