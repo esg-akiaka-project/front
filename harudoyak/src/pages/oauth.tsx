@@ -35,7 +35,6 @@ export default function Auth() {
       const code = params.get("code"); // Google 인가 코드
       const state = params.get("state");
 
-      console.log(state);
       const getKakaoToken = async () => {
         if (!code) {
           console.error("Kakao authorization code is missing");

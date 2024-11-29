@@ -116,3 +116,19 @@ export const MonthlyRecord = async (createDate: string) => {
   );
   return response.data;
 };
+
+export const HarudoyakAlarmList = async () => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.get(
+    `notification/${memberId}/list?category=log`
+  );
+  return response.data;
+};
+
+export const seorodoyakAlarmList = async () => {
+  const { memberId } = useUserStore.getState();
+  const response = await axiosInstance.get(
+    `notification/${memberId}/list?category=post`
+  );
+  return response.data;
+};

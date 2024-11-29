@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const MAX_CONTENT_LENGTH = 60; // 최대 글자 수
 
@@ -27,6 +27,9 @@ const Content = styled.div`
 `;
 
 const AlarmContent: React.FC<{ content: string }> = ({ content }) => {
+  if (!content) {
+    return <Content></Content>; // 데이터가 없을 때는 빈 컨텐츠 표시
+  }
   return <Content>{truncatedContent(content)}</Content>;
 };
 

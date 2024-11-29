@@ -3,7 +3,13 @@ import styled from "styled-components";
 
 import Icon from "./AlarmIcon";
 import AlarmMessenger from "./AlarmMessenger";
-import { AlarmData } from "./AlarmDataTypes";
+import {
+  AlarmData,
+  CommunityAlarmData,
+  isCommunityAlarm,
+  isDoyakAlarm,
+} from "./AlarmDataTypes";
+import { useUserStore } from "@/src/store/useUserStore";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -28,35 +34,34 @@ const AlarmTitleContainer: React.FC<{
   alarmCard: AlarmData;
   isClicked: boolean;
 }> = ({ alarmCard, isClicked }) => {
-  console.log(alarmCard.id);
+  const { aiName } = useUserStore.getState();
   let buttonLabel1 = "";
-  let buttonLabel2 = "";
   let titleText = "";
 
-  switch (alarmCard.id) {
-    case "성장기록":
-      // buttonLabel1 = "주/월간 회고";
-      buttonLabel1 = "월간 회고";
-      titleText = "성장 기록 도착!";
-      break;
-    case "AI편지":
-      // buttonLabel1 = "도약이";
-      buttonLabel1 = "112";
-      titleText = "의 편지가 도착했어요!";
-      break;
-    case "신규댓글":
-      buttonLabel1 = alarmCard.title || "";
-      buttonLabel2 = alarmCard.nickname || "";
-      titleText = "의 신규 댓글";
-      break;
-    case "대댓글":
-      buttonLabel1 = alarmCard.title || "";
-      buttonLabel2 = alarmCard.nickname || "";
-      titleText = "의 대댓글";
-      break;
-    default:
-      buttonLabel1 = "알림";
-      titleText = "새로운 알림이 있습니다";
+  if (isDoyakAlarm(alarmCard)) {
+    switch (alarmCard.sseEventName) {
+      case "WEEK":
+      case "MONTH":
+        buttonLabel1 = "주/월간 회고";
+        titleText = "성장 기록 도착!";
+        break;
+      case "DAILY":
+        buttonLabel1 = aiName;
+        titleText = "의 편지가 도착했어요!";
+        break;
+    }
+  } else {
+    // 커뮤니티 알람(댓글) 처리
+    switch (alarmCard.sseEventName) {
+      case "POST_COMMENT":
+        buttonLabel1 = alarmCard.data.sender;
+        titleText = "님이 회원님의 게시글에 댓글을 달았어요";
+        break;
+      case "REPLY_COMMENT":
+        buttonLabel1 = alarmCard.data.sender;
+        titleText = "님이 회원님의 댓글에 답글을 달았어요";
+        break;
+    }
   }
 
   return (
@@ -65,7 +70,6 @@ const AlarmTitleContainer: React.FC<{
         <Icon isClicked={isClicked} />
         <div style={{ display: "flex", flexDirection: "row" }}>
           <AlarmMessenger label={buttonLabel1} />
-          {buttonLabel2 && <AlarmMessenger label={buttonLabel2} />}
           <span>{titleText}</span>
         </div>
       </TitleContainer>

@@ -1,7 +1,14 @@
 import React from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import AlarmTitleContainer from "./AlarmTitleContainer";
-import { AlarmData } from "./AlarmDataTypes";
+import {
+  DoyakAlarmData,
+  CommunityAlarmData,
+  AlarmData,
+  isCommunityAlarm,
+  isDoyakAlarm,
+} from "./AlarmDataTypes";
 import AlarmContent from "./AlarmContent";
 import AlarmDate from "./AlarmDate";
 
@@ -31,13 +38,33 @@ const AlarmCard: React.FC<{
   isClicked: boolean;
   onClick: () => void;
 }> = ({ alarmCard, isClicked, onClick }) => {
-  console.log("alarmCard test")
+  const router = useRouter();
+
+  const getContent = (alarm: AlarmData): string => {
+    if (isDoyakAlarm(alarm)) {
+      return alarm.data.content || ""; // DAILY 알람의 경우
+    } else {
+      // 커뮤니티 알람의 경우
+      return alarm.data.content || ""; // 댓글 내용
+    }
+  };
+  const handleClick = () => {
+    onClick(); // 기존의 클릭 핸들러 유지 (카드 색상 변경 등)
+
+    if (isCommunityAlarm(alarmCard)) {
+      const postId = alarmCard.data.shareDoyakId;
+      router.push({
+        pathname: "/community",
+        query: { postId: postId },
+      });
+    }
+  };
   return (
-      <CardContainer $isClicked={isClicked} onClick={onClick}>
-        <AlarmTitleContainer alarmCard={alarmCard} isClicked={isClicked} />
-        <AlarmContent content={alarmCard.content} />
-        <AlarmDate date={alarmCard.date} />
-      </CardContainer>
+    <CardContainer $isClicked={isClicked} onClick={handleClick}>
+      <AlarmTitleContainer alarmCard={alarmCard} isClicked={isClicked} />
+      <AlarmContent content={getContent(alarmCard)} />
+      <AlarmDate date={alarmCard.creationDate} />
+    </CardContainer>
   );
 };
 

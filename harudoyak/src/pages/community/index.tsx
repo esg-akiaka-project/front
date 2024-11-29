@@ -104,6 +104,21 @@ const CommunityHome: React.FC = () => {
     }
   }, [openModal, isDeleteModalOpen, isCommentOpen]);
 
+  useEffect(() => {
+    const postId = router.query.postId;
+    if (postId) {
+      const postIndex = posts.findIndex(
+        (post) => post.shareDoyakId === Number(postId)
+      );
+      if (postIndex !== -1 && postRefs.current[postIndex]) {
+        postRefs.current[postIndex]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        handleCommentButtonClick(postIndex, Number(postId));
+      }
+    }
+  }, [router.query.postId, posts]);
   // 댓글 열기 및 특정 게시글로 스크롤 이동
   const handleCommentButtonClick = async (
     index: number,
