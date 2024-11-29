@@ -34,6 +34,15 @@ const GrowCheckHome: React.FC = () => {
   }, [router.isReady, router.query.dayToSelect]);
 
   useEffect(() => {
+    if (router.isReady) {
+      // mode 쿼리 파라미터가 있으면 해당 모드로 설정
+      if (router.query.mode) {
+        setSelectedMode(router.query.mode as "Month" | "Week");
+      }
+    }
+  }, [router.isReady, router.query.mode]);
+
+  useEffect(() => {
     if (selectedDay === null) {
       const newDate = new Date(new Date().getFullYear(), selectedMonth, 30);
       setSelectedDate(startOfWeek(newDate, { weekStartsOn: 1 }));
@@ -49,7 +58,7 @@ const GrowCheckHome: React.FC = () => {
     setSelectedDay((prevSelectedDay) =>
       prevSelectedDay && prevSelectedDay.getTime() === date.getTime()
         ? null
-        : date,
+        : date
     );
   };
   const handleWeekChange = (newDate: Date) => {

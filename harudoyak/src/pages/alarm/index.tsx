@@ -29,13 +29,6 @@ const AlarmHome: React.FC = () => {
     boolean[]
   >([]);
 
-  // useEffect(() => {
-  //   router.push({
-  //     pathname: "/grow-check", // 이동할 경로
-  //     query: { key1: "value1", key2: "value2" },
-  //   });
-  // }, [router]); // router를 의존성 배열에 추가
-
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };

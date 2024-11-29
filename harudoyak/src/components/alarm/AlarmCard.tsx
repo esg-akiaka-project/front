@@ -11,6 +11,7 @@ import {
 } from "./AlarmDataTypes";
 import AlarmContent from "./AlarmContent";
 import AlarmDate from "./AlarmDate";
+import { addDays } from "date-fns";
 
 const CardContainer = styled.div<{ $isClicked: boolean }>`
   width: 100% /* ExternalContainer에 맞추기 */
@@ -42,21 +43,51 @@ const AlarmCard: React.FC<{
 
   const getContent = (alarm: AlarmData): string => {
     if (isDoyakAlarm(alarm)) {
-      return alarm.data.content || ""; // DAILY 알람의 경우
+      return alarm.data.content || "";
     } else {
-      // 커뮤니티 알람의 경우
-      return alarm.data.content || ""; // 댓글 내용
+      return alarm.data.content || "";
     }
   };
   const handleClick = () => {
-    onClick(); // 기존의 클릭 핸들러 유지 (카드 색상 변경 등)
-
+    onClick();
+    console.log(alarmCard.sseEventName);
     if (isCommunityAlarm(alarmCard)) {
       const postId = alarmCard.data.shareDoyakId;
       router.push({
         pathname: "/community",
         query: { postId: postId },
       });
+    } else if (isDoyakAlarm(alarmCard)) {
+      switch (alarmCard.sseEventName) {
+        case "DAILY":
+          router.push({
+            pathname: "/grow-check",
+            query: {
+              mode: "Week", // 주간 모드 설정
+              dayToSelect: String(addDays(alarmCard.creationDate, -1)), // 특정 일자 선택
+            },
+          });
+          break;
+        case "WEEK":
+          router.push({
+            pathname: "/grow-check",
+            query: {
+              mode: "Week",
+              week: String(addDays(alarmCard.creationDate, -1)),
+            },
+          });
+          break;
+
+        case "MONTH":
+          router.push({
+            pathname: "/grow-check",
+            query: {
+              mode: "Month",
+              month: String(addDays(alarmCard.creationDate, -1)),
+            },
+          });
+          break;
+      }
     }
   };
   return (
