@@ -6,7 +6,7 @@ import AlarmContent from "./AlarmContent";
 import AlarmDate from "./AlarmDate";
 
 const CardContainer = styled.div<{ $isClicked: boolean }>`
-  width: 353px;
+  width: 100%;
   height: 143px;
   padding: 0px;
   margin: 40px 0px;
@@ -21,6 +21,7 @@ const CardContainer = styled.div<{ $isClicked: boolean }>`
   justify-content: flex-start;
   overflow: hidden;
   position: relative;
+  justify-contents: center;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Inter", sans-serif;
 `;
@@ -30,13 +31,13 @@ const AlarmCard: React.FC<{
   isClicked: boolean;
   onClick: () => void;
 }> = ({ alarmCard, isClicked, onClick }) => {
-  console.log("alarmCard test")
+  console.log("alarmCard test");
   return (
-      <CardContainer $isClicked={isClicked} onClick={onClick}>
-        <AlarmTitleContainer alarmCard={alarmCard} isClicked={isClicked} />
-        <AlarmContent content={alarmCard.content} />
-        <AlarmDate date={alarmCard.date} />
-      </CardContainer>
+    <CardContainer $isClicked={isClicked} onClick={onClick}>
+      <AlarmTitleContainer alarmCard={alarmCard} isClicked={isClicked} />
+      <AlarmContent content={alarmCard.content} />
+      <AlarmDate date={alarmCard.date} />
+    </CardContainer>
   );
 };
 

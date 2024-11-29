@@ -42,6 +42,7 @@ const Namediv = styled.div`
   flex-direction: column;
   line-height: 0.4;
   width: 35%;
+  gap: 5px;
 `;
 
 const MyLevelWrapper = styled.div`

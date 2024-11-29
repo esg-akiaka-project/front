@@ -9,7 +9,7 @@ export const MainHeaderLayout = styled.div<{ isVisible: boolean }>`
   position: fixed;
   top: ${({ isVisible }) =>
     isVisible ? "0" : "-61px"}; /* 스크롤에 따라 숨기기 */
-  z-index: 2;
+  z-index: 1;
   display: flex;
   justify-content: start;
   background-color: var(--background);
@@ -17,14 +17,14 @@ export const MainHeaderLayout = styled.div<{ isVisible: boolean }>`
   border-width: 0.5px 0;
   box-sizing: border-box;
   padding: 0 17px 0 17px;
-  color: var(--main-green);
-  transition: top 0.5s ease-in-out; 
+  transition: top 0.5s ease-in-out;
 `;
 
 const Title = styled.h1`
   font-size: 1.5rem;
-  color: var(--main-green);
+  color: var(--sub-green1);
   cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+  padding-bottom: 10px;
 `;
 
 interface MainHeaderProps {

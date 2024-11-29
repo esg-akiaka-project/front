@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import footprint from "@/public/assets/mypage/footprint.png";
 import lock from "@/public/assets/mypage/lock.png";
 import robot from "@/public/assets/mypage/robot.png";
 import styled from "styled-components";
@@ -19,21 +18,21 @@ const UserOptionSection: React.FC = () => {
           <Image
             src={lock}
             alt="Lock"
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             onClick={() => gotoSpecificPage("/my-page/password-check")}
           />
-          <p>계정관리</p>
+          <P>내 정보</P>
         </Pagediv>
         <Pagediv>
           <Image
             src={robot}
             alt="Robot"
-            width={50}
-            height={50}
+            width={46}
+            height={46}
             onClick={() => gotoSpecificPage("/my-page/ainame-edit")}
           />
-          <p>AI Info</p>
+          <P>AI Info</P>
         </Pagediv>
         {/* <Pagediv>
           <Image
@@ -69,4 +68,8 @@ const Pagediv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const P = styled.p`
+  margin-top: 8px;
 `;

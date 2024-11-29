@@ -1,5 +1,4 @@
 import React from "react";
-import Root from "../../style/Root";
 import UndoAndPageName from "@/src/components/mypage/UndoAndPageName";
 import UserInfoSection from "@/src/components/mypage/UserInfoSection";
 import styled from "styled-components";
@@ -26,4 +25,8 @@ const Container = styled.div`
   flex-direction: column;
   gap: 2rem;
   padding-bottom: 6rem;
+`;
+
+const Root = styled.div`
+  padding: 1rem;
 `;

@@ -39,5 +39,5 @@ const UPN = styled.div`
 const StyledTitle = styled.p`
   font-weight: bold;
   font-size: 1.2rem;
-  color: grey;
+  color: var(--darkgray-from-grayscale)
 `;

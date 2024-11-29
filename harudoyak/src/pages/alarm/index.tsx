@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Root from "../../style/Root";
 import { useRouter } from "next/router";
 import ExternalContainerSet from "../../components/alarm/ExternalContainerSet";
@@ -7,7 +7,7 @@ import AlarmListContainer from "../../components/alarm/AlarmListContainer";
 import AlarmImportData from "../../components/alarm/AlarmImportData";
 import { AlarmData } from "../../components/alarm/AlarmDataTypes";
 
-const AlarmHome: React.FC = () => { 
+const AlarmHome: React.FC = () => {
   const router = useRouter();
   const [ActiveTab, setActiveTab] = useState<string>("Record");
   const [GeneralAlarmData, setGeneralAlarmData] = useState<AlarmData[]>([]);
@@ -33,7 +33,7 @@ const AlarmHome: React.FC = () => {
   // AlarmImportData 컴포넌트에서 알람 데이터를 받아오는 함수
   const handleDataFetch = (
     GeneralData: AlarmData[],
-    CommunityData: AlarmData[]
+    CommunityData: AlarmData[],
   ) => {
     setGeneralAlarmData(GeneralData);
     setCommunityAlarmData(CommunityData);

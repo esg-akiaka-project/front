@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import Icon from "./AlarmIcon";
 import AlarmMessenger from "./AlarmMessenger";
 import { AlarmData } from "./AlarmDataTypes";
@@ -8,6 +7,7 @@ import { AlarmData } from "./AlarmDataTypes";
 const TitleContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-contents: center;
   margin-top: 2px;
   margin-bottom: 0px;
   gap: 7px;

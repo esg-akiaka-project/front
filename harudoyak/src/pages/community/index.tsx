@@ -3,7 +3,6 @@ import styled from "styled-components";
 import MainHeader from "../../components/community/MainHeader";
 import { MainPhoto } from "../../components/community/MainPhoto";
 import WriteButton from "../../components/community/WriteButton";
-//import SideHeader from "@/src/components/community/SideHeader";
 import CommentSection from "../../components/community/CommentSection";
 import NickName from "../../components/community/NickName";
 import DoyakObject from "../../components/community/DoyakObject";
@@ -302,13 +301,14 @@ const MoreButton = styled.button`
   position: absolute; /* 부모(Post) 컨테이너의 상대적 위치에 따라 배치 */
   top: 20px; /* 위쪽에서 10px */
   right: 20px; /* 오른쪽에서 10px */
-  background-color: #a6a6a6;
+  background-color: var(--gray-from-grayscale);
   color: white;
   border: none;
-  border-radius: 10px;
-  padding: 5px 10px;
+  border-radius: 30px;
+  padding: 0px 10px;
+  padding-bottom: 5px;
   cursor: pointer;
-
+  text-align: center;
   &:hover {
     background-color: #0056b3;
   }
@@ -326,7 +326,7 @@ const ModalButton = styled.button`
   background-color: var(--sub-green1);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 
   &:hover {

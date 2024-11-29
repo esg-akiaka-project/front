@@ -9,7 +9,6 @@ const SideHeaderContainer = styled.div`
   left: 0;
   width: 100%;
   height: 60px;
-  background-color: var(--main-green);
   display: flex;
   align-items: center;
   padding-left: 16px;
@@ -18,8 +17,9 @@ const SideHeaderContainer = styled.div`
 
 const SideHeaderText = styled.h2`
   font-size: 1.5rem;
-  color: white;
+  color: var(--sub-green3);
   cursor: pointer;
+  font-weight: 600;
 `;
 
 const SideHeader: React.FC = () => {

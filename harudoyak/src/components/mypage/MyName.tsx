@@ -14,4 +14,6 @@ export default MyName;
 
 const NicknameTag = styled.p`
   font-weight: bold;
+  margin-bottom: 0;
+  font-size: 1.1rem;
 `;

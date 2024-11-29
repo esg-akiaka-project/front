@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Messenger = styled.div`
-  width: 90px;
-  height: 33px;
-  padding: 5px 10px;
+  padding: 5px 12px;
   margin-right: 5px;
   background-color: #ffffff;
   color: #3C7960;
@@ -18,7 +16,7 @@ const Messenger = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   font-family: Inter, sans-serif;
   text-align: center;
 `;

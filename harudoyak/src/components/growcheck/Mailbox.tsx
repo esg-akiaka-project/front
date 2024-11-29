@@ -45,6 +45,6 @@ const UpperItems = styled.div`
 const NoMailMessage = styled.div`
   text-align: center;
   color: #767676;
-  font-size: 1rem;
+  font-size: 0.95rem;
   padding: 1rem;
 `;
