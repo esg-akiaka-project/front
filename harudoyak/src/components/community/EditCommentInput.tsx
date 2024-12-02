@@ -7,13 +7,8 @@ interface EditCommentInputProps {
 }
 
 interface Post {
-    shareDoyakId: number; 
-    shareImageUrl: string; 
-    shareContent: string; 
-    doyakCount: number; 
-    commentCount: number; 
-    shareAuthorNickname: string; 
-    goalName: string;
+  shareDoyakId: number;
+  shareContent: string;
 }
 
 const InputContainer = styled.div`
@@ -34,6 +29,7 @@ const TextArea = styled.textarea`
 
 const EditCommentInput: React.FC<EditCommentInputProps> = ({ shareDoyakId }) => {
   const [comment, setComment] = useState<string>('');
+  const [initialComment, setInitialComment] = useState<string>('');
 
   useEffect(() => {
     const loadPostContent = async () => {
@@ -42,6 +38,7 @@ const EditCommentInput: React.FC<EditCommentInputProps> = ({ shareDoyakId }) => 
         const targetPost = posts.find(post => post.shareDoyakId === shareDoyakId);
         if (targetPost) {
           setComment(targetPost.shareContent);
+          setInitialComment(targetPost.shareContent);
         } else {
           console.error("해당 게시글을 찾을 수 없습니다.");
         }
@@ -64,7 +61,7 @@ const EditCommentInput: React.FC<EditCommentInputProps> = ({ shareDoyakId }) => 
       <TextArea
         value={comment}
         onChange={handleChange}
-        placeholder="문구를 작성하세요...(최대 200자 이내)"
+        placeholder={initialComment} // 초기 comment 값을 placeholder로 설정
         maxLength={200}
       />
     </InputContainer>

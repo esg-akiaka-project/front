@@ -42,12 +42,18 @@ interface UserState {
   shareDoyakCount: number;
   setShareDoyakCount: (shareDoyakCount: number) => void;
 
+  email: string;
+  setEEmail: (email: string) => void;
+
   clearToken: () => void;
 }
 
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
+      email: "",
+      setEEmail: (email) => set({ email }),
+
       firstDoyak: null,
       setFirstDoyak: (firstDoyak) => set({ firstDoyak }),
 
@@ -91,6 +97,7 @@ export const useUserStore = create<UserState>()(
         localStorage.removeItem("userInfoStorage");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("logsStorage");
+        localStorage.removeItem("communityData");
       },
     }),
     {

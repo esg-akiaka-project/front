@@ -30,6 +30,7 @@ const LoginPage: React.FC = () => {
     setFirstDoyak,
     setMaxContinuity,
     setShareDoyakCount,
+    setEEmail,
   } = useUserStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,7 +52,7 @@ const LoginPage: React.FC = () => {
         setGoalName(member.goalName);
         setProfileImage(file?.filePathName || null);
         setNickname(member.nickname);
-
+        setEEmail(email);
         setExp(level.point);
 
         setRecentContinuity(level.sharedotakCount);

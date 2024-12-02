@@ -241,7 +241,7 @@ const CommunityHome: React.FC = () => {
 
       {isCommentOpen && (
         <CommentSection
-          onClose={closeCommentSection}
+          onClose={closeCommentSection}d
           comments={comments}
           shareDoyakId={posts[selectedPostIndex].shareDoyakId}
           onCommentSubmitted={handleCommentSubmitted}
@@ -251,7 +251,7 @@ const CommunityHome: React.FC = () => {
       {openModal && (
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <ModalContent>
-            <ModalButton onClick={() => router.push(`/community/edit-picture`)}>
+            <ModalButton onClick={() => router.push(`/community/edit-comment`)}>
               수정
             </ModalButton>
             <ModalButton

@@ -24,7 +24,7 @@ export const EditCancelBar: React.FC = () => {
     const router = useRouter();
 
     const handleBack = () => {
-        router.push('/community/edit-picture');
+        router.push('/community');
     };
 
     return (

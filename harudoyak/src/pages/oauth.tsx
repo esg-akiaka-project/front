@@ -1,13 +1,32 @@
 import React, { useEffect } from "react";
 import { useUserStore } from "../store/useUserStore"; // zustand 스토어 가져오기
 import SocialLogin from "../components/login/SocialLogin"; // SocialLogin 컴포넌트 가져오기
-
-const kakaoRestApiKey: string = process.env.REACT_APP_REST_API_KEY || "default_kakao_api_key";
-const googleClientId: string = process.env.REACT_APP_GOOGLE_CLIENT_ID || "default_google_client_id";
-const redirectUrl: string = process.env.REACT_APP_REDIRECT_URI || "default_redirect_url";
+import { useRouter } from "next/router";
+import { kakaoLogin, googleLogin } from "../apis/authApi";
+const kakaoRestApiKey: string =
+  process.env.NEXT_PUBLIC_REST_API_KEY || "default_kakao_api_key";
+const googleClientId: string =
+  process.env.REACT_APP_GOOGLE_CLIENT_ID || "default_google_client_id";
+const redirectUrl: string =
+  process.env.NEXT_PUBLIC_REDIRECT_URI || "default_redirect_url";
 
 export default function Auth() {
-  const { setisSociallogin, setAccessToken } = useUserStore(); // zustand 스토어 사용
+  const router = useRouter();
+  const {
+    setisSociallogin,
+    setAccessToken,
+    setAiName,
+    setMemberId,
+    setGoalName,
+    setProfileImage,
+    setNickname,
+    setExp,
+    setRecentContinuity,
+    setFirstDoyak,
+    setMaxContinuity,
+    setShareDoyakCount,
+    setEEmail,
+  } = useUserStore();
 
   useEffect(() => {
     // 클라이언트 사이드에서만 window 객체 사용
@@ -22,34 +41,30 @@ export default function Auth() {
           return; // code가 없을 경우 함수 종료
         }
 
-        const payload = new URLSearchParams({
-          grant_type: "authorization_code",
-          client_id: kakaoRestApiKey,
-          redirect_url: redirectUrl,
-          code: kakaoCode,
-        }).toString();
-
         try {
-          const response = await fetch("https://kauth.kakao.com/oauth/token", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: payload,
-          });
+          const response = await kakaoLogin(kakaoCode);
+          console.log(response);
+          const { member, level, file } = response;
 
-          const data = await response.json();
-          if (response.ok) {
-            setAccessToken(data.access_token); // Kakao 액세스 토큰 설정
-            setisSociallogin(true); // 소셜 로그인 상태 업데이트
-            // refresh localstorage저장, memberId
-            //
-            console.log("Kakao 로그인 성공:", data);
-          } else {
-            console.error("Kakao 로그인 실패:", data);
-          }
-        } catch (err) {
-          console.error("에러 발생:", err);
+          setisSociallogin(true);
+          setMemberId(member.memberId);
+          setAiName(member.aiNickname);
+          setGoalName(member.goalName);
+          setProfileImage(file?.filePathName || null);
+          setNickname(member.nickname);
+
+          setExp(level.point);
+
+          setRecentContinuity(level.sharedotakCount);
+          setFirstDoyak(level.firstDate);
+          setMaxContinuity(level.maxContinuity);
+          setShareDoyakCount(level.shareDoyakCount);
+
+          localStorage.setItem("refreshToken", member.refreshToken);
+
+          router.push("/");
+        } catch (error) {
+          console.log(error);
         }
       };
 
