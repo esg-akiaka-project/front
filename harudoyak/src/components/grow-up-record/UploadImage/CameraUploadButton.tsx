@@ -19,9 +19,8 @@ const UploadOptionBtn: React.FC<CameraUploadButtonProps> = ({
     const file = event.target.files?.[0];
     if (file) {
       try {
-        console.log("Captured Image:", file);
         const photoUrl = await uploadToS3(file);
-        console.log("Photo Url:", photoUrl);
+
         setImageUrl(photoUrl);
       } catch (error) {
         console.error("파일 업로드 중 에러 발생:", error);

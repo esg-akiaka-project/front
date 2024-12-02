@@ -26,7 +26,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
       // 도약 기록 생성
       const createPostResponse = await createPost(text, emotion, image, tags);
       const logId = createPostResponse?.logId;
-      console.log(logId);
+
       if (!logId) {
         throw new Error("logId를 생성하지 못했습니다. (createPost error)");
       }

@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import AlarmCard from './AlarmCard';
-import { AlarmData } from './AlarmDataTypes';
+import React from "react";
+import styled from "styled-components";
+import AlarmCard from "./AlarmCard";
+import { AlarmData, CommunityAlarmData } from "./AlarmDataTypes";
 
 const ListContainer = styled.div`
   flex: 1;
@@ -12,7 +12,7 @@ const ListContainer = styled.div`
 const AlarmListContainer: React.FC<{
   activeTab: string;
   generalAlarmData: AlarmData[];
-  communityAlarmData: AlarmData[];
+  communityAlarmData: CommunityAlarmData[];
   clickedGeneralAlarmCard: boolean[];
   clickedCommunityAlarmCard: boolean[];
   handleCardClick: (index: number) => void;
@@ -22,16 +22,20 @@ const AlarmListContainer: React.FC<{
   communityAlarmData,
   clickedGeneralAlarmCard,
   clickedCommunityAlarmCard,
-  handleCardClick
+  handleCardClick,
 }) => {
-  const alarmData = activeTab === "Record" ? generalAlarmData : communityAlarmData;
-  const clickedData = activeTab === "Record" ? clickedGeneralAlarmCard : clickedCommunityAlarmCard;
+  const alarmData =
+    activeTab === "Record" ? generalAlarmData : communityAlarmData;
+  const clickedData =
+    activeTab === "Record"
+      ? clickedGeneralAlarmCard
+      : clickedCommunityAlarmCard;
 
   return (
     <ListContainer>
       {alarmData.map((alarmCard, index) => (
         <AlarmCard
-          key={alarmCard.id}
+          key={alarmCard.notificationId}
           alarmCard={alarmCard}
           isClicked={clickedData[index]}
           onClick={() => handleCardClick(index)}

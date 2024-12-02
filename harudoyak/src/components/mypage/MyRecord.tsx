@@ -10,12 +10,12 @@ interface RecordItemProps {
 const MyRecord: React.FC = () => {
   const { firstDoyak, recentContinuity, maxContinuity, shareDoyakCount } =
     useUserStore();
-  // console.log(firstDoyak);
+
   const records: RecordItemProps[] = [
     // { title: "첫번째 하루도약", value: firstDoyak },
 
     { title: "하루도약 연속일", value: recentContinuity },
-    { title: "전체 하루도약", value: shareDoyakCount },
+    { title: "서로도약 작성 수", value: shareDoyakCount },
     { title: "최장 연속일", value: maxContinuity },
     { title: "나의 서로도약", value: shareDoyakCount },
   ];

@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import Root from "../../style/Root";
 import { useRouter } from "next/router";
 import ExternalContainerSet from "../../components/alarm/ExternalContainerSet";
 import TapButtonContainer from "../../components/alarm/TabButtonContainer";
 import AlarmListContainer from "../../components/alarm/AlarmListContainer";
 import AlarmImportData from "../../components/alarm/AlarmImportData";
-import { AlarmData } from "../../components/alarm/AlarmDataTypes";
+import {
+  DoyakAlarmData,
+  CommunityAlarmData,
+} from "../../components/alarm/AlarmDataTypes";
 
-const AlarmHome: React.FC = () => { 
+const AlarmHome: React.FC = () => {
   const router = useRouter();
   const [ActiveTab, setActiveTab] = useState<string>("Record");
-  const [GeneralAlarmData, setGeneralAlarmData] = useState<AlarmData[]>([]);
-  const [CommunityAlarmData, setCommunityAlarmData] = useState<AlarmData[]>([]);
+
+  const [GeneralAlarmData, setGeneralAlarmData] = useState<DoyakAlarmData[]>(
+    []
+  );
+  const [CommunityAlarmData, setCommunityAlarmData] = useState<
+    CommunityAlarmData[]
+  >([]);
+
   const [ClickedGeneralAlarmCard, setClickedGeneralAlarmCard] = useState<
     boolean[]
   >([]);
@@ -19,21 +29,14 @@ const AlarmHome: React.FC = () => {
     boolean[]
   >([]);
 
-  // useEffect(() => {
-  //   router.push({
-  //     pathname: "/grow-check", // 이동할 경로
-  //     query: { key1: "value1", key2: "value2" },
-  //   });
-  // }, [router]); // router를 의존성 배열에 추가
-
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
 
   // AlarmImportData 컴포넌트에서 알람 데이터를 받아오는 함수
   const handleDataFetch = (
-    GeneralData: AlarmData[],
-    CommunityData: AlarmData[]
+    GeneralData: DoyakAlarmData[],
+    CommunityData: CommunityAlarmData[]
   ) => {
     setGeneralAlarmData(GeneralData);
     setCommunityAlarmData(CommunityData);

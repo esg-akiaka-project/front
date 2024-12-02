@@ -20,7 +20,6 @@ interface EmotionsProps {
 const Emotions: React.FC<EmotionsProps> = ({ emotion, updateEmotion }) => {
   const handleClick = (emotionData: string): void => {
     updateEmotion(emotionData);
-    console.log(emotionData);
 
     //isOpened 제어 코드
     if (emotion === emotionData) {

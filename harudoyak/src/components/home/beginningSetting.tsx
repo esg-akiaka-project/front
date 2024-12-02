@@ -1,7 +1,6 @@
 // 로그인 이후, ai 이름 및 목표를 설정하지 않았을때 뜨는 화면
 // 설정 이후에는 뜨지않음, (모달)
-// todo: goalId를 숫자로 저장하기로 함 카테고리를 지정하여 클릭시 해당 idx값을 지정하게
-// 지금은 임시적으로 string으로 설정했음
+
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -85,7 +84,7 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   background: white;
   padding: 2rem;
-  width: 300px;
+  width: 23rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;

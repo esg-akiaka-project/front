@@ -23,7 +23,7 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({
     if (file) {
       try {
         const photoUrl = await uploadToS3(file);
-        console.log("Photo Url:", photoUrl);
+
         setImageUrl(photoUrl);
       } catch (error) {
         console.error("이미지 파일 업로드 중 에러 발생:", error);

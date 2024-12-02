@@ -104,10 +104,25 @@ const CommunityHome: React.FC = () => {
     }
   }, [openModal, isDeleteModalOpen, isCommentOpen]);
 
+  useEffect(() => {
+    const postId = router.query.postId;
+    if (postId) {
+      const postIndex = posts.findIndex(
+        (post) => post.shareDoyakId === Number(postId)
+      );
+      if (postIndex !== -1 && postRefs.current[postIndex]) {
+        postRefs.current[postIndex]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        handleCommentButtonClick(postIndex, Number(postId));
+      }
+    }
+  }, [router.query.postId, posts]);
   // 댓글 열기 및 특정 게시글로 스크롤 이동
   const handleCommentButtonClick = async (
     index: number,
-    shareDoyakId: number,
+    shareDoyakId: number
   ) => {
     setSelectedPostIndex(index);
     setIsCommentOpen(true);
@@ -135,8 +150,8 @@ const CommunityHome: React.FC = () => {
 
       setPosts((prevPosts) =>
         prevPosts.map((post, i) =>
-          i === index ? { ...post, doyakCount: updatedDoyakCount } : post,
-        ),
+          i === index ? { ...post, doyakCount: updatedDoyakCount } : post
+        )
       );
     } catch (error) {
       console.error("좋아요 업데이트 중 오류 발생:", error);
@@ -155,8 +170,8 @@ const CommunityHome: React.FC = () => {
       prevPosts.map((post, i) =>
         i === selectedPostIndex
           ? { ...post, commentCount: updatedComments.length }
-          : post,
-      ),
+          : post
+      )
     );
   };
 
@@ -164,7 +179,7 @@ const CommunityHome: React.FC = () => {
   const handleDeletePost = async (
     index: number,
     memberId: number | null,
-    shareDoyakId: number,
+    shareDoyakId: number
   ) => {
     if (memberId === null) {
       console.error("memberId가 없습니다. 로그인을 확인해주세요");
@@ -177,7 +192,7 @@ const CommunityHome: React.FC = () => {
     try {
       await deletePost(memberId, shareDoyakId);
       setPosts((prevPosts) =>
-        prevPosts.filter((_, i) => i !== selectedPostIndexForDelete),
+        prevPosts.filter((_, i) => i !== selectedPostIndexForDelete)
       );
       console.log("게시글이 삭제되었습니다.");
     } catch (error) {
@@ -278,7 +293,7 @@ const CommunityHome: React.FC = () => {
                 handleDeletePost(
                   selectedPostIndexForDelete!,
                   memberId!,
-                  selectedPostId!,
+                  selectedPostId!
                 )
               }
             >

@@ -32,18 +32,18 @@ export default function Auth() {
     // 클라이언트 사이드에서만 window 객체 사용
     if (typeof window !== "undefined") {
       const params = new URL(window.location.href).searchParams;
-      const kakaoCode = params.get("code"); // Kakao 인가 코드
-      const googleCode = params.get("google_code"); // Google 인가 코드
+      const code = params.get("code"); // Google 인가 코드
+      const state = params.get("state");
 
       const getKakaoToken = async () => {
-        if (!kakaoCode) {
+        if (!code) {
           console.error("Kakao authorization code is missing");
           return; // code가 없을 경우 함수 종료
         }
 
         try {
-          const response = await kakaoLogin(kakaoCode);
-          console.log(response);
+          const response = await kakaoLogin(code);
+
           const { member, level, file } = response;
 
           setisSociallogin(true);
@@ -55,7 +55,8 @@ export default function Auth() {
 
           setExp(level.point);
 
-          setRecentContinuity(level.sharedotakCount);
+          console.log(level);
+          setRecentContinuity(level.recentContinuity);
           setFirstDoyak(level.firstDate);
           setMaxContinuity(level.maxContinuity);
           setShareDoyakCount(level.shareDoyakCount);
@@ -69,57 +70,51 @@ export default function Auth() {
       };
 
       const getGoogleToken = async () => {
-        if (!googleCode) {
+        if (!code) {
           console.error("Google authorization code is missing");
           return; // code가 없을 경우 함수 종료
         }
-
-        const payload = new URLSearchParams({
-          code: googleCode,
-          client_id: googleClientId,
-          redirect_url: redirectUrl,
-          grant_type: "authorization_code",
-        }).toString();
-
         try {
-          const response = await fetch("https://oauth2.googleapis.com/token", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: payload,
-          });
+          const response = await googleLogin(code);
+          const { member, level, file } = response;
 
-          const data = await response.json();
-          if (response.ok) {
-            setAccessToken(data.access_token); // Google 액세스 토큰 설정
-            setisSociallogin(true); // 소셜 로그인 상태 업데이트
-            console.log("Google 로그인 성공:", data);
-          } else {
-            console.error("Google 로그인 실패:", data);
-          }
-        } catch (err) {
-          console.error("에러 발생:", err);
+          setisSociallogin(true);
+          setMemberId(member.memberId);
+          setAiName(member.aiNickname);
+          setGoalName(member.goalName);
+          setProfileImage(file?.filePathName || null);
+          setNickname(member.nickname);
+
+          setExp(level.point);
+
+          setRecentContinuity(level.recentContinuity);
+          setFirstDoyak(level.firstDate);
+          setMaxContinuity(level.maxContinuity);
+          setShareDoyakCount(level.shareDoyakCount);
+
+          localStorage.setItem("refreshToken", member.refreshToken);
+
+          router.push("/");
+        } catch (error) {
+          console.log(error);
         }
       };
 
-      if (kakaoCode) {
+      if (state == "kakao") {
         getKakaoToken(); // Kakao 인가 코드가 있을 경우 Kakao 토큰 요청
-      }
-
-      if (googleCode) {
-        getGoogleToken(); // Google 인가 코드가 있을 경우 Google 토큰 요청
+      } else {
+        getGoogleToken();
       }
     }
   }, [setAccessToken, setisSociallogin]);
 
   return (
     <div>
-      {true ? ( // 실제 인가 코드 여부에 따라 조건 수정 필요
+      {/* {true ? ( // 실제 인가 코드 여부에 따라 조건 수정 필요
         <div>로그인 진행중입니다</div>
       ) : (
         <SocialLogin />
-      )}
+      )} */}
     </div>
   );
 }

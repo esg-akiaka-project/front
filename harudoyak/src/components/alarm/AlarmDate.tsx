@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const DateContainer = styled.div`
   font-size: 12px;
@@ -11,7 +11,7 @@ const DateContainer = styled.div`
   font-family: "Inter", sans-serif;
 `;
 
-const AlarmDate: React.FC<{ date: string }> = ({ date }) => {
+const AlarmDate: React.FC<{ date: Date }> = ({ date }) => {
   return (
     <DateContainer>
       {`${new Date(date).toLocaleDateString("ko-KR", {
@@ -19,7 +19,9 @@ const AlarmDate: React.FC<{ date: string }> = ({ date }) => {
         month: "2-digit",
         day: "2-digit",
       })}
-      ${new Date(date).toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()}`}
+      ${new Date(date)
+        .toLocaleDateString("en-US", { weekday: "short" })
+        .toUpperCase()}`}
     </DateContainer>
   );
 };

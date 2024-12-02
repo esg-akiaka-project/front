@@ -5,12 +5,14 @@ import styled from "styled-components";
 import { useUserStore } from "@/src/store/useUserStore";
 import { changeAiname } from "../../apis/authApi";
 import { useRouter } from "next/router";
+import Modal from "@/src/components/mypage/Modal";
 
 const AiNameEdit: React.FC = () => {
   const router = useRouter();
   const { aiName, setAiName } = useUserStore();
   const [newAiname, setNewAiname] = useState<string>("");
-
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
   const originaiName = aiName === null ? "ai이름 없음" : aiName;
 
   const handleAiNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,15 +21,19 @@ const AiNameEdit: React.FC = () => {
 
   const changeAi = async () => {
     try {
-      const response = await changeAiname(newAiname);
-      console.log(response.data);
+      await changeAiname(newAiname);
       setAiName(newAiname);
-      alert("AI 이름이 성공적으로 변경되었습니다.");
+      setModalMessage("AI 이름이 성공적으로 변경되었습니다.");
+      setIsModalOpen(true);
       router.back();
     } catch (error) {
       console.log(error);
     }
   };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <Root>
       <UndoAndPageName pageName="AI Info" />
@@ -46,11 +52,52 @@ const AiNameEdit: React.FC = () => {
         <CharLimitText>2~8자 이하</CharLimitText>
         <SaveButton onClick={changeAi}>저장</SaveButton>
       </FormContainer>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <Title>알림</Title>
+        <Description>{modalMessage}</Description>
+        <SubmitButton onClick={handleModalClose}>확인</SubmitButton>
+      </Modal>
     </Root>
   );
 };
 
 export default AiNameEdit;
+
+const Title = styled.h2`
+  color: var(--main-green);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
+const Description = styled.p`
+  color: var(--gray-from-grayscale);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 1.5rem;
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  height: 3rem;
+  background: var(--main-green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:disabled {
+    background: var(--sub-green2);
+    cursor: not-allowed;
+  }
+`;
 
 const ExplainpTag = styled.p`
   text-align: center;

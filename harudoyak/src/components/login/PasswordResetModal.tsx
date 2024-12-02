@@ -41,8 +41,8 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
     setIsLoading(true);
     try {
       const response = await findPassword(email);
-
-      if (response.ok) {
+      console.log(response);
+      if ((response.status = 200)) {
         setStatus("success");
         setTimeout(() => {
           onClose();

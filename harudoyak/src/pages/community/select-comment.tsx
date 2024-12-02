@@ -14,7 +14,6 @@ const SelectCommentPage: React.FC = () => {
   const { selectedPhoto, comment, setComment } = useCommunityStore();
 
   const handleShare = () => {
-    console.log("test");
     alert("게시글이 저장되었습니다!");
   };
 
